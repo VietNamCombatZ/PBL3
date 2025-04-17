@@ -21,7 +21,7 @@
         <nav class="hidden md:flex space-x-6 text-sm font-medium">
             <a href="#" class="hover:text-yellow-400">Trang chủ</a>
             <a href="#" class="hover:text-yellow-400">Danh sách sân bãi</a>
-            <a href="#Gioi-thieu" class="hover:text-yellow-400">Giới thiệu</a>
+            <a href="#" class="hover:text-yellow-400">Giới thiệu</a>
             <a href="#" class="hover:text-yellow-400">Chính sách</a>
             <a href="#" class="hover:text-yellow-400">Dành cho chủ sân</a>
             <a href="#" class="hover:text-yellow-400">Liên hệ</a>
@@ -35,7 +35,7 @@
 </header>
 
 <!-- Banner -->
-<section id="Gioi-thieu"class="relative bg-cover bg-center h-[500px]" style="background-image: url('https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&w=1600&q=80');">
+<section  class="relative bg-cover bg-center h-[500px]" style="background-image: url('https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&w=1600&q=80');">
     <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center px-4">
         <h1 class="text-white text-4xl md:text-5xl font-bold mb-4">HỆ THỐNG HỖ TRỢ TÌM KIẾM SÂN BÓNG NHANH</h1>
         <p class="text-gray-200 mb-6 max-w-xl">Dữ liệu được cập nhật thường xuyên giúp bạn tìm sân nhanh và chính xác hơn.</p>
