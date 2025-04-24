@@ -1,0 +1,31 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: hatsaphonethilavong
+  Date: 17/4/2025 AD
+  Time: 14:49
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng ký</title>
+  <link rel="stylesheet" href="./css/dangKy.css">
+</head>
+<body>
+<div class="overlay">
+  <div class="register-form">
+    <h2>Đăng ký</h2>
+    <form>
+      <input type="email" placeholder="Email *" required>
+      <input type="password" placeholder="Mật khẩu *" required>
+      <input type="password" placeholder="Nhập lại mật khẩu *" required>
+      <input type="tel" placeholder="Số điện thoại *" required>
+      <input type="text" placeholder="Họ & tên *" required>
+      <button type="submit">Đăng ký</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>>
