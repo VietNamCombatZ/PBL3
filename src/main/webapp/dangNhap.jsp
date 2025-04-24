@@ -1,0 +1,86 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="vi">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: aliceblue;
+        }
+        .login-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid black;
+            border-radius: 2px;
+        }
+        .login-container button {
+            width: 80%;
+            padding: 10px;
+            font-family: 'Roboto', sans-serif;
+            background: rgb(39, 39, 187);
+            color: white;
+
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-container a {
+            display: block;
+            margin-top: 10px;
+            color:black;
+            text-decoration: underline;
+        }
+        .social-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .social-buttons button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .facebook { background: #3b5998; color: black; }
+        .google { background: black; color: black; }
+
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Đăng nhập</h2>
+    <input type="email" placeholder="Email" required>
+    <input type="password" placeholder="Password" required>
+    <button>Đăng nhập</button>
+    <a href="#">Quên mật khẩu?</a>
+    <div class="social-buttons">
+        <button class="facebook">Facebook</button>
+        <button class="google">Google</button>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    </div>
+</div>
+</body>
+</html>
