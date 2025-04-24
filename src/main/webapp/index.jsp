@@ -5,32 +5,59 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đặt Sân Bóng Đá</title>
-    <link rel="stylesheet" href="./css/style.css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-<nav class="navbar">
-    <div class="container flex items-center justify-between py-4 px-6">
-        <div class="logo text-white text-2xl font-bold tracking-wide">
-            <i class="fas fa-futbol text-yellow-400 mr-2"></i> Đặt Sân Bóng Đá
+<body class="bg-gray-100 font-sans">
+
+<!-- Navbar -->
+<header class="bg-blue-900 text-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto flex justify-between items-center px-6 py-4">
+        <div class="flex items-center space-x-2 text-2xl font-bold">
+            <i class="fas fa-futbol text-yellow-400"></i>
+            <span>Đặt Sân</span>
+            <span class="text-yellow-400">365</span>
         </div>
-        <div class="nav-links space-x-6">
-            <a href="#" class="nav-item active"><i class="fas fa-home mr-1"></i>Trang chủ</a>
-            <a href="#" class="nav-item">Danh sách sân bãi</a>
-            <a href="#" class="nav-item">Giới thiệu</a>
-            <a href="#" class="nav-item">Chính sách</a>
-            <a href="#" class="nav-item">Điều khoản</a>
-            <a href="#" class="nav-item">Dành cho chủ sân</a>
-            <a href="#" class="nav-item">Liên hệ</a>
-            <a href="#" class="nav-item">Đăng ký</a>
-            <a href="#" class="nav-item">Đăng nhập</a>
-            <a href="#" class="nav-item flex items-center">
-                Tìm kiếm <i class="fas fa-search ml-1"></i>
-            </a>
+        <nav class="hidden md:flex space-x-6 text-sm font-medium">
+            <a href="#home" class="hover:text-yellow-400">Trang chủ</a>
+            <a href="#" class="hover:text-yellow-400">Danh sách sân bãi</a>
+            <a href="#" class="hover:text-yellow-400">Giới thiệu</a>
+            <a href="#" class="hover:text-yellow-400">Chính sách</a>
+            <a href="#" class="hover:text-yellow-400">Dành cho chủ sân</a>
+            <a href="#" class="hover:text-yellow-400">Liên hệ</a>
+        </nav>
+        <div class="flex items-center space-x-4">
+            <a href="#" class="hover:text-yellow-400 hidden md:block">Đăng ký</a>
+            <a href="#" class="hover:text-yellow-400 hidden md:block">Đăng nhập</a>
+            <a href="#" class="bg-yellow-400 text-blue-900 px-4 py-2 rounded font-bold hover:bg-yellow-300 transition">Đặt Lịch Dùng Thử</a>
         </div>
-        <a href="#" class="trial-button">Đặt Lịch Dùng Thử</a>
     </div>
-</nav>
+</header>
+
+<!-- Banner -->
+<section id="home"  class="relative bg-cover bg-center h-[500px]" style="background-image: url('https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&w=1600&q=80');">
+    <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center px-4">
+        <h1 class="text-white text-4xl md:text-5xl font-bold mb-4">HỆ THỐNG HỖ TRỢ TÌM KIẾM SÂN BÓNG NHANH</h1>
+        <p class="text-gray-200 mb-6 max-w-xl">Dữ liệu được cập nhật thường xuyên giúp bạn tìm sân nhanh và chính xác hơn.</p>
+
+        <!-- Form tìm kiếm -->
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl p-4 grid grid-cols-1 md:grid-cols-4 gap-4">
+            <select class="border border-gray-300 rounded px-3 py-2 text-sm">
+                <option>Loại sân</option>
+                <option>5 người</option>
+                <option>7 người</option>
+                <option>11 người</option>
+            </select>
+            <input type="text" placeholder="Nhập tên sân hoặc địa chỉ..." class="border border-gray-300 rounded px-3 py-2 text-sm col-span-2" />
+            <button class="bg-yellow-400 text-blue-900 font-bold px-4 py-2 rounded hover:bg-yellow-500 transition"><i class="fas fa-search mr-2"></i>Tìm kiếm</button>
+        </div>
+    </div>
+</section>
 </body>
 </html>
