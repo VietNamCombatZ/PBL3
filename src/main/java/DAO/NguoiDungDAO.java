@@ -12,7 +12,7 @@ public class NguoiDungDAO {
     public void insert(nguoiDung nd) {
         String sql = "INSERT INTO nguoi_dung (ten, email, mat_khau, anh_dai_dien, kich_hoat, ngay_tao, ngay_cap_nhat) " +
                 "VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
-        try (Connection conn = DBUtil.getConnection();
+        try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nd.getTen());
             stmt.setString(2, nd.getEmail());
@@ -27,7 +27,7 @@ public class NguoiDungDAO {
 
     public nguoiDung findByEmail(String email) {
         String sql = "SELECT * FROM nguoi_dung WHERE email = ?";
-        try (Connection conn = DBUtil.getConnection();
+        try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
