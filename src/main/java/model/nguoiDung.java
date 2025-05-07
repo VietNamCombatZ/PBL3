@@ -1,5 +1,6 @@
 package model;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class nguoiDung
 {
@@ -12,7 +13,7 @@ public class nguoiDung
     private Timestamp ngayTao;
     private Timestamp ngayCapNhat;
 
-
+    private List<danhGia> danhSachDanhGia;
 
     // Constructors
     public nguoiDung
