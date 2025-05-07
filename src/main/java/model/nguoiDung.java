@@ -11,7 +11,7 @@ public class nguoiDung
     private String matKhau;
     private String anhDaiDien;
     private Date ngaySinh;
-    private boolean kichHoat;
+
     private vaiTro vaiTroNguoiDung;
     private Timestamp ngayTao;
     private Timestamp ngayCapNhat;
@@ -23,14 +23,14 @@ public class nguoiDung
     () {}
 
     public nguoiDung
-            (String ten, String email, String matKhau, String anhDaiDien, Date ngaySinh, vaiTro vaiTroNguoiDung, boolean kichHoat) {
+            (String ten, String email, String matKhau, String anhDaiDien, Date ngaySinh, vaiTro vaiTroNguoiDung) {
         this.ten = ten;
         this.email = email;
         this.matKhau = matKhau;
         this.anhDaiDien = anhDaiDien;
         this.ngaySinh = ngaySinh;
         this.vaiTroNguoiDung = vaiTroNguoiDung;
-        this.kichHoat = kichHoat;
+
     }
 
     // Getters & Setters
@@ -55,8 +55,6 @@ public class nguoiDung
     public vaiTro getVaiTroNguoiDung() { return vaiTroNguoiDung; }
     public void setVaiTroNguoiDung(vaiTro vaiTroNguoiDung) { this.vaiTroNguoiDung = vaiTroNguoiDung; }
 
-    public boolean isKichHoat() { return kichHoat; }
-    public void setKichHoat(boolean kichHoat) { this.kichHoat = kichHoat; }
 
     public Timestamp getNgayTao() { return ngayTao; }
     public void setNgayTao(Timestamp ngayTao) { this.ngayTao = ngayTao; }
