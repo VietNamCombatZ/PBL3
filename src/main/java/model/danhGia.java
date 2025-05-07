@@ -1,0 +1,39 @@
+package model;
+
+public class danhGia {
+    private int id;
+    private int idKhachHang;
+    private int idSanBong;
+
+    private String noiDung;
+    private mucDiem mucDiem;
+
+    // Constructors
+    public danhGia() {}
+
+    public danhGia(int idKhachHang, int idSanBong , String noiDung, mucDiem mucDiem) {
+        this.idKhachHang = idKhachHang;
+        this.idSanBong = idSanBong;
+        this.noiDung = noiDung;
+        this.mucDiem = mucDiem;
+    }
+
+    // Getters & Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public int getIdKhachHang() { return idKhachHang; }
+    public void setIdKhachHang(int idKhachHang) { this.idKhachHang = idKhachHang; }
+
+    public int getIdSanBong() { return idSanBong; }
+    public void setIdSanBong(int idSanBong) { this.idSanBong = idSanBong; }
+
+
+    public String getNoiDung() { return noiDung; }
+    public void setNoiDung(String noiDung) { this.noiDung = noiDung; }
+
+    public mucDiem getMucDiem() { return mucDiem; }
+    public void setMucDiem(mucDiem mucDiem) { this.mucDiem = mucDiem; }
+
+
+}

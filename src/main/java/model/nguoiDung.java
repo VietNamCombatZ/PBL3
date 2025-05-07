@@ -12,6 +12,8 @@ public class nguoiDung
     private Timestamp ngayTao;
     private Timestamp ngayCapNhat;
 
+
+
     // Constructors
     public nguoiDung
     () {}
