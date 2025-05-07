@@ -1,6 +1,7 @@
 package model;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Date;
 
 public class nguoiDung
 {
@@ -9,7 +10,9 @@ public class nguoiDung
     private String email;
     private String matKhau;
     private String anhDaiDien;
+    private Date ngaySinh;
     private boolean kichHoat;
+    private vaiTro vaiTroNguoiDung;
     private Timestamp ngayTao;
     private Timestamp ngayCapNhat;
 
@@ -20,11 +23,13 @@ public class nguoiDung
     () {}
 
     public nguoiDung
-            (String ten, String email, String matKhau, String anhDaiDien, boolean kichHoat) {
+            (String ten, String email, String matKhau, String anhDaiDien, Date ngaySinh, vaiTro vaiTroNguoiDung, boolean kichHoat) {
         this.ten = ten;
         this.email = email;
         this.matKhau = matKhau;
         this.anhDaiDien = anhDaiDien;
+        this.ngaySinh = ngaySinh;
+        this.vaiTroNguoiDung = vaiTroNguoiDung;
         this.kichHoat = kichHoat;
     }
 
@@ -43,6 +48,12 @@ public class nguoiDung
 
     public String getAnhDaiDien() { return anhDaiDien; }
     public void setAnhDaiDien(String anhDaiDien) { this.anhDaiDien = anhDaiDien; }
+
+    public Date getNgaySinh() { return ngaySinh; }
+    public void setNgaySinh(Date ngaySinh) { this.ngaySinh = ngaySinh; }
+
+    public vaiTro getVaiTroNguoiDung() { return vaiTroNguoiDung; }
+    public void setVaiTroNguoiDung(vaiTro vaiTroNguoiDung) { this.vaiTroNguoiDung = vaiTroNguoiDung; }
 
     public boolean isKichHoat() { return kichHoat; }
     public void setKichHoat(boolean kichHoat) { this.kichHoat = kichHoat; }
