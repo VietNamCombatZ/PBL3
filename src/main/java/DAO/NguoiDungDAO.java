@@ -41,11 +41,11 @@ public class NguoiDungDAO {
                 nd.setId(rs.getString("id"));
                 nd.setTen(rs.getString("ten"));
                 nd.setEmail(rs.getString("email"));
-                nd.setMatKhau(rs.getString("mat_khau"));
-                nd.setAnhDaiDien(rs.getString("anh_dai_dien"));
-
-                nd.setNgayTao(rs.getTimestamp("ngay_tao"));
-                nd.setNgayCapNhat(rs.getTimestamp("ngay_cap_nhat"));
+                nd.setMatKhau(rs.getString("matKhau"));
+                nd.setAnhDaiDien(rs.getString("anhDaiDien"));
+                nd.setNgaySinh(new java.sql.Date(rs.getDate("ngaySinh").getTime()));
+                nd.setNgayTao(rs.getTimestamp("ngayTao"));
+                nd.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
                 return nd;
             }
         } catch (SQLException e) {
@@ -66,11 +66,11 @@ public class NguoiDungDAO {
                 nd.setId(rs.getString("id"));
                 nd.setTen(rs.getString("ten"));
                 nd.setEmail(rs.getString("email"));
-                nd.setMatKhau(rs.getString("mat_khau"));
-                nd.setAnhDaiDien(rs.getString("anh_dai_dien"));
+                nd.setMatKhau(rs.getString("matKhau"));
+                nd.setAnhDaiDien(rs.getString("anhDaiDien"));
 
-                nd.setNgayTao(rs.getTimestamp("ngay_tao"));
-                nd.setNgayCapNhat(rs.getTimestamp("ngay_cap_nhat"));
+                nd.setNgayTao(rs.getTimestamp("ngayTao"));
+                nd.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
                 return nd;
             }
         } catch (SQLException e) {
@@ -78,16 +78,16 @@ public class NguoiDungDAO {
         }
         return null;
     }
-    public boolean capNhat(nguoiDung nd) {
-        String sql = "UPDATE nguoi_dung SET ten = ?, email = ?, mat_khau = ?, anh_dai_dien = ?, kich_hoat = ?, ngay_cap_nhat = CURRENT_TIMESTAMP WHERE id = ?";
+    public static boolean capNhat(nguoiDung nd) {
+        String sql = "UPDATE nguoi_dung SET  email = ?, matKhau = ?,ten = ?, anh_dai_dien = ?, vaiTroNguoiDung = ?,ngaySinh=?, ngay_cap_nhat = CURRENT_TIMESTAMP WHERE id = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, nd.getTen());
-            stmt.setString(2, nd.getEmail());
-            stmt.setString(3, nd.getMatKhau());
+            stmt.setString(1, nd.getEmail());
+            stmt.setString(2, nd.getMatKhau());
+            stmt.setString(3, nd.getTen());
             stmt.setString(4, nd.getAnhDaiDien());
-
-            stmt.setString(6, nd.getId());
+            stmt.setString(5, nd.getVaiTroNguoiDung().name());
+            stmt.setDate(6, new java.sql.Date(nd.getNgaySinh().getTime()));
 
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -97,11 +97,11 @@ public class NguoiDungDAO {
         }
     }
 
-    public boolean xoa(int id) {
+    public boolean xoa(String id) {
         String sql = "DELETE FROM nguoi_dung WHERE id = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+            stmt.setString(1, id);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
