@@ -9,19 +9,24 @@ import java.util.List;
 
 public class NguoiDungDAO {
 
-    public void Tao(nguoiDung nd) {
-        String sql = "INSERT INTO nguoi_dung (ten, email, mat_khau, anh_dai_dien, kich_hoat, ngay_tao, ngay_cap_nhat) " +
-                "VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
+    public static boolean Tao(nguoiDung nd) {
+        String sql = "INSERT INTO nguoi_dung (id, email, matKhau, ten, anhDaiDien, vaiTroNguoiDung, ngaySinh, ngayTao, ngayCapNhat) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, nd.getTen());
+            stmt.setString(1, nd.getId());
             stmt.setString(2, nd.getEmail());
             stmt.setString(3, nd.getMatKhau());
-            stmt.setString(4, nd.getAnhDaiDien());
+            stmt.setString(4, nd.getTen());
+            stmt.setString(5, nd.getAnhDaiDien());
+            stmt.setString(6, nd.getVaiTroNguoiDung().name());
+            stmt.setDate(7, new java.sql.Date(nd.getNgaySinh().getTime()));
 
-            stmt.executeUpdate();
+            int rows = stmt.executeUpdate();
+            return rows > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 

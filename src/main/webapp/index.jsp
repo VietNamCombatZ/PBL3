@@ -33,7 +33,7 @@
             <a href="#" class="hover:text-yellow-400">Liên hệ</a>
         </nav>
         <div class="flex items-center space-x-4">
-            <a href="#" class="hover:text-yellow-400 hidden md:block">Đăng ký</a>
+            <a href="dangKy.jsp" class="hover:text-yellow-400 hidden md:block">Đăng ký</a>
             <a href="dangNhap.jsp" class="hover:text-yellow-400 hidden md:block">Đăng nhập</a>
             <a href="#" class="bg-yellow-400 text-blue-900 px-4 py-2 rounded font-bold hover:bg-yellow-300 transition">Đặt Lịch Dùng Thử</a>
         </div>

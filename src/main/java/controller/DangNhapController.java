@@ -40,7 +40,7 @@ public class DangNhapController extends HttpServlet {
             // Đăng nhập thất bại
             System.out.println("Dang Nhap that bai");
             request.setAttribute("thongBao", "Email hoặc mật khẩu không đúng!");
-            request.getRequestDispatcher("dangnhap.jsp").forward(request, response);
+            request.getRequestDispatcher("dangNhap.jsp").forward(request, response);
         }
     }
 }
