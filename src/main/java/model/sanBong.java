@@ -26,14 +26,14 @@ public class sanBong {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getTen() { return tenSan; }
-    public void setTen(String tenSan) { this.tenSan = tenSan; }
+    public String getTenSan() { return tenSan; }
+    public void setTenSan(String tenSan) { this.tenSan = tenSan; }
 
-    public trangThaiSan getEmail() { return trangThai; }
-    public void setEmail(trangThaiSan trangThai) { this.trangThai = trangThai; }
+    public trangThaiSan getTrangThai() { return trangThai; }
+    public void setTrangThai(trangThaiSan trangThai) { this.trangThai = trangThai; }
 
-    public String getMatKhau() { return moTa; }
-    public void setMatKhau(String moTa) { this.moTa = moTa; }
+    public String getMoTa() { return moTa; }
+    public void setMoTa(String moTa) { this.moTa = moTa; }
 
 
     public Timestamp getNgayTao() { return ngayTao; }

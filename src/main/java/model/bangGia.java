@@ -34,8 +34,8 @@ public class bangGia {
     public Time getEmail() { return gioKetThuc; }
     public void setEmail(Time gioKetThuc) { this.gioKetThuc = gioKetThuc; }
 
-    public int getMatKhau() { return giaTien; }
-    public void setMatKhau(int giaTien) { this.giaTien = giaTien; }
+    public int getGiaTien() { return giaTien; }
+    public void setGiaTien(int giaTien) { this.giaTien = giaTien; }
 
 
     public Timestamp getNgayTao() { return ngayTao; }
