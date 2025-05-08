@@ -3,8 +3,8 @@ package model;
 import java.sql.Timestamp;
 
 public class congViec {
-    private int id;
-    private int idNguoiDung;
+    private String id;
+    private String idNguoiDung;
     private loaiCongViec tenCongViec;
     private Timestamp thoiGianBatDau;
     private Timestamp thoiGianKetThuc;
@@ -15,7 +15,7 @@ public class congViec {
 
     // Constructors
     public congViec() {}
-    public congViec(int idNguoiDung, loaiCongViec tenCongViec, Timestamp thoiGianBatDau, Timestamp thoiGianKetThuc, boolean daHoanThanh) {
+    public congViec(String idNguoiDung, loaiCongViec tenCongViec, Timestamp thoiGianBatDau, Timestamp thoiGianKetThuc, boolean daHoanThanh) {
         this.idNguoiDung = idNguoiDung;
         this.tenCongViec = tenCongViec;
         this.thoiGianBatDau = thoiGianBatDau;
@@ -24,11 +24,11 @@ public class congViec {
     }
 
     // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public int getIdNguoiDung() { return idNguoiDung; }
-    public void setIdNguoiDung(int idNguoiDung) { this.idNguoiDung = idNguoiDung; }
+    public String getIdNguoiDung() { return idNguoiDung; }
+    public void setIdNguoiDung(String idNguoiDung) { this.idNguoiDung = idNguoiDung; }
 
     public loaiCongViec getTenCongViec() { return tenCongViec; }
     public void setTenCongViec(loaiCongViec tenCongViec) { this.tenCongViec = tenCongViec; }

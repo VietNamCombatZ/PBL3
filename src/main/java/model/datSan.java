@@ -6,9 +6,9 @@ import java.sql.*;
 
 
 public class datSan {
-    private int id;
-    private int idKhachHang;
-    private int idSanBong;
+    private String id;
+    private String idKhachHang;
+    private String idSanBong;
 
     private int soTien;
     private trangThaiDatSan trangThai;
@@ -21,7 +21,7 @@ public class datSan {
 
 
     public datSan(){};
-    public datSan(int idKhachHang, int idSanBong, int soTien, trangThaiDatSan trangThai, Time gioBatDau, Time gioKetThuc) {
+    public datSan(String idKhachHang, String idSanBong, int soTien, trangThaiDatSan trangThai, Time gioBatDau, Time gioKetThuc) {
         this.idKhachHang = idKhachHang;
         this.idSanBong = idSanBong;
         this.soTien = soTien;
@@ -30,14 +30,14 @@ public class datSan {
         this.gioKetThuc = gioKetThuc;
     }
     // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public int getIdKhachHang() { return idKhachHang; }
-    public void setIdKhachHang(int idKhachHang) { this.idKhachHang = idKhachHang; }
+    public String getIdKhachHang() { return idKhachHang; }
+    public void setIdKhachHang(String idKhachHang) { this.idKhachHang = idKhachHang; }
 
-    public int getIdSanBong() { return idSanBong; }
-    public void setIdSanBong(int idSanBong) { this.idSanBong = idSanBong; }
+    public String getIdSanBong() { return idSanBong; }
+    public void setIdSanBong(String idSanBong) { this.idSanBong = idSanBong; }
 
     public int getSoTien() { return soTien; }
     public void setSoTien(int soTien) { this.soTien = soTien; }

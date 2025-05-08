@@ -3,9 +3,9 @@ package model;
 import java.sql.Timestamp;
 
 public class danhGia {
-    private int id;
-    private int idKhachHang;
-    private int idSanBong;
+    private String id;
+    private String idKhachHang;
+    private String idSanBong;
 
     private String noiDung;
     private mucDiem mucDiem;
@@ -16,7 +16,7 @@ public class danhGia {
     // Constructors
     public danhGia() {}
 
-    public danhGia(int idKhachHang, int idSanBong , String noiDung, mucDiem mucDiem) {
+    public danhGia(String idKhachHang, String idSanBong , String noiDung, mucDiem mucDiem) {
         this.idKhachHang = idKhachHang;
         this.idSanBong = idSanBong;
         this.noiDung = noiDung;
@@ -24,14 +24,14 @@ public class danhGia {
     }
 
     // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public int getIdKhachHang() { return idKhachHang; }
-    public void setIdKhachHang(int idKhachHang) { this.idKhachHang = idKhachHang; }
+    public String getIdKhachHang() { return idKhachHang; }
+    public void setIdKhachHang(String idKhachHang) { this.idKhachHang = idKhachHang; }
 
-    public int getIdSanBong() { return idSanBong; }
-    public void setIdSanBong(int idSanBong) { this.idSanBong = idSanBong; }
+    public String getIdSanBong() { return idSanBong; }
+    public void setIdSanBong(String idSanBong) { this.idSanBong = idSanBong; }
 
 
     public String getNoiDung() { return noiDung; }

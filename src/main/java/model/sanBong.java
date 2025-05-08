@@ -3,7 +3,7 @@ package model;
 import java.sql.Timestamp;
 
 public class sanBong {
-    private int id;
+    private String id;
     private String tenSan;
     private trangThaiSan trangThai;
     private String moTa;
@@ -23,8 +23,8 @@ public class sanBong {
     }
 
     // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getTen() { return tenSan; }
     public void setTen(String tenSan) { this.tenSan = tenSan; }

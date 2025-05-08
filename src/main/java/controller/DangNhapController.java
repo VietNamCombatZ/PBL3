@@ -24,16 +24,21 @@ public class DangNhapController extends HttpServlet {
         String email = request.getParameter("email");
         String matKhau = request.getParameter("matKhau");
 
+        System.out.println("Email: " + email);
+        System.out.println("Mat Khau: " + matKhau);
+
         nguoiDung nd = dao.layNguoiDungTheoEmail(email);
 
         if (nd != null && nd.getMatKhau().equals(matKhau)) {
             // Đăng nhập thành công
             HttpSession session = request.getSession();
             session.setAttribute("nguoiDung", nd);
+            System.out.println("Dang Nhap thanh cong");
 
-            response.sendRedirect("trangchu.jsp");
+            response.sendRedirect("index.jsp");
         } else {
             // Đăng nhập thất bại
+            System.out.println("Dang Nhap that bai");
             request.setAttribute("thongBao", "Email hoặc mật khẩu không đúng!");
             request.getRequestDispatcher("dangnhap.jsp").forward(request, response);
         }

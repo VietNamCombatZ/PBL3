@@ -33,7 +33,7 @@ public class NguoiDungDAO {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 nguoiDung nd = new nguoiDung();
-                nd.setId(rs.getInt("id"));
+                nd.setId(rs.getString("id"));
                 nd.setTen(rs.getString("ten"));
                 nd.setEmail(rs.getString("email"));
                 nd.setMatKhau(rs.getString("mat_khau"));
@@ -58,7 +58,7 @@ public class NguoiDungDAO {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 nguoiDung nd = new nguoiDung();
-                nd.setId(rs.getInt("id"));
+                nd.setId(rs.getString("id"));
                 nd.setTen(rs.getString("ten"));
                 nd.setEmail(rs.getString("email"));
                 nd.setMatKhau(rs.getString("mat_khau"));
@@ -82,7 +82,7 @@ public class NguoiDungDAO {
             stmt.setString(3, nd.getMatKhau());
             stmt.setString(4, nd.getAnhDaiDien());
 
-            stmt.setInt(6, nd.getId());
+            stmt.setString(6, nd.getId());
 
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -140,20 +140,27 @@ public class NguoiDungDAO {
 
     public nguoiDung layNguoiDungTheoEmail(String email) {
         String sql = "SELECT * FROM nguoi_dung WHERE email = ?";
-        try (Connection conn = ketnoiCSDL.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try {
+            Connection conn = ketnoiCSDL.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+//            Statement statement = conn.createStatement();
+            System.out.println("Đang kết nối DB...");
             stmt.setString(1, email);
+//            sql.setString(1, email);
+            System.out.println("stmt: " + stmt);
             ResultSet rs = stmt.executeQuery();
+            System.out.println("rs : " + rs);
             if (rs.next()) {
                 nguoiDung nd = new nguoiDung();
-                nd.setId(rs.getInt("id"));
+                nd.setId(rs.getString("id"));
                 nd.setTen(rs.getString("ten"));
                 nd.setEmail(rs.getString("email"));
-                nd.setMatKhau(rs.getString("mat_khau")); // mã hóa
-                nd.setAnhDaiDien(rs.getString("anh_dai_dien"));
+                nd.setMatKhau(rs.getString("matKhau"));
+                nd.setAnhDaiDien(rs.getString("anhDaiDien"));
+                nd.setNgaySinh(rs.getDate("ngaySinh"));
 
-                nd.setNgayTao(rs.getTimestamp("ngay_tao"));
-                nd.setNgayCapNhat(rs.getTimestamp("ngay_cap_nhat"));
+                nd.setNgayTao(rs.getTimestamp("ngayTao"));
+                nd.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
                 return nd;
             }
         } catch (SQLException e) {

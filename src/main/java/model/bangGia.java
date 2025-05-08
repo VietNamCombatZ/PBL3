@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.sql.Time;
 
 public class bangGia {
-    private int id;
+    private String id;
     private Time gioBatDau;
     private Time gioKetThuc;
     private int giaTien;
@@ -25,8 +25,8 @@ public class bangGia {
     }
 
     // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public Time getTen() { return gioBatDau; }
     public void setTen(Time gioBatDau) { this.gioBatDau = gioBatDau; }
