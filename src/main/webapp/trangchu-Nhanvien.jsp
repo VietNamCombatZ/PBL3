@@ -16,7 +16,7 @@
 </head>
 <body class="bg-gray-100 font-sans">
 
-<!-- Navbar -->
+<!-- Navbar cho nhân viên -->
 <header class="bg-blue-900 text-white shadow-lg sticky top-0 z-50">
     <div class="container mx-auto flex justify-between items-center px-6 py-4">
         <div class="flex items-center space-x-2 text-2xl font-bold">
@@ -25,16 +25,14 @@
             <span class="text-yellow-400">365</span>
         </div>
         <nav class="hidden md:flex space-x-6 text-sm font-medium">
-            <a href="#home" class="hover:text-yellow-400">Trang chủ</a>
-            <a href="#" class="hover:text-yellow-400">Danh sách sân bãi</a>
-            <a href="#" class="hover:text-yellow-400">Giới thiệu</a>
-            <a href="#" class="hover:text-yellow-400">Chính sách</a>
-            <a href="#" class="hover:text-yellow-400">Liên hệ</a>
+            <a href="#" class="hover:text-yellow-400">Xem danh sách sân</a>
+            <a href="#" class="hover:text-yellow-400">Xem danh sách khách hàng</a>
+            <a href="#" class="hover:text-yellow-400">Xem danh sách nhân viên</a>
+            <a href="#" class="hover:text-yellow-400">Xem doanh thu</a>
         </nav>
         <div class="flex items-center space-x-4">
-            <span id="employeeName" class="text-yellow-400 font-bold">Xin chào, Nhân viên</span>
-            <a href="#" id="btnFieldStatus" class="bg-yellow-400 text-blue-900 px-4 py-2 rounded font-bold hover:bg-yellow-300 transition">Xem tình trạng sân</a>
-            <a href="#" id="btnPersonalInfo" class="bg-yellow-400 text-blue-900 px-4 py-2 rounded font-bold hover:bg-yellow-300 transition">Thông tin cá nhân</a>
+            <span class="hidden md:block font-semibold text-yellow-400">Xin chào, Nhân viên</span>
+            <a href="#" class="bg-yellow-400 text-blue-900 px-4 py-2 rounded font-bold hover:bg-yellow-300 transition">Thông tin cá nhân</a>
         </div>
     </div>
 </header>
@@ -58,6 +56,5 @@
         </div>
     </div>
 </section>
-
-<!-- Main Content -->
-<main id="mainContent" class="container mx
+</body>
+</html>
