@@ -27,7 +27,16 @@
         </div>
         <nav class="hidden md:flex space-x-6 text-sm font-medium">
             <a href="#home" class="hover:text-yellow-400">Trang chủ</a>
-            <a href="testDatSan.jsp" class="hover:text-yellow-400">Danh sách sân bãi</a>
+            <a href="danhSachSanCoSan.jsp" class="hover:text-yellow-400">Danh sách sân bãi</a>
+            <%
+                nguoiDung thongTinNguoiDung = (nguoiDung) session.getAttribute("nguoiDung");
+                if (thongTinNguoiDung != null) {
+            %>
+            <a href="lichDatCuaToi.jsp" class="hover:text-yellow-400">Danh sách sân đã đặt</a>
+
+            <%
+            }
+            %>
             <a href="#" class="hover:text-yellow-400">Giới thiệu</a>
             <a href="#" class="hover:text-yellow-400">Chính sách</a>
             <a href="#" class="hover:text-yellow-400">Dành cho chủ sân</a>
@@ -35,7 +44,7 @@
         </nav>
         <div class="flex items-center space-x-4">
             <%
-                nguoiDung thongTinNguoiDung = (nguoiDung) session.getAttribute("nguoiDung");
+
                 if (thongTinNguoiDung == null) {
             %>
             <a href="dangKy.jsp" class="hover:text-yellow-400 hidden md:block">Đăng ký</a>

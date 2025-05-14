@@ -41,7 +41,7 @@
             Tìm kiếm
         </button>
     </div>
-    <form id="booking-form" action="sanBong/getAvailableFields" method="POST">
+    <form id="booking-form" action="sanBong/danhSachSanCoSan" method="POST">
         <input type="hidden" name="timestamp" id="hidden-timestamp">
     </form>
 
@@ -60,7 +60,14 @@
             } else {
                 for (sanBong sb : availableFields) {
             %>
-            <li class="border p-2 mb-2"><%= sb.getTenSan() %> </li>
+            <li class="border p-2 mb-2 flex justify-between items-center">
+                <span><%= sb.getTenSan() %></span>
+                <form action="datSan/taoLichDat" method="POST" style="margin: 0;">
+                    <input type="hidden" name="idSanBong" value="<%= sb.getId() %>">
+                    <input type="hidden" name="timestamp" class="hidden-timestamp-datSan" >
+                    <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Đặt sân</button>
+                </form>
+            </li>
             <%
                         }
                     }
@@ -85,6 +92,38 @@
 
     $('#search-button').click(function() {
 
+        <%--let selectedDate = $('#datepicker').val();--%>
+        <%--let selectedHour = $('#select-hour').val();--%>
+
+        <%--if (!selectedDate || !selectedHour) {--%>
+        <%--    alert("Vui lòng chọn ngày và giờ.");--%>
+        <%--    return;--%>
+        <%--}--%>
+
+        <%--// Tạo timestamp đầy đủ theo định dạng "YYYY-MM-DD HH:MM:00"--%>
+        <%--const fullTimestamp = `${selectedDate} ${selectedHour}:00:00`;--%>
+
+        // Gán giá trị timestamp vào input ẩn trong form
+        $('#hidden-timestamp').val(getTimeStamp());
+        $('.hidden-timestamp-datSan').val(getTimeStamp());
+
+        // Gửi form
+        event.preventDefault();
+        $('#booking-form').submit();
+    });
+
+    $(document).on('submit', 'form[action="datSan/taoLichDat"]', function (e) {
+        const timestamp = getTimeStamp();
+        if (!timestamp) {
+            e.preventDefault();
+            return;
+        }
+        $(this).find('.hidden-timestamp-datSan').val(timestamp);
+    });
+    // Các khung giờ có sẵn cho phép đặt
+    const availableHours = [6, 7, 8, 9, 15, 16, 17, 18, 19, 20];
+
+    function getTimeStamp(){
         let selectedDate = $('#datepicker').val();
         let selectedHour = $('#select-hour').val();
 
@@ -95,17 +134,9 @@
 
         // Tạo timestamp đầy đủ theo định dạng "YYYY-MM-DD HH:MM:00"
         const fullTimestamp = `${selectedDate} ${selectedHour}:00:00`;
+        return fullTimestamp;
 
-        // Gán giá trị timestamp vào input ẩn trong form
-        $('#hidden-timestamp').val(fullTimestamp);
-
-        // Gửi form
-        event.preventDefault();
-        $('#booking-form').submit();
-    });
-    // Các khung giờ có sẵn cho phép đặt
-    const availableHours = [6, 7, 8, 9, 15, 16, 17, 18, 19, 20];
-
+    }
     // Kiểm tra ngày và lấy các giờ hợp lệ
     function getValidHours(currentHour, selectedDate) {
         const today = new Date();

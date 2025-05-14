@@ -50,6 +50,28 @@ public class BangGiaDAO {
         return null;
     }
 
+    public static bangGia timGiaTheoGio(Timestamp gioBatDau ){
+        String sql = "SELECT * FROM bangGia WHERE gioBatDau <= ? AND gioKetThuc > ?";
+        try (Connection conn = ketnoiCSDL.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setTimestamp(1, gioBatDau);
+            stmt.setTimestamp(2, gioBatDau);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                bangGia bg = new bangGia();
+                bg.setId(rs.getString("id"));
+                bg.setGioBatDau(rs.getTime("gioBatDau"));
+                bg.setGioKetThuc(rs.getTime("gioKetThuc"));
+                bg.setGiaTien1Gio(rs.getInt("giaTien1Gio"));
+                return bg;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
     public static List<bangGia> timDanhSachBangGia() {
         String sql = "SELECT * FROM bangGia";
         List<bangGia> dsBangGia = new ArrayList<>();

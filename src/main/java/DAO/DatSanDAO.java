@@ -64,7 +64,7 @@ public class DatSanDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, idKhachHang);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 datSan ds = new datSan();
                 ds.setId(rs.getString("id"));
                 ds.setIdKhachHang(rs.getString("idKhachHang"));
