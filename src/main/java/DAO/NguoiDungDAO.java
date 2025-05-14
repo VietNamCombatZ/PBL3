@@ -10,7 +10,7 @@ import java.util.List;
 public class NguoiDungDAO {
 
     public static boolean Tao(nguoiDung nd) {
-        String sql = "INSERT INTO nguoi_dung (id, email, matKhau, ten, anhDaiDien, vaiTroNguoiDung, ngaySinh, ngayTao, ngayCapNhat) " +
+        String sql = "INSERT INTO nguoiDung (id, email, matKhau, ten, anhDaiDien, vaiTroNguoiDung, ngaySinh, ngayTao, ngayCapNhat) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -31,7 +31,7 @@ public class NguoiDungDAO {
     }
 
     public nguoiDung timBangEmail(String email) {
-        String sql = "SELECT * FROM nguoi_dung WHERE email = ?";
+        String sql = "SELECT * FROM nguoiDung WHERE email = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, email);
@@ -55,7 +55,7 @@ public class NguoiDungDAO {
     }
 
     public nguoiDung dangNhap(String email, String matKhau) {
-        String sql = "SELECT * FROM nguoi_dung WHERE email = ? AND mat_khau = ?";
+        String sql = "SELECT * FROM nguoiDung WHERE email = ? AND mat_khau = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, email);
@@ -79,7 +79,7 @@ public class NguoiDungDAO {
         return null;
     }
     public static boolean capNhat(nguoiDung nd) {
-        String sql = "UPDATE nguoi_dung SET  email = ?, matKhau = ?,ten = ?, anh_dai_dien = ?, vaiTroNguoiDung = ?,ngaySinh=?, ngay_cap_nhat = CURRENT_TIMESTAMP WHERE id = ?";
+        String sql = "UPDATE nguoiDung SET  email = ?, matKhau = ?,ten = ?, anh_dai_dien = ?, vaiTroNguoiDung = ?,ngaySinh=?, ngay_cap_nhat = CURRENT_TIMESTAMP WHERE id = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nd.getEmail());
@@ -98,7 +98,7 @@ public class NguoiDungDAO {
     }
 
     public boolean xoa(String id) {
-        String sql = "DELETE FROM nguoi_dung WHERE id = ?";
+        String sql = "DELETE FROM nguoiDung WHERE id = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, id);
@@ -111,7 +111,7 @@ public class NguoiDungDAO {
     }
 
     public boolean dangKy(nguoiDung nd) {
-        String sql = "INSERT INTO nguoi_dung (ten, email, mat_khau, anh_dai_dien, kich_hoat, ngay_tao, ngay_cap_nhat) " +
+        String sql = "INSERT INTO nguoiDung (ten, email, mat_khau, anh_dai_dien, kich_hoat, ngay_tao, ngay_cap_nhat) " +
                 "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -131,7 +131,7 @@ public class NguoiDungDAO {
     }
 
     public boolean kiemTraDangKy(nguoiDung nd) {
-        String sql = "SELECT * FROM nguoi_dung WHERE email = ?";
+        String sql = "SELECT * FROM nguoiDung WHERE email = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nd.getEmail());
@@ -144,7 +144,7 @@ public class NguoiDungDAO {
     }
 
     public nguoiDung layNguoiDungTheoEmail(String email) {
-        String sql = "SELECT * FROM nguoi_dung WHERE email = ?";
+        String sql = "SELECT * FROM nguoiDung WHERE email = ?";
         try {
             Connection conn = ketnoiCSDL.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -175,7 +175,7 @@ public class NguoiDungDAO {
     }
 
     public boolean kiemTraDangNhap(String email, String password) {
-//        String sql = "SELECT * FROM nguoi_dung WHERE email = ? AND mat_khau = ?";
+//        String sql = "SELECT * FROM nguoiDung WHERE email = ? AND mat_khau = ?";
 //        try (Connection conn = ketnoiCSDL.getConnection();
 //             PreparedStatement stmt = conn.prepareStatement(sql)) {
 //            stmt.setString(1, nd.getEmail());

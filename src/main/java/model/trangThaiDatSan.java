@@ -5,5 +5,4 @@ public enum trangThaiDatSan {
     DA_THANH_TOAN,
     DA_HUY;
 
-
 }

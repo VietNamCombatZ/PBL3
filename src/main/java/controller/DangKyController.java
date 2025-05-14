@@ -55,7 +55,7 @@ public class DangKyController extends HttpServlet {
 
             // Tạo đối tượng người dùng
             nguoiDung user = new nguoiDung();
-            user.setId(UUID.randomUUID().toString());
+            user.setId(UUID.randomUUID().toString()); //sinh id ngẫu nhiên
             user.setTen(ten);
             user.setEmail(email);
             user.setMatKhau(matkhau);

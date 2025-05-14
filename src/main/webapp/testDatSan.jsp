@@ -1,4 +1,4 @@
-<%--
+<%@ page import="model.sanBong"  import="java.util.*"%><%--
   Created by IntelliJ IDEA.
   User: huynguyenduc
   Date: 8/5/25
@@ -35,16 +35,74 @@
         </select>
     </div>
 
+    <!-- Nút Tìm kiếm -->
+    <div class="mb-4">
+        <button id="search-button" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            Tìm kiếm
+        </button>
+    </div>
+    <form id="booking-form" action="sanBong/getAvailableFields" method="POST">
+        <input type="hidden" name="timestamp" id="hidden-timestamp">
+    </form>
+
     <!-- Hiển thị danh sách sân chưa được đặt -->
     <div class="mb-4">
         <h3 class="text-lg font-semibold">Danh sách sân có sẵn:</h3>
         <ul id="available-fields" class="list-none p-0">
             <!-- Các sân sẽ được hiển thị ở đây sau khi chọn ngày và giờ -->
+            <%
+                List<sanBong> availableFields = (List<sanBong>) request.getAttribute("availableFields");
+                if (availableFields != null) {
+                    if (availableFields.isEmpty()) {
+            %>
+            <li>Không có sân nào khả dụng trong khoảng thời gian này.</li>
+            <%
+            } else {
+                for (sanBong sb : availableFields) {
+            %>
+            <li class="border p-2 mb-2"><%= sb.getTenSan() %> </li>
+            <%
+                        }
+                    }
+                }
+            %>
         </ul>
     </div>
 </div>
 
 <script>
+    // $('#search-button').click(function() {
+    //     let selectedDate = $('#datepicker').val();
+    //     let selectedHour = $('#select-hour').val();
+    //
+    //     if (!selectedDate || !selectedHour) {
+    //         alert("Vui lòng chọn ngày và giờ.");
+    //         return;
+    //     }
+    //
+    //     loadAvailableFields(selectedDate, selectedHour);
+    // });
+
+    $('#search-button').click(function() {
+
+        let selectedDate = $('#datepicker').val();
+        let selectedHour = $('#select-hour').val();
+
+        if (!selectedDate || !selectedHour) {
+            alert("Vui lòng chọn ngày và giờ.");
+            return;
+        }
+
+        // Tạo timestamp đầy đủ theo định dạng "YYYY-MM-DD HH:MM:00"
+        const fullTimestamp = `${selectedDate} ${selectedHour}:00:00`;
+
+        // Gán giá trị timestamp vào input ẩn trong form
+        $('#hidden-timestamp').val(fullTimestamp);
+
+        // Gửi form
+        event.preventDefault();
+        $('#booking-form').submit();
+    });
     // Các khung giờ có sẵn cho phép đặt
     const availableHours = [6, 7, 8, 9, 15, 16, 17, 18, 19, 20];
 
@@ -97,20 +155,27 @@
 
     // Hàm tải danh sách sân có sẵn cho giờ đã chọn
     function loadAvailableFields(date, hour) {
+        const fullTimestamp = `${date} ${hour}:00:00`; // VD: 2025-05-08 15:00:00
+
+        console.log(`Timestamp chuẩn: ${fullTimestamp}`); // Kiểm tra timestamp chuẩn
         $.ajax({
-            url: 'getAvailableFields', // Đổi thành URL của bạn
-            type: 'GET',
-            data: { date: date, hour: hour },
+            url: 'sanBong/getAvailableFields', // Backend Servlet hoặc Controller
+            type: 'POST',
+            data: { timestamp: fullTimestamp }, // gửi timestamp chuẩn
             success: function(response) {
                 let fieldsList = $('#available-fields');
                 fieldsList.empty();
 
-                // Giả sử 'response' chứa các sân chưa được đặt
                 if (response.fields.length === 0) {
                     fieldsList.append('<li>Không có sân trống vào giờ này.</li>');
                 } else {
                     response.fields.forEach(field => {
-                        fieldsList.append(`<li>${field.name}</li>`);
+                        fieldsList.append(`
+                        <li class="border p-2 mb-2 flex justify-between items-center">
+                            <span>${field.name}</span>
+                            <button class="bg-blue-500 text-white px-4 py-1 rounded">Đặt sân</button>
+                        </li>
+                    `);
                     });
                 }
             }

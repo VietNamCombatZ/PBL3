@@ -13,15 +13,15 @@ public class datSan {
     private int soTien;
     private trangThaiDatSan trangThai;
 
-    private Time gioBatDau;
-    private Time gioKetThuc;
+    private Date gioBatDau;
+    private Date gioKetThuc;
 
     private Timestamp ngayTao;
     private Timestamp ngayCapNhat;
 
 
     public datSan(){};
-    public datSan(String idKhachHang, String idSanBong, int soTien, trangThaiDatSan trangThai, Time gioBatDau, Time gioKetThuc) {
+    public datSan(String idKhachHang, String idSanBong, int soTien, trangThaiDatSan trangThai, Date gioBatDau, Date gioKetThuc) {
         this.idKhachHang = idKhachHang;
         this.idSanBong = idSanBong;
         this.soTien = soTien;
@@ -45,11 +45,11 @@ public class datSan {
     public trangThaiDatSan getTrangThai() { return trangThai; }
     public void setTrangThai(trangThaiDatSan trangThai) { this.trangThai = trangThai; }
 
-    public Time getGioBatDau() { return gioBatDau; }
-    public void setGioBatDau(Time gioBatDau) { this.gioBatDau = gioBatDau; }
+    public Date getGioBatDau() { return gioBatDau; }
+    public void setGioBatDau(Date gioBatDau) { this.gioBatDau = gioBatDau; }
 
-    public Time getGioKetThuc() { return gioKetThuc; }
-    public void setGioKetThuc(Time gioKetThuc) { this.gioKetThuc = gioKetThuc; }
+    public Date getGioKetThuc() { return gioKetThuc; }
+    public void setGioKetThuc(Date gioKetThuc) { this.gioKetThuc = gioKetThuc; }
 
     public Timestamp getNgayTao() { return ngayTao; }
     public void setNgayTao(Timestamp ngayTao) { this.ngayTao = ngayTao; }

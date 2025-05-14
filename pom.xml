@@ -27,6 +27,12 @@
       <version>6.0.0</version> <!-- tương thích Tomcat 10.1.x -->
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version> <!-- hoặc version mới nhất -->
+    </dependency>
   </dependencies>
   <repositories>
     <repository>
