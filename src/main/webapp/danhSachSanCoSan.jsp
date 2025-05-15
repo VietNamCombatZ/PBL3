@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body class="bg-gray-100 p-6">
+<%--navbar--%>
+<%@include file="navbar.jsp" %>
+<%--body--%>
 
 <div class="max-w-4xl mx-auto bg-white shadow-md p-6 rounded-lg">
     <h2 class="text-2xl font-bold mb-4">Đặt Sân</h2>

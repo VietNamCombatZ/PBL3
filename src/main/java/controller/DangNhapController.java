@@ -1,12 +1,14 @@
 package controller;
 
 import DAO.NguoiDungDAO;
-import model.nguoiDung;
+import model.*;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+
+import static model.vaiTro.*;
 
 @WebServlet("/dangnhap")
 public class DangNhapController extends HttpServlet {
@@ -29,11 +31,19 @@ public class DangNhapController extends HttpServlet {
 
         nguoiDung nd = dao.layNguoiDungTheoEmail(email);
 
+
+
+
         if (nd != null && nd.getMatKhau().equals(matKhau)) {
-            // Đăng nhập thành công
+
             HttpSession session = request.getSession();
             session.setAttribute("nguoiDung", nd);
             System.out.println("Dang Nhap thanh cong");
+
+            if(nd.getVaiTroNguoiDung().equals(vaiTro.QUAN_LY)  || nd.getVaiTroNguoiDung().equals(vaiTro.NHAN_VIEN) ){
+                response.sendRedirect("index-nhanvien.jsp");
+                return;
+            }
 
             response.sendRedirect("index.jsp");
         } else {

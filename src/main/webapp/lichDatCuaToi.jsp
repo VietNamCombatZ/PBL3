@@ -8,12 +8,12 @@
 
 <%
 //    List<datSan> lichDat = (List<datSan>) request.getAttribute("lichDat");
-    nguoiDung thongTinNguoiDung = (nguoiDung) session.getAttribute("nguoiDung");
-    if (thongTinNguoiDung == null) {
+    nguoiDung thongTinNguoiDungDatSan = (nguoiDung) session.getAttribute("nguoiDung");
+    if (thongTinNguoiDungDatSan == null) {
         response.sendRedirect("dangNhap.jsp");
         return;
     }
-    List<datSan> lichDat = DatSanDAO.timDanhSachDatSanTheoNguoiDung(thongTinNguoiDung.getId());
+    List<datSan> lichDat = DatSanDAO.timDanhSachDatSanTheoNguoiDung(thongTinNguoiDungDatSan.getId());
 
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
@@ -27,6 +27,11 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 p-6">
+
+<%--navbar--%>
+<%@include file="navbar.jsp" %>
+
+<%--body--%>
 <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
     <h2 class="text-2xl font-bold mb-4">Lịch đặt sân của tôi</h2>
 

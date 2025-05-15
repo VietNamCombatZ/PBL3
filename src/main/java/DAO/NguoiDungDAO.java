@@ -1,6 +1,6 @@
 package DAO;
 
-import model.nguoiDung;
+import model.*;
 import util.ketnoiCSDL;
 
 import java.sql.*;
@@ -30,29 +30,29 @@ public class NguoiDungDAO {
         }
     }
 
-    public nguoiDung timBangEmail(String email) {
-        String sql = "SELECT * FROM nguoiDung WHERE email = ?";
-        try (Connection conn = ketnoiCSDL.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                nguoiDung nd = new nguoiDung();
-                nd.setId(rs.getString("id"));
-                nd.setTen(rs.getString("ten"));
-                nd.setEmail(rs.getString("email"));
-                nd.setMatKhau(rs.getString("matKhau"));
-                nd.setAnhDaiDien(rs.getString("anhDaiDien"));
-                nd.setNgaySinh(new java.sql.Date(rs.getDate("ngaySinh").getTime()));
-                nd.setNgayTao(rs.getTimestamp("ngayTao"));
-                nd.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
-                return nd;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    public nguoiDung timBangEmail(String email) {
+//        String sql = "SELECT * FROM nguoiDung WHERE email = ?";
+//        try (Connection conn = ketnoiCSDL.getConnection();
+//             PreparedStatement stmt = conn.prepareStatement(sql)) {
+//            stmt.setString(1, email);
+//            ResultSet rs = stmt.executeQuery();
+//            if (rs.next()) {
+//                nguoiDung nd = new nguoiDung();
+//                nd.setId(rs.getString("id"));
+//                nd.setTen(rs.getString("ten"));
+//                nd.setEmail(rs.getString("email"));
+//                nd.setMatKhau(rs.getString("matKhau"));
+//                nd.setAnhDaiDien(rs.getString("anhDaiDien"));
+//                nd.setNgaySinh(new java.sql.Date(rs.getDate("ngaySinh").getTime()));
+//                nd.setNgayTao(rs.getTimestamp("ngayTao"));
+//                nd.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
+//                return nd;
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     public nguoiDung dangNhap(String email, String matKhau) {
         String sql = "SELECT * FROM nguoiDung WHERE email = ? AND mat_khau = ?";
@@ -68,6 +68,8 @@ public class NguoiDungDAO {
                 nd.setEmail(rs.getString("email"));
                 nd.setMatKhau(rs.getString("matKhau"));
                 nd.setAnhDaiDien(rs.getString("anhDaiDien"));
+                nd.setNgaySinh(new java.sql.Date(rs.getDate("ngaySinh").getTime()));
+                nd.setVaiTroNguoiDung(vaiTro.valueOf(rs.getString("vaiTroNguoiDung")));
 
                 nd.setNgayTao(rs.getTimestamp("ngayTao"));
                 nd.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
@@ -163,6 +165,7 @@ public class NguoiDungDAO {
                 nd.setMatKhau(rs.getString("matKhau"));
                 nd.setAnhDaiDien(rs.getString("anhDaiDien"));
                 nd.setNgaySinh(rs.getDate("ngaySinh"));
+                nd.setVaiTroNguoiDung(vaiTro.valueOf(rs.getString("vaiTroNguoiDung")));
 
                 nd.setNgayTao(rs.getTimestamp("ngayTao"));
                 nd.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
@@ -172,6 +175,39 @@ public class NguoiDungDAO {
             e.printStackTrace();
         }
         return null;
+    }
+    public static List<nguoiDung> layNguoiDungTheoVaiTro(String vaiTro) {
+        String sql = "SELECT * FROM nguoiDung WHERE vaiTroNguoiDung = ?";
+        List<nguoiDung> danhSachNguoiDung = new ArrayList<>();
+
+        try {
+            Connection conn = ketnoiCSDL.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+//            Statement statement = conn.createStatement();
+            System.out.println("Đang kết nối DB...");
+            stmt.setString(1, vaiTro);
+//            sql.setString(1, email);
+            System.out.println("stmt: " + stmt);
+            ResultSet rs = stmt.executeQuery();
+            System.out.println("rs : " + rs);
+            while (rs.next()) {
+                nguoiDung nd = new nguoiDung();
+                nd.setId(rs.getString("id"));
+                nd.setTen(rs.getString("ten"));
+                nd.setEmail(rs.getString("email"));
+                nd.setMatKhau(rs.getString("matKhau"));
+                nd.setAnhDaiDien(rs.getString("anhDaiDien"));
+                nd.setNgaySinh(rs.getDate("ngaySinh"));
+                nd.setVaiTroNguoiDung(model.vaiTro.valueOf(rs.getString("vaiTroNguoiDung")));
+                nd.setNgayTao(rs.getTimestamp("ngayTao"));
+                nd.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
+                danhSachNguoiDung.add(nd);
+            }
+            return danhSachNguoiDung;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public boolean kiemTraDangNhap(String email, String password) {
