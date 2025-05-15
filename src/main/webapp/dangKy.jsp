@@ -17,12 +17,12 @@
 <div class="overlay">
   <div class="register-form">
     <h2>Đăng ký</h2>
-    <form>
-      <input type="email" placeholder="Email *" required>
-      <input type="password" placeholder="Mật khẩu *" required>
-      <input type="password" placeholder="Nhập lại mật khẩu *" required>
-      <input type="tel" placeholder="Số điện thoại *" required>
-      <input type="text" placeholder="Họ & tên *" required>
+    <form action="dangky" method="post">
+      <input type="text" name="ten" placeholder="Tên *" required>
+      <input type="email" name="email" placeholder="Email *" required>
+      <input type="password" name="matkhau" placeholder="Mật khẩu *" required>
+      <input type="password" name="nhaplaimatkhau" placeholder="Nhập lại mật khẩu *" required>
+      <input type="date" name="ngaysinh" required>
       <button type="submit">Đăng ký</button>
     </form>
   </div>

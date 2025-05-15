@@ -1,33 +1,41 @@
 package model;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Date;
 
 public class nguoiDung
 {
-    private int id;
+    private String id;
     private String ten;
     private String email;
     private String matKhau;
     private String anhDaiDien;
-    private boolean kichHoat;
+    private Date ngaySinh;
+
+    private vaiTro vaiTroNguoiDung;
     private Timestamp ngayTao;
     private Timestamp ngayCapNhat;
+
+    private List<danhGia> danhSachDanhGia;
 
     // Constructors
     public nguoiDung
     () {}
 
     public nguoiDung
-            (String ten, String email, String matKhau, String anhDaiDien, boolean kichHoat) {
+            (String ten, String email, String matKhau, String anhDaiDien, Date ngaySinh, vaiTro vaiTroNguoiDung) {
         this.ten = ten;
         this.email = email;
         this.matKhau = matKhau;
         this.anhDaiDien = anhDaiDien;
-        this.kichHoat = kichHoat;
+        this.ngaySinh = ngaySinh;
+        this.vaiTroNguoiDung = vaiTroNguoiDung;
+
     }
 
     // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getTen() { return ten; }
     public void setTen(String ten) { this.ten = ten; }
@@ -41,8 +49,12 @@ public class nguoiDung
     public String getAnhDaiDien() { return anhDaiDien; }
     public void setAnhDaiDien(String anhDaiDien) { this.anhDaiDien = anhDaiDien; }
 
-    public boolean isKichHoat() { return kichHoat; }
-    public void setKichHoat(boolean kichHoat) { this.kichHoat = kichHoat; }
+    public Date getNgaySinh() { return ngaySinh; }
+    public void setNgaySinh(Date ngaySinh) { this.ngaySinh = ngaySinh; }
+
+    public vaiTro getVaiTroNguoiDung() { return vaiTroNguoiDung; }
+    public void setVaiTroNguoiDung(vaiTro vaiTroNguoiDung) { this.vaiTroNguoiDung = vaiTroNguoiDung; }
+
 
     public Timestamp getNgayTao() { return ngayTao; }
     public void setNgayTao(Timestamp ngayTao) { this.ngayTao = ngayTao; }
