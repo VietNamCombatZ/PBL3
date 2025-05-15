@@ -11,14 +11,14 @@ import java.util.Map;
 public class SanBongDAO {
 
     public static boolean Tao(sanBong sb) {
-        String sql = "INSERT INTO sanBong(id, tenSan, trangThai, moTa, ngayTao, ngayCapNhat) " +
+        String sql = "INSERT INTO sanBong(id, tenSan, trangThai,  loaiSan, ngayTao, ngayCapNhat) " +
                 "VALUES (?, ?, ?, ?, NOW(), NOW())";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, sb.getId());
             stmt.setString(2, sb.getTenSan());
             stmt.setString(3, sb.getTrangThai().name());
-            stmt.setString(4, sb.getMoTa());
+            stmt.setString(4, sb.getKieuSan().name());
 
             int rows = stmt.executeUpdate();
             return rows > 0;
@@ -66,7 +66,7 @@ public class SanBongDAO {
                 sb.setId(rs.getString("id"));
                 sb.setTenSan(rs.getString("tenSan"));
                 sb.setTrangThai(trangThaiSan.valueOf(rs.getString("trangThai")));
-                sb.setMoTa(rs.getString("moTa"));
+                sb.setKieuSan(loaiSan.valueOf(rs.getString("loaiSan")));
                 return sb;
             }
         } catch (SQLException e) {

@@ -6,7 +6,8 @@ public class sanBong {
     private String id;
     private String tenSan;
     private trangThaiSan trangThai;
-    private String moTa;
+    private loaiSan kieuSan;
+
 
     private Timestamp ngayTao;
     private Timestamp ngayCapNhat;
@@ -32,8 +33,10 @@ public class sanBong {
     public trangThaiSan getTrangThai() { return trangThai; }
     public void setTrangThai(trangThaiSan trangThai) { this.trangThai = trangThai; }
 
-    public String getMoTa() { return moTa; }
-    public void setMoTa(String moTa) { this.moTa = moTa; }
+    public loaiSan getKieuSan() { return kieuSan; }
+    public void setKieuSan(loaiSan kieuSan) { this.kieuSan = kieuSan; }
+
+
 
 
     public Timestamp getNgayTao() { return ngayTao; }
