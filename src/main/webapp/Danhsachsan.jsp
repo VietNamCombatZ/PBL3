@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách sân bóng4 </title>
+    <title>Danh sách sân bóng </title>
 </head>
 <body>
 <div class="container">
