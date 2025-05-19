@@ -16,7 +16,7 @@ import java.util.*;
 
 @WebServlet("/datSan/*")
 
-public class DatSanController extends HttpServlet{
+public class DatSanController extends BaseController{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getPathInfo() == null ? "/" : req.getPathInfo();
         System.out.println("Path: " + path);

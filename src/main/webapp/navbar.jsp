@@ -15,7 +15,7 @@
     </div>
     <nav class="hidden md:flex space-x-6 text-sm font-medium">
       <a href="#home" class="hover:text-yellow-400">Trang chủ</a>
-      <a href="danhSachSanCoSan.jsp" class="hover:text-yellow-400">Danh sách sân bãi</a>
+      <a href="sanBong/danhSachSanCoSan"  class="hover:text-yellow-400">Danh sách sân bãi</a>
       <%
         nguoiDung thongTinNguoiDung = (nguoiDung) session.getAttribute("nguoiDung");
         if (thongTinNguoiDung != null) {

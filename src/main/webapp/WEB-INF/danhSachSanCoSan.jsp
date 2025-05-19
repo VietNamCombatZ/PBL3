@@ -17,8 +17,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body class="bg-gray-100 p-6">
+<%
+    String selectedTime = (String) request.getAttribute("selectedTime");
+    String selectedHour = "";
+    if (selectedTime != null && selectedTime.contains(" ")) {
+        selectedHour = selectedTime.split(" ")[1].substring(0, 5); // ví dụ "06:00"
+    }
+%>
 <%--navbar--%>
-<%@include file="navbar.jsp" %>
+<%@include file="../navbar.jsp" %>
 <%--body--%>
 
 <div class="max-w-4xl mx-auto bg-white shadow-md p-6 rounded-lg">
@@ -35,18 +42,21 @@
         <label class="block text-gray-700">Chọn giờ:</label>
         <select id="select-hour" class="w-full px-3 py-2 border rounded">
             <!-- Các giờ sẽ được load sau khi chọn ngày -->
+
         </select>
     </div>
 
     <!-- Nút Tìm kiếm -->
     <div class="mb-4">
-        <button id="search-button" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-            Tìm kiếm
-        </button>
+
+        <form id="booking-form" action="<%= request.getContextPath() %>/sanBong/danhSachSanCoSan" method="POST">
+            <input type="hidden" name="timestamp" id="hidden-timestamp">
+            <button id="search-button" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                Tìm kiếm
+            </button>
+        </form>
     </div>
-    <form id="booking-form" action="sanBong/danhSachSanCoSan" method="POST">
-        <input type="hidden" name="timestamp" id="hidden-timestamp">
-    </form>
+
 
     <!-- Hiển thị danh sách sân chưa được đặt -->
     <div class="mb-4">
@@ -80,31 +90,12 @@
     </div>
 </div>
 
+
 <script>
-    // $('#search-button').click(function() {
-    //     let selectedDate = $('#datepicker').val();
-    //     let selectedHour = $('#select-hour').val();
-    //
-    //     if (!selectedDate || !selectedHour) {
-    //         alert("Vui lòng chọn ngày và giờ.");
-    //         return;
-    //     }
-    //
-    //     loadAvailableFields(selectedDate, selectedHour);
-    // });
+
 
     $('#search-button').click(function() {
 
-        <%--let selectedDate = $('#datepicker').val();--%>
-        <%--let selectedHour = $('#select-hour').val();--%>
-
-        <%--if (!selectedDate || !selectedHour) {--%>
-        <%--    alert("Vui lòng chọn ngày và giờ.");--%>
-        <%--    return;--%>
-        <%--}--%>
-
-        <%--// Tạo timestamp đầy đủ theo định dạng "YYYY-MM-DD HH:MM:00"--%>
-        <%--const fullTimestamp = `${selectedDate} ${selectedHour}:00:00`;--%>
 
         // Gán giá trị timestamp vào input ẩn trong form
         $('#hidden-timestamp').val(getTimeStamp());
@@ -181,40 +172,74 @@
         });
 
         // Gọi hàm để hiển thị các sân có sẵn khi chọn giờ
-        hoursDropdown.change(function() {
-            let selectedHour = $(this).val();
-            loadAvailableFields(date, selectedHour);
-        });
+        // hoursDropdown.change(function() {
+        //     let selectedHour = $(this).val();
+        //     loadAvailableFields(date, selectedHour);
+        // });
     }
 
     // Hàm tải danh sách sân có sẵn cho giờ đã chọn
-    function loadAvailableFields(date, hour) {
-        const fullTimestamp = `${date} ${hour}:00:00`; // VD: 2025-05-08 15:00:00
+    <%--function loadAvailableFields(date, hour) {--%>
+    <%--    const fullTimestamp = `${date} ${hour}:00:00`; // VD: 2025-05-08 15:00:00--%>
 
-        console.log(`Timestamp chuẩn: ${fullTimestamp}`); // Kiểm tra timestamp chuẩn
-        $.ajax({
-            url: 'sanBong/getAvailableFields', // Backend Servlet hoặc Controller
-            type: 'POST',
-            data: { timestamp: fullTimestamp }, // gửi timestamp chuẩn
-            success: function(response) {
-                let fieldsList = $('#available-fields');
-                fieldsList.empty();
+    <%--    console.log(`Timestamp chuẩn: ${fullTimestamp}`); // Kiểm tra timestamp chuẩn--%>
+    <%--    $.ajax({--%>
+    <%--        url: 'sanBong/getAvailableFields', // Backend Servlet hoặc Controller--%>
+    <%--        type: 'POST',--%>
+    <%--        data: { timestamp: fullTimestamp }, // gửi timestamp chuẩn--%>
+    <%--        success: function(response) {--%>
+    <%--            let fieldsList = $('#available-fields');--%>
+    <%--            fieldsList.empty();--%>
 
-                if (response.fields.length === 0) {
-                    fieldsList.append('<li>Không có sân trống vào giờ này.</li>');
-                } else {
-                    response.fields.forEach(field => {
-                        fieldsList.append(`
-                        <li class="border p-2 mb-2 flex justify-between items-center">
-                            <span>${field.name}</span>
-                            <button class="bg-blue-500 text-white px-4 py-1 rounded">Đặt sân</button>
-                        </li>
-                    `);
-                    });
+    <%--            if (response.fields.length === 0) {--%>
+    <%--                fieldsList.append('<li>Không có sân trống vào giờ này.</li>');--%>
+    <%--            } else {--%>
+    <%--                response.fields.forEach(field => {--%>
+    <%--                    fieldsList.append(`--%>
+    <%--                    <li class="border p-2 mb-2 flex justify-between items-center">--%>
+    <%--                        <span>${field.name}</span>--%>
+    <%--                        <button class="bg-blue-500 text-white px-4 py-1 rounded">Đặt sân</button>--%>
+    <%--                    </li>--%>
+    <%--                `);--%>
+    <%--                });--%>
+    <%--            }--%>
+    <%--        }--%>
+    <%--    });--%>
+    <%--}--%>
+
+
+//     load giờ đã chọn sau khi reload
+    window.addEventListener('DOMContentLoaded', () => {
+        const selectedTime = '<%= selectedTime != null ? selectedTime : "" %>';
+        if (selectedTime) {
+            // Parse từ dạng: "2025-05-23 06:00:00.0"
+            const parts = selectedTime.split(" ");
+            if (parts.length >= 2) {
+                const dateStr = parts[0]; // "2025-05-23"
+                const timeStr = parts[1].substring(0, 5); // "06:00"
+
+                // Gán lại ngày
+                const datepicker = document.getElementById("datepicker");
+                if (datepicker) {
+                    datepicker.value = dateStr;
+
+                    // Gọi lại sự kiện change nếu bạn có logic load giờ khi đổi ngày
+                    datepicker.dispatchEvent(new Event("change"));
+                }
+
+                // Gán lại giờ
+                const selectHour = document.getElementById("select-hour");
+                if (selectHour) {
+                    for (let i = 0; i < selectHour.options.length; i++) {
+                        if (selectHour.options[i].value === timeStr) {
+                            selectHour.options[i].selected = true;
+                            break;
+                        }
+                    }
                 }
             }
-        });
-    }
+        }
+    });
 </script>
 </body>
 </html>

@@ -16,11 +16,11 @@ public class sanBong {
     public sanBong
     () {}
 
-    public sanBong
-            (String tenSan, trangThaiSan trangThai, String moTa) {
+    public sanBong(String id, String tenSan, trangThaiSan trangThai, loaiSan kieuSan) {
+        this.id = id;
         this.tenSan = tenSan;
         this.trangThai = trangThai;
-        this.moTa = moTa;
+        this.kieuSan = kieuSan;
     }
 
     // Getters & Setters

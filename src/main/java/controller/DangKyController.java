@@ -15,7 +15,7 @@ import java.util.UUID;
 
 
 @WebServlet("/dangky")
-public class DangKyController extends HttpServlet {
+public class DangKyController extends BaseController {
     private NguoiDungDAO dao;
 
     @Override

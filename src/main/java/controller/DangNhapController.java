@@ -11,7 +11,7 @@ import java.io.IOException;
 import static model.vaiTro.*;
 
 @WebServlet("/dangnhap")
-public class DangNhapController extends HttpServlet {
+public class DangNhapController extends BaseController {
     private NguoiDungDAO dao;
 
     @Override

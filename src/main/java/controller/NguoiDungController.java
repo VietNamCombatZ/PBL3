@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @WebServlet("/nguoiDung/*")
-public class NguoiDungController  extends HttpServlet {
+public class NguoiDungController  extends BaseController {
     private NguoiDungDAO dao;
 
 
