@@ -145,7 +145,7 @@ public class NguoiDungDAO {
         }
     }
 
-    public nguoiDung layNguoiDungTheoEmail(String email) {
+    public static nguoiDung layNguoiDungTheoEmail(String email) {
         String sql = "SELECT * FROM nguoiDung WHERE email = ?";
         try {
             Connection conn = ketnoiCSDL.getConnection();

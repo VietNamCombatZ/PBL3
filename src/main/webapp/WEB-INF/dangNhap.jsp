@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Đăng nhập</title>
-  <link rel="stylesheet" href="./css/dangNhap.css">
+  <link rel="stylesheet" href="../css/dangNhap.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -18,7 +18,7 @@
   <p style="color: red;"><%= thongBao %></p>
   <% } %>
 
-  <form action="dangnhap" method="post">
+  <form action="dangNhap" method="post">
     <input type="email" name="email" placeholder="Email" required>
     <input type="password" name="matKhau" placeholder="Mật khẩu" required>
     <button type="submit">Đăng nhập</button>

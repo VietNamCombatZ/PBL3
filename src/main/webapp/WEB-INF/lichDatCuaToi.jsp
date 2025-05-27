@@ -4,16 +4,20 @@
 <%@ page import="DAO.SanBongDAO" %>
 <%@ page import="model.nguoiDung" %>
 <%@ page import="DAO.DatSanDAO" %>
+<%@ page import="controller.BaseController" %>
 <%@ page session="true" %>
 
 <%
 //    List<datSan> lichDat = (List<datSan>) request.getAttribute("lichDat");
     nguoiDung thongTinNguoiDungDatSan = (nguoiDung) session.getAttribute("nguoiDung");
     if (thongTinNguoiDungDatSan == null) {
-        response.sendRedirect("dangNhap.jsp");
+        // Nếu người dùng chưa đăng nhập, chuyển hướng về trang đăng nhập
+        response.sendRedirect(request.getContextPath() + "/nguoiDung/dangNhap");
+
         return;
     }
     List<datSan> lichDat = DatSanDAO.timDanhSachDatSanTheoNguoiDung(thongTinNguoiDungDatSan.getId());
+    System.out.println("lichDat: " + lichDat);
 
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
@@ -57,6 +61,9 @@
             for (datSan ds : lichDat) {
                 String idSan = ds.getIdSanBong();
                 sanBong sb = SanBongDAO.timSanTheoId(idSan);
+                if (sb == null) {
+                    continue; // Nếu không tìm thấy sân, bỏ qua
+                }
         %>
         <tr>
             <td class="border px-4 py-2"><%= sb.getTenSan() %></td>

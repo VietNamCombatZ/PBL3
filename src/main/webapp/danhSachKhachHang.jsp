@@ -13,7 +13,7 @@
 </head>
 <body>
 <%--navbar nhan vien--%>
-<%@include file="navbar-nhanvien.jsp" %>
+<%@include file="WEB-INF/navbar-nhanvien.jsp" %>
 
 <%--body--%>
 <div class="container">

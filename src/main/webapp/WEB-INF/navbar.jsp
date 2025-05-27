@@ -15,12 +15,12 @@
     </div>
     <nav class="hidden md:flex space-x-6 text-sm font-medium">
       <a href="#home" class="hover:text-yellow-400">Trang chủ</a>
-      <a href="sanBong/danhSachSanCoSan"  class="hover:text-yellow-400">Danh sách sân bãi</a>
+      <a href="<%=request.getContextPath()%>/sanBong/danhSachSanCoSan"  class="hover:text-yellow-400">Danh sách sân bãi</a>
       <%
         nguoiDung thongTinNguoiDung = (nguoiDung) session.getAttribute("nguoiDung");
         if (thongTinNguoiDung != null) {
       %>
-      <a href="lichDatCuaToi.jsp" class="hover:text-yellow-400">Danh sách sân đã đặt</a>
+      <a href="<%=request.getContextPath()%>/datSan/lichDatCaNhan" class="hover:text-yellow-400">Danh sách sân đã đặt</a>
 
       <%
         }
@@ -35,12 +35,12 @@
 
         if (thongTinNguoiDung == null) {
       %>
-      <a href="dangKy.jsp" class="hover:text-yellow-400 hidden md:block">Đăng ký</a>
-      <a href="dangNhap.jsp" class="hover:text-yellow-400 hidden md:block">Đăng nhập</a>
+      <a href="<%=request.getContextPath()%>/nguoiDung/dangKy" class="hover:text-yellow-400 hidden md:block">Đăng ký</a>
+      <a href="<%=request.getContextPath()%>/nguoiDung/dangNhap" class="hover:text-yellow-400 hidden md:block">Đăng nhập</a>
       <%
       } else {
       %>
-      <a href="user.jsp" class="hover:text-yellow-400 hidden md:flex items-center space-x-2">
+      <a href="<%=request.getContextPath()%>nguoiDung/thongTinCaNhan" class="hover:text-yellow-400 hidden md:flex items-center space-x-2">
         <i class="fas fa-user-circle text-lg"></i>
         <span><%= thongTinNguoiDung.getTen() %></span>
       </a>

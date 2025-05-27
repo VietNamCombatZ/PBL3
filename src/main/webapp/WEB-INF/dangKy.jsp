@@ -11,7 +11,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Đăng ký</title>
-  <link rel="stylesheet" href="./css/dangKy.css">
+  <link rel="stylesheet" href="../css/dangKy.css">
 </head>
 <body>
 <div class="overlay">

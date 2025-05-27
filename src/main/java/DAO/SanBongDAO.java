@@ -66,7 +66,7 @@ public class SanBongDAO {
                 sb.setId(rs.getString("id"));
                 sb.setTenSan(rs.getString("tenSan"));
                 sb.setTrangThai(trangThaiSan.valueOf(rs.getString("trangThai")));
-                sb.setKieuSan(loaiSan.valueOf(rs.getString("loaiSan")));
+                sb.setKieuSan(loaiSan.valueOf(rs.getString("kieuSan")));
                 return sb;
             }
         } catch (SQLException e) {

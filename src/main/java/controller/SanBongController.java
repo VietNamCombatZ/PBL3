@@ -40,9 +40,9 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
                 getAvailableFields(req, resp);
                 break;
 
-            case "/datSan/taoLichDat":
-                taoLichDat(req, resp);
-                break;
+//            case "/datSan/taoLichDat":
+//                taoLichDat(req, resp);
+//                break;
             default:
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;

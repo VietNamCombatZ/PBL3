@@ -53,7 +53,7 @@
       <a href="#" class="hover:text-yellow-400">Xem doanh thu</a>
     </nav>
     <div class="flex items-center space-x-4">
-      <a href="user.jsp" class="hover:text-yellow-400 hidden md:flex items-center space-x-2">
+      <a href="../user.jsp" class="hover:text-yellow-400 hidden md:flex items-center space-x-2">
         <i class="fas fa-user-circle text-lg"></i>
         <%
           nguoiDung thongTinNguoiDung = (nguoiDung) session.getAttribute("nguoiDung");

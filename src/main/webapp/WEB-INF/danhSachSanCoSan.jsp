@@ -20,12 +20,14 @@
 <%
     String selectedTime = (String) request.getAttribute("selectedTime");
     String selectedHour = "";
+    String selectedDate = "";
     if (selectedTime != null && selectedTime.contains(" ")) {
+        selectedDate = selectedTime.split(" ")[0];
         selectedHour = selectedTime.split(" ")[1].substring(0, 5); // ví dụ "06:00"
     }
 %>
 <%--navbar--%>
-<%@include file="../navbar.jsp" %>
+<%@include file="navbar.jsp" %>
 <%--body--%>
 
 <div class="max-w-4xl mx-auto bg-white shadow-md p-6 rounded-lg">
@@ -75,7 +77,7 @@
             %>
             <li class="border p-2 mb-2 flex justify-between items-center">
                 <span><%= sb.getTenSan() %></span>
-                <form action="datSan/taoLichDat" method="POST" style="margin: 0;">
+                <form action="<%=request.getContextPath()%>/datSan/taoLichDat" method="POST" style="margin: 0;">
                     <input type="hidden" name="idSanBong" value="<%= sb.getId() %>">
                     <input type="hidden" name="timestamp" class="hidden-timestamp-datSan" >
                     <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Đặt sân</button>
@@ -106,7 +108,7 @@
         $('#booking-form').submit();
     });
 
-    $(document).on('submit', 'form[action="datSan/taoLichDat"]', function (e) {
+    $(document).on('submit', 'form[action="<%=request.getContextPath()%>/datSan/taoLichDat"]', function (e) {
         const timestamp = getTimeStamp();
         if (!timestamp) {
             e.preventDefault();
@@ -156,59 +158,40 @@
     });
 
     // Hàm tải các giờ có sẵn
-    function loadAvailableHours(date) {
+    function loadAvailableHours(date, selectedHour = null) {
         const currentDate = new Date();
         const currentHour = currentDate.getHours();
 
-        // Lấy các giờ hợp lệ dựa trên ngày và giờ hiện tại
         const validHours = getValidHours(currentHour, date);
 
-        // Cập nhật dropdown với các giờ hợp lệ
         let hoursDropdown = $('#select-hour');
         hoursDropdown.empty();
 
         validHours.forEach(hour => {
-            hoursDropdown.append(`<option value="${hour}">${hour}:00</option>`);
+            const isSelected = selectedHour && hour == parseInt(selectedHour.split(":")[0]);
+            hoursDropdown.append(`<option value="${hour}" ${isSelected ? "selected" : ""}>${hour}:00</option>`);
         });
-
-        // Gọi hàm để hiển thị các sân có sẵn khi chọn giờ
-        // hoursDropdown.change(function() {
-        //     let selectedHour = $(this).val();
-        //     loadAvailableFields(date, selectedHour);
-        // });
     }
 
-    // Hàm tải danh sách sân có sẵn cho giờ đã chọn
-    <%--function loadAvailableFields(date, hour) {--%>
-    <%--    const fullTimestamp = `${date} ${hour}:00:00`; // VD: 2025-05-08 15:00:00--%>
 
-    <%--    console.log(`Timestamp chuẩn: ${fullTimestamp}`); // Kiểm tra timestamp chuẩn--%>
-    <%--    $.ajax({--%>
-    <%--        url: 'sanBong/getAvailableFields', // Backend Servlet hoặc Controller--%>
-    <%--        type: 'POST',--%>
-    <%--        data: { timestamp: fullTimestamp }, // gửi timestamp chuẩn--%>
-    <%--        success: function(response) {--%>
-    <%--            let fieldsList = $('#available-fields');--%>
-    <%--            fieldsList.empty();--%>
+    $(document).ready(function () {
+        const selectedDate = '<%= selectedDate %>';
+        const selectedHour = '<%= selectedHour %>';
 
-    <%--            if (response.fields.length === 0) {--%>
-    <%--                fieldsList.append('<li>Không có sân trống vào giờ này.</li>');--%>
-    <%--            } else {--%>
-    <%--                response.fields.forEach(field => {--%>
-    <%--                    fieldsList.append(`--%>
-    <%--                    <li class="border p-2 mb-2 flex justify-between items-center">--%>
-    <%--                        <span>${field.name}</span>--%>
-    <%--                        <button class="bg-blue-500 text-white px-4 py-1 rounded">Đặt sân</button>--%>
-    <%--                    </li>--%>
-    <%--                `);--%>
-    <%--                });--%>
-    <%--            }--%>
-    <%--        }--%>
-    <%--    });--%>
-    <%--}--%>
+        if (selectedDate) {
+            $('#datepicker').val(selectedDate); // Gán lại ngày đã chọn
+            loadAvailableHours(selectedDate, selectedHour);
+            // Gọi lại load giờ
+
+            // Đợi dropdown load xong rồi mới chọn giờ
+            setTimeout(() => {
+                $('#select-hour').val(parseInt(selectedHour.split(":")[0]));
+            }, 100); // delay 100ms là đủ để dropdown load
+        }
+    });
 
 
-//     load giờ đã chọn sau khi reload
+    //     load giờ đã chọn sau khi reload
     window.addEventListener('DOMContentLoaded', () => {
         const selectedTime = '<%= selectedTime != null ? selectedTime : "" %>';
         if (selectedTime) {
