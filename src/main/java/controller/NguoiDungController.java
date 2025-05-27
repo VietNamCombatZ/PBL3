@@ -31,6 +31,8 @@ public class NguoiDungController  extends BaseController {
 //
                 render(request, response, "dangNhap");
                 break;
+            case "/dangXuat":
+                dangXuat(request, response);
             case "/DanhsachKhachHang":
                 layDanhSachKhachHang(request, response);
                 break;
@@ -44,6 +46,7 @@ public class NguoiDungController  extends BaseController {
 //            case "/capNhatThongTin":
 //                capNhatThongTin(request, response);
 //                break;
+
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
@@ -171,6 +174,14 @@ public class NguoiDungController  extends BaseController {
 //            request.getRequestDispatcher("dangNhap.jsp").forward(request, response);
             render(request, response, "dangNhap");
         }
+
+    }
+    private void dangXuat(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession();
+        session.invalidate(); // Xóa phiên làm việc
+        render(request, response, "index");
+
+
 
     }
 

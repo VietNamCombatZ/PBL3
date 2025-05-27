@@ -44,6 +44,7 @@
         <i class="fas fa-user-circle text-lg"></i>
         <span><%= thongTinNguoiDung.getTen() %></span>
       </a>
+        <a href="<%=request.getContextPath()%>/nguoiDung/dangXuat" class="hover:text-yellow-400 hidden md:block">Đăng xuất</a>
       <%
         }
       %>
