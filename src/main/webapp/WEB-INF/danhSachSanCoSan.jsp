@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
-<body class="bg-gray-100 p-6">
+<body class="bg-gray-100">
 <%
     String selectedTime = (String) request.getAttribute("selectedTime");
     String selectedHour = "";

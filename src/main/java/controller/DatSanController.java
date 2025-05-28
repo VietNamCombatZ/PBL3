@@ -28,6 +28,11 @@ public class DatSanController extends BaseController{
             case "/lichDatCaNhan":
                 render(req, resp, "lichDatCuaToi");
                 break;
+            case "/lichDatKhachHang":
+//                render(req, resp, "lichDatCuaKhachHang");
+                layLichDatCuaKhachHang(req, resp);
+                break;
+
             default:
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
@@ -42,6 +47,13 @@ public class DatSanController extends BaseController{
                 taoLichDat(req, resp);
                 break;
 
+            case "/lichDatKhachHang":
+                    layLichDatCuaKhachHang(req, resp);
+                    break;
+
+case "/huyDatSan":
+    khachHangHuyDatSan(req,resp);
+    break;
 
 
             default:
@@ -107,6 +119,13 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
         Date gioKetThucDatSan = new Date(timestamp.getTime() + 60 * 60 * 1000); // Giả sử đặt sân trong 1 giờ
         // Lấy user từ session hoặc request
         nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
+        if (nd == null) {
+            req.getSession().setAttribute("thongBao", "Bạn cần đăng nhập để đặt sân");
+//            render(req, resp, "/dangNhap");
+            resp.sendRedirect(req.getContextPath() + "/nguoiDung/dangNhap");
+
+            return;
+        }
 
         String idLichDat = UUID.randomUUID().toString();
 
@@ -143,6 +162,73 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
     } catch (Exception e) {
         e.printStackTrace();
         resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi đặt sân");
+    }
+}
+private void layLichDatCuaKhachHang(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    String idKhachHang = req.getParameter("id");
+
+    if (idKhachHang == null || idKhachHang.isEmpty()) {
+        resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID khách hàng");
+        return;
+    }
+
+    // Tìm danh sách đặt sân của khách hàng đó
+    List<datSan> lichDat = DatSanDAO.timDanhSachDatSanTheoNguoiDung(idKhachHang);
+    nguoiDung khachHang = NguoiDungDAO.layNguoiDungTheoId(idKhachHang);
+
+    // Gửi sang JSP
+    req.setAttribute("lichDat", lichDat);
+//    req.setAttribute("idKhachHang", idKhachHang); // optional nếu cần
+    req.setAttribute("khachHang", khachHang);
+    render(req, resp, "lichDatCuaKhachHang");
+}
+private void khachHangHuyDatSan(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    // Lấy ID đặt sân từ request
+    String idDatSan = req.getParameter("id");
+    String loiDatSan = null;
+
+    if (idDatSan == null || idDatSan.isEmpty()) {
+//        resp.sendRedirect(req.getContextPath() + "/lichDatCuaToi.jsp?error=invalid_id");
+        req.setAttribute("loiDatSan", "ID đặt sân không hợp lệ");
+        render(req, resp, "lichDatCuaToi");
+        return;
+    }
+
+    // Tìm thông tin đặt sân theo ID
+    datSan ds = DatSanDAO.timDatSanTheoId(idDatSan);
+    if (ds == null) {
+//        resp.sendRedirect(req.getContextPath() + "/lichDatCuaToi.jsp?error=not_found");
+        req.setAttribute("loiDatSan", "Không tìm thấy sân");
+        render(req, resp, "lichDatCuaToi");
+        return;
+    }
+
+    // Kiểm tra thời gian hiện tại và giờ bắt đầu
+    Date now = new Date();
+    long millisecondsToStart = ds.getGioBatDau().getTime() - now.getTime();
+    long hoursToStart = millisecondsToStart / (1000 * 60 * 60);
+
+    if (hoursToStart <= 3) {
+//        resp.sendRedirect(req.getContextPath() + "/lichDatCuaToi.jsp?error=too_late_to_cancel");
+        req.setAttribute("loiDatSan", "Quá thời gian huỷ sân");
+        render(req, resp, "lichDatCuaToi");
+        return;
+    }
+
+    // Cập nhật trạng thái đặt sân thành ĐÃ HỦY
+    Map<String, Object> updates = new HashMap<>();
+    updates.put("trangThai", trangThaiDatSan.DA_HUY.name());
+
+    datSan daCapNhat = DatSanDAO.capNhatThongTinDatSan(idDatSan, updates);
+
+    if (daCapNhat != null) {
+//        resp.sendRedirect(req.getContextPath() + "/lichDatCuaToi.jsp?success=cancelled");
+
+        render(req, resp, "lichDatCuaToi");
+    } else {
+//        resp.sendRedirect(req.getContextPath() + "/lichDatCuaToi.jsp?error=cancel_failed");
+        req.setAttribute("loiDatSan", "lỗi không thể huỷ sân");
+        render(req, resp, "lichDatCuaToi");
     }
 }
 }

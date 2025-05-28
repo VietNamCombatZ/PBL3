@@ -8,6 +8,7 @@
 <%@ page session="true" %>
 
 <%
+    String loiDatSan = (String) request.getAttribute("loiDatSan");
 //    List<datSan> lichDat = (List<datSan>) request.getAttribute("lichDat");
     nguoiDung thongTinNguoiDungDatSan = (nguoiDung) session.getAttribute("nguoiDung");
     if (thongTinNguoiDungDatSan == null) {
@@ -30,7 +31,7 @@
     <title>Lịch đặt sân của tôi</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 p-6">
+<body class="bg-gray-100">
 
 <%--navbar--%>
 <%@include file="navbar.jsp" %>
@@ -45,7 +46,13 @@
     <p>Không có lịch đặt nào.</p>
     <%
     } else {
+
     %>
+    <% if (loiDatSan != null) { %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <strong>Lỗi:</strong> <%= loiDatSan %>
+    </div>
+    <% } %>
     <table class="w-full border border-collapse">
         <thead>
         <tr class="bg-gray-200">
@@ -54,28 +61,61 @@
             <th class="border px-4 py-2">Giờ kết thúc</th>
             <th class="border px-4 py-2">Số tiền</th>
             <th class="border px-4 py-2">Trạng thái</th>
+            <th class="border px-4 py-2">Thao tác</th>
         </tr>
         </thead>
         <tbody>
         <%
+            Date now = new Date();
             for (datSan ds : lichDat) {
                 String idSan = ds.getIdSanBong();
                 sanBong sb = SanBongDAO.timSanTheoId(idSan);
                 if (sb == null) {
                     continue; // Nếu không tìm thấy sân, bỏ qua
                 }
+
+                Date gioBatDau = ds.getGioBatDau();
+                Date gioKetThuc = ds.getGioKetThuc();
+
+                long millisToStart = gioBatDau.getTime() - now.getTime();
+                boolean coTheHuy = millisToStart > 3 * 60 * 60 * 1000; // > 3 giờ
+                boolean coTheGopY = now.after(gioKetThuc); // đã kết thúc
         %>
         <tr>
             <td class="border px-4 py-2"><%= sb.getTenSan() %></td>
-            <td class="border px-4 py-2"><%= sdf.format(ds.getGioBatDau()) %></td>
-            <td class="border px-4 py-2"><%= sdf.format(ds.getGioKetThuc()) %></td>
+            <td class="border px-4 py-2"><%= sdf.format(gioBatDau) %></td>
+            <td class="border px-4 py-2"><%= sdf.format(gioKetThuc) %></td>
             <td class="border px-4 py-2"><%= ds.getSoTien() %> VNĐ</td>
             <td class="border px-4 py-2"><%= ds.getTrangThai().toString() %></td>
+
+            <td class="border px-4 py-2">
+                <% if (coTheGopY) { %>
+                <form action="<%= request.getContextPath() %>/gopY/taoGopY" method="get" class="inline">
+                    <input type="hidden" name="idDatSan" value="<%= ds.getId() %>"/>
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
+                        Góp ý
+                    </button>
+                </form>
+                <% } %>
+
+                <% if (coTheHuy) { %>
+                <form action="<%= request.getContextPath() %>/datSan/huyDatSan" method="post" class="inline ml-2"
+                      onsubmit="return confirm('Bạn có chắc chắn muốn hủy lịch đặt này không?');">
+                    <input type="hidden" name="idDatSan" value="<%= ds.getId() %>"/>
+                    <button type="submit"
+                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                        Hủy đặt
+                    </button>
+                </form>
+                <% } %>
+            </td>
         </tr>
         <%
             }
         %>
         </tbody>
+
     </table>
     <%
         }

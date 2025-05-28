@@ -24,6 +24,10 @@
 
 </head>
 <body>
+<%
+  nguoiDung thongTinNguoiDung = (nguoiDung) session.getAttribute("nguoiDung");
+
+%>
 
 <%--navbar--%>
 <header class="bg-blue-900 text-white shadow-lg sticky top-0 z-50">
@@ -52,15 +56,23 @@
 
       <a href="#" class="hover:text-yellow-400">Xem doanh thu</a>
     </nav>
-    <div class="flex items-center space-x-4">
-      <a href="../user.jsp" class="hover:text-yellow-400 hidden md:flex items-center space-x-2">
-        <i class="fas fa-user-circle text-lg"></i>
-        <%
-          nguoiDung thongTinNguoiDung = (nguoiDung) session.getAttribute("nguoiDung");
 
-        %>
+
+    <div class="relative group hidden md:block">
+      <!-- Trigger -->
+      <div class="flex items-center space-x-2 cursor-pointer hover:text-yellow-400">
+        <i class="fas fa-user-circle text-lg"></i>
         <span><%= thongTinNguoiDung.getTen() %></span>
-      </a>
+      </div>
+
+      <!-- Dropdown -->
+      <div class="absolute right-0 top-full w-48 bg-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition duration-200 z-50">
+        <a href="<%= request.getContextPath() %>/nguoiDung/thongTinCaNhan"
+           class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Thông tin cá nhân</a>
+        <a href="<%= request.getContextPath() %>/nguoiDung/dangXuat"
+           class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Đăng xuất</a>
+      </div>
+    </div>
 <%--      <a href="#" class="bg-yellow-400 text-blue-900 px-4 py-2 rounded font-bold hover:bg-yellow-300 transition">Thông tin cá nhân</a>--%>
     </div>
   </div>

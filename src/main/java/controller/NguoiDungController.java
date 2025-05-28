@@ -229,7 +229,8 @@ public class NguoiDungController  extends BaseController {
         request.setAttribute("danhSachKhachHang", danhSachKhachHang);
 
         // Chuyển hướng đến trang danh sách khách hàng
-        request.getRequestDispatcher("/danhSachKhachHang.jsp").forward(request, response);
+//        request.getRequestDispatcher("/danhSachKhachHang.jsp").forward(request, response);
+        render(request, response, "danhSachKhachHang");
 
 }
     private void layDanhSachNhanVien(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

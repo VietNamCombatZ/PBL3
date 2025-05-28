@@ -144,6 +144,37 @@ public class NguoiDungDAO {
             return false;
         }
     }
+    public static nguoiDung layNguoiDungTheoId(String id) {
+        String sql = "SELECT * FROM nguoiDung WHERE id = ?";
+        try {
+            Connection conn = ketnoiCSDL.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+//            Statement statement = conn.createStatement();
+            System.out.println("Đang kết nối DB...");
+            stmt.setString(1, id);
+//            sql.setString(1, id);
+            System.out.println("stmt: " + stmt);
+            ResultSet rs = stmt.executeQuery();
+            System.out.println("rs : " + rs);
+            if (rs.next()) {
+                nguoiDung nd = new nguoiDung();
+                nd.setId(rs.getString("id"));
+                nd.setTen(rs.getString("ten"));
+                nd.setEmail(rs.getString("email"));
+                nd.setMatKhau(rs.getString("matKhau"));
+                nd.setAnhDaiDien(rs.getString("anhDaiDien"));
+                nd.setNgaySinh(rs.getDate("ngaySinh"));
+                nd.setVaiTroNguoiDung(vaiTro.valueOf(rs.getString("vaiTroNguoiDung")));
+
+                nd.setNgayTao(rs.getTimestamp("ngayTao"));
+                nd.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
+                return nd;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static nguoiDung layNguoiDungTheoEmail(String email) {
         String sql = "SELECT * FROM nguoiDung WHERE email = ?";

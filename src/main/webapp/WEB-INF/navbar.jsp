@@ -40,11 +40,29 @@
       <%
       } else {
       %>
-      <a href="<%=request.getContextPath()%>nguoiDung/thongTinCaNhan" class="hover:text-yellow-400 hidden md:flex items-center space-x-2">
-        <i class="fas fa-user-circle text-lg"></i>
-        <span><%= thongTinNguoiDung.getTen() %></span>
-      </a>
-        <a href="<%=request.getContextPath()%>/nguoiDung/dangXuat" class="hover:text-yellow-400 hidden md:block">Đăng xuất</a>
+<%--      <a href="<%=request.getContextPath()%>nguoiDung/thongTinCaNhan" class="hover:text-yellow-400 hidden md:flex items-center space-x-2">--%>
+<%--        <i class="fas fa-user-circle text-lg"></i>--%>
+<%--        <span><%= thongTinNguoiDung.getTen() %></span>--%>
+<%--      </a>--%>
+<%--        <a href="<%=request.getContextPath()%>/nguoiDung/dangXuat" class="hover:text-yellow-400 hidden md:block">Đăng xuất</a>--%>
+      <div class="relative group hidden md:block">
+        <!-- Trigger -->
+        <div class="flex items-center space-x-2 cursor-pointer hover:text-yellow-400">
+          <i class="fas fa-user-circle text-lg"></i>
+          <span><%= thongTinNguoiDung.getTen() %></span>
+        </div>
+
+        <!-- Dropdown -->
+        <div class="absolute right-0 top-full w-48 bg-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition duration-200 z-50">
+          <a href="<%= request.getContextPath() %>/nguoiDung/thongTinCaNhan"
+             class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Thông tin cá nhân</a>
+          <a href="<%= request.getContextPath() %>/nguoiDung/dangXuat"
+             class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Đăng xuất</a>
+        </div>
+      </div>
+
+
+
       <%
         }
       %>

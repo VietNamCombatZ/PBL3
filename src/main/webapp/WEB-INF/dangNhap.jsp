@@ -13,7 +13,10 @@
   <h2>Đăng nhập</h2>
 
   <%-- Hiển thị thông báo lỗi nếu có --%>
-  <% String thongBao = (String) request.getAttribute("thongBao"); %>
+  <% String thongBao = (String) request.getAttribute("thongBao");
+  if(thongBao == null){
+    thongBao = (String) session.getAttribute("thongBao");
+  }%>
   <% if (thongBao != null) { %>
   <p style="color: red;"><%= thongBao %></p>
   <% } %>
