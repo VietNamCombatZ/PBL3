@@ -8,6 +8,7 @@ public class bangGia {
     private Time gioBatDau;
     private Time gioKetThuc;
     private int giaTien1Gio;
+    private loaiSan kieuSan;
 
 
     private Timestamp ngayTao;
@@ -37,6 +38,8 @@ public class bangGia {
     public int getGiaTien1Gio() { return giaTien1Gio; }
     public void setGiaTien1Gio(int giaTien1Gio) { this.giaTien1Gio = giaTien1Gio; }
 
+    public loaiSan getKieuSan() { return kieuSan; }
+    public void setKieuSan(loaiSan kieuSan) { this.kieuSan = kieuSan; }
 
     public Timestamp getNgayTao() { return ngayTao; }
     public void setNgayTao(Timestamp ngayTao) { this.ngayTao = ngayTao; }

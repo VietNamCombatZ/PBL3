@@ -11,14 +11,15 @@ import java.util.*;
 
 public class BangGiaDAO {
     public static boolean Tao(bangGia bg) {
-        String sql = "INSERT INTO bangGia (id, gioBatDau, gioKetThuc, giaTien1Gio,  ngayTao, ngayCapNhat) " +
-                "VALUES (?, ?, ?, ?, NOW(), NOW())";
+        String sql = "INSERT INTO bangGia (id, gioBatDau, gioKetThuc, giaTien1Gio, kieuSan, ngayTao, ngayCapNhat) " +
+                "VALUES (?, ?, ?, ?, ?,NOW(), NOW())";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, bg.getId());
             stmt.setTime(2, bg.getGioBatDau());
             stmt.setTime(3, bg.getGioKetThuc());
             stmt.setInt(4, bg.getGiaTien1Gio());
+            stmt.setString(5, bg.getKieuSan().name());
 
 
             int rows = stmt.executeUpdate();
@@ -41,6 +42,7 @@ public class BangGiaDAO {
                 bg.setGioBatDau(rs.getTime("gioBatDau"));
                 bg.setGioKetThuc(rs.getTime("gioKetThuc"));
                 bg.setGiaTien1Gio(rs.getInt("giaTien1Gio"));
+                bg.setKieuSan(loaiSan.valueOf(rs.getString("kieuSan")));
                 return bg;
             }
         } catch (SQLException e) {
@@ -50,12 +52,13 @@ public class BangGiaDAO {
         return null;
     }
 
-    public static bangGia timGiaTheoGio(Timestamp gioBatDau ){
-        String sql = "SELECT * FROM bangGia WHERE gioBatDau <= ? AND gioKetThuc > ?";
+    public static bangGia timGiaTheoGio(Timestamp gioBatDau, loaiSan kieuSan) {
+        String sql = "SELECT * FROM bangGia WHERE gioBatDau <= ? AND gioKetThuc > ? and kieuSan = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setTimestamp(1, gioBatDau);
             stmt.setTimestamp(2, gioBatDau);
+            stmt.setString(3, kieuSan.name());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 bangGia bg = new bangGia();
@@ -63,6 +66,7 @@ public class BangGiaDAO {
                 bg.setGioBatDau(rs.getTime("gioBatDau"));
                 bg.setGioKetThuc(rs.getTime("gioKetThuc"));
                 bg.setGiaTien1Gio(rs.getInt("giaTien1Gio"));
+                bg.setKieuSan(loaiSan.valueOf(rs.getString("kieuSan")));
                 return bg;
             }
         } catch (SQLException e) {
@@ -86,6 +90,7 @@ public class BangGiaDAO {
                 bg.setGioBatDau(rs.getTime("gioBatDau"));
                 bg.setGioKetThuc(rs.getTime("gioKetThuc"));
                 bg.setGiaTien1Gio(rs.getInt("giaTien1Gio"));
+                bg.setKieuSan(loaiSan.valueOf(rs.getString("kieuSan")));
                 dsBangGia.add(bg);
             }
             return dsBangGia;

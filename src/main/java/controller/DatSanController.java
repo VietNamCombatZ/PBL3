@@ -177,7 +177,10 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
                 Timestamp gioBD_ts = Timestamp.valueOf(gioBD);
                 Timestamp gioKT_ts = Timestamp.valueOf(gioKT);
 
-                bangGia bg = BangGiaDAO.timGiaTheoGio(gioBD_ts);
+                sanBong sb = SanBongDAO.timSanTheoId(idSanBong);
+//                String kieuSan = sb.getKieuSan().name();
+
+                bangGia bg = BangGiaDAO.timGiaTheoGio(gioBD_ts, sb.getKieuSan());
                 if (bg == null) continue;
 
                 int soGio = (int) Duration.between(gioBD, gioKT).toHours();
