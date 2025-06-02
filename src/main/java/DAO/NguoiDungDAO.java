@@ -55,7 +55,7 @@ public class NguoiDungDAO {
 //    }
 
     public nguoiDung dangNhap(String email, String matKhau) {
-        String sql = "SELECT * FROM nguoiDung WHERE email = ? AND mat_khau = ?";
+        String sql = "SELECT * FROM nguoiDung WHERE email = ? AND matKhau = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, email);
@@ -81,7 +81,7 @@ public class NguoiDungDAO {
         return null;
     }
     public static boolean capNhat(nguoiDung nd) {
-        String sql = "UPDATE nguoiDung SET  email = ?, matKhau = ?,ten = ?, anh_dai_dien = ?, vaiTroNguoiDung = ?,ngaySinh=?, ngay_cap_nhat = CURRENT_TIMESTAMP WHERE id = ?";
+        String sql = "UPDATE nguoiDung SET  email = ?, matKhau = ?,ten = ?, anhDaiDien = ?, vaiTroNguoiDung = ?,ngaySinh=?, ngayCapNhat = CURRENT_TIMESTAMP WHERE id = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nd.getEmail());
@@ -90,6 +90,7 @@ public class NguoiDungDAO {
             stmt.setString(4, nd.getAnhDaiDien());
             stmt.setString(5, nd.getVaiTroNguoiDung().name());
             stmt.setDate(6, new java.sql.Date(nd.getNgaySinh().getTime()));
+            stmt.setString(7, nd.getId());
 
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -113,7 +114,7 @@ public class NguoiDungDAO {
     }
 
     public boolean dangKy(nguoiDung nd) {
-        String sql = "INSERT INTO nguoiDung (ten, email, mat_khau, anh_dai_dien, kich_hoat, ngay_tao, ngay_cap_nhat) " +
+        String sql = "INSERT INTO nguoiDung (ten, email, matKhau, anhDaiDien, kich_hoat, ngay_tao, ngay_cap_nhat) " +
                 "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

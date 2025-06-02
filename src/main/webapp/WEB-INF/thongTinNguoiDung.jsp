@@ -1,53 +1,59 @@
-<%@ page import="java.util.*, model.nguoiDung" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ page import="model.nguoiDung, java.text.SimpleDateFormat" %>
+<%@ page session="true" %>
+<%
+    nguoiDung nd = (nguoiDung) session.getAttribute("nguoiDung");
+    if (nd == null) {
+        response.sendRedirect(request.getContextPath() + "/nguoiDung/dangNhap");
+        return;
+    }
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+%>
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="../css/Thongtinnguoidung.css">
-    <title>Thông tin người dùng</title>
+    <meta charset="UTF-8">
+    <title>Thông Tin Cá Nhân</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="profile-container">
-    <div class="user-info">
-        <h2>HATSAPHONE</h2>
-        <p><strong>Tài khoản:</strong> hatsaphone</p>
-        <p><strong>Số điện thoại:</strong> 84365439717</p>
-        <p><strong>Email:</strong> hatsaphone@gmail.com</p>
-        <p><strong>Địa chỉ:</strong> Hòa Khánh Bắc, TP. Đà Nẵng</p>
-        <p><strong>Ngày tạo:</strong> 23/04/2025</p>
-        <p><strong>Loại tài khoản:</strong> Người dùng</p>
+<body class="bg-gray-100">
+<%@ include file="navbar.jsp" %>
+
+<div class="p-6 max-w-2xl mx-auto mt-4 bg-white shadow-md rounded-lg">
+    <h2 class="text-2xl font-bold text-blue-700 mb-6">Thông Tin Cá Nhân</h2>
+
+    <div class="space-y-4 text-gray-800">
+        <div>
+            <label class="block font-semibold">Họ tên:</label>
+            <div class="pl-2"><%= nd.getTen() %></div>
+        </div>
+
+        <div>
+            <label class="block font-semibold">Email:</label>
+            <div class="pl-2"><%= nd.getEmail() %></div>
+        </div>
+
+        <div>
+            <label class="block font-semibold">Ngày sinh:</label>
+            <div class="pl-2"><%= nd.getNgaySinh() != null ? sdf.format(nd.getNgaySinh()) : "Chưa cập nhật" %></div>
+        </div>
+
+        <div>
+            <label class="block font-semibold">Vai trò:</label>
+            <div class="pl-2"><%= nd.getVaiTroNguoiDung().toString().replace("_", " ") %></div>
+        </div>
     </div>
 
-<%--    <div class="booking-history">--%>
-<%--        <h3>Lịch sử đặt sân</h3>--%>
-<%--        <table>--%>
-<%--            <thead>--%>
-<%--            <tr>--%>
-<%--                <th>Tên sân</th>--%>
-<%--                <th>Ngày đặt</th>--%>
-<%--                <th>Khung giờ</th>--%>
-<%--                <th>Trạng thái</th>--%>
-<%--            </tr>--%>
-<%--            </thead>--%>
-<%--            <tbody>--%>
-<%--            <tr>--%>
-<%--                <td>Sân A1</td>--%>
-<%--                <td>10/05/2025</td>--%>
-<%--                <td>18:00 - 19:00</td>--%>
-<%--                <td>Đã chơi</td>--%>
-<%--            </tr>--%>
-<%--            <tr>--%>
-<%--                <td>Sân B2</td>--%>
-<%--                <td>05/05/2025</td>--%>
-<%--                <td>19:00 - 20:00</td>--%>
-<%--                <td>Đã hủy</td>--%>
-<%--            </tr>--%>
-<%--            </tbody>--%>
-<%--        </table>--%>
-<%--    </div>--%>
+    <div class="mt-6 text-right">
+        <form action="<%= request.getContextPath() + "/nguoiDung/chinhSuaThongTinCaNhan" %>" method="get">
+            <input type="hidden" name="idNguoiDung" value="<%= nd.getId() %>"/>
+            <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                Chỉnh sửa
+            </button>
+        </form>
+    </div>
 </div>
+
 </body>
 </html>

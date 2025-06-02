@@ -111,12 +111,23 @@ case "/huyDatSan":
 private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     try {
         int idSanBong = Integer.parseInt(req.getParameter("idSanBong"));
-        String timestampStr = req.getParameter("timestamp");
-        System.out.println("thoi gian: " + timestampStr);
+        String timestampStartStr = req.getParameter("timestamp");
+        if (timestampStartStr == null || timestampStartStr.isEmpty()) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu thông tin thời gian đặt sân");
+            return;
+        }
+        String timestampEndStr = req.getParameter("timestampEnd");
+        if (timestampEndStr == null || timestampEndStr.isEmpty()) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu thông tin thời gian kết thúc đặt sân");
+            return;
+        }
 
-        Timestamp timestamp = Timestamp.valueOf(timestampStr);
-        Date gioBatDauDatSan = new Date(timestamp.getTime());
-        Date gioKetThucDatSan = new Date(timestamp.getTime() + 60 * 60 * 1000); // Giả sử đặt sân trong 1 giờ
+        System.out.println("thoi gian: " + timestampStartStr);
+
+        Timestamp timestampStart = Timestamp.valueOf(timestampStartStr);
+        Timestamp timestampEnd = Timestamp.valueOf(timestampEndStr);
+        Date gioBatDauDatSan = new Date(timestampStart.getTime());
+        Date gioKetThucDatSan = new Date(timestampEnd.getTime());
         // Lấy user từ session hoặc request
         nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
         if (nd == null) {
@@ -129,7 +140,7 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
 
         String idLichDat = UUID.randomUUID().toString();
 
-        bangGia bg = BangGiaDAO.timGiaTheoGio(timestamp);
+        bangGia bg = BangGiaDAO.timGiaTheoGio(timestampStart);
         if (bg == null) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Không tìm thấy bảng giá cho thời gian này");
             return;

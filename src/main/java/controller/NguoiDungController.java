@@ -43,6 +43,10 @@ public class NguoiDungController  extends BaseController {
             case "/thongTinCaNhan":
                 layThongTinCaNhan(request, response);
                 break;
+
+            case "/chinhSuaThongTinCaNhan":
+                hienThiChinhSuaThongTinCaNhan(request, response);
+                break;
 //            case "/capNhatThongTin":
 //                capNhatThongTin(request, response);
 //                break;
@@ -63,6 +67,10 @@ public class NguoiDungController  extends BaseController {
             case "/dangNhap":
                 dangNhap(request, response);
                 break;
+
+            case "/chinhSuaThongTinCaNhan":
+                luuChinhSuaThongTinCaNhan(request, response);
+                break;
 //            case "/CapNhatThongTin":
 //                CapNhatThongTin capNhat = new CapNhatThongTin();
 //                capNhat.doPost(request, response);
@@ -72,6 +80,85 @@ public class NguoiDungController  extends BaseController {
                 break;
         }
     }
+
+    private void luuChinhSuaThongTinCaNhan(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException {
+
+        nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
+
+        if (nd == null) {
+            render(req, res, "dangNhap");
+            return;
+        }
+
+        req.setCharacterEncoding("UTF-8");
+
+        // Lấy dữ liệu từ form
+        String ten = req.getParameter("name");
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        String ngaySinhStr = req.getParameter("ngaySinh");
+
+        // Validate cơ bản
+        if (ten == null || ten.trim().isEmpty() ||
+                email == null || email.trim().isEmpty() ||
+                ngaySinhStr == null || ngaySinhStr.trim().isEmpty()) {
+            req.setAttribute("error", "Vui lòng nhập đầy đủ thông tin bắt buộc");
+            render(req, res, "chinhSuaThongTinCaNhan");
+            return;
+        }
+
+        // Chuyển đổi ngày sinh
+        java.sql.Date ngaySinh = null;
+        try {
+            ngaySinh = java.sql.Date.valueOf(ngaySinhStr); // định dạng yyyy-MM-dd
+        } catch (IllegalArgumentException e) {
+            req.setAttribute("error", "Ngày sinh không hợp lệ");
+            render(req, res, "chinhSuaThongTinCaNhan");
+            return;
+        }
+
+        // Cập nhật thông tin
+        nd.setTen(ten.trim());
+        nd.setEmail(email.trim());
+        nd.setNgaySinh(ngaySinh);
+
+        // Nếu người dùng nhập mật khẩu mới thì cập nhật
+        if (password != null && !password.trim().isEmpty()) {
+            if (password.length() < 6) {
+                req.setAttribute("error", "Mật khẩu phải có ít nhất 6 ký tự");
+                render(req, res, "chinhSuaThongTinCaNhan");
+                return;
+            }
+            nd.setMatKhau(password.trim()); // Hoặc mã hóa nếu có
+        }
+
+        boolean thanhCong = NguoiDungDAO.capNhat(nd);
+
+        if (thanhCong) {
+            req.getSession().setAttribute("nguoiDung", nd);
+            render(req, res, "thongTinNguoiDung");
+        } else {
+            req.setAttribute("error", "Cập nhật thông tin thất bại, vui lòng thử lại.");
+            render(req, res, "chinhSuaThongTinCaNhan");
+        }
+    }
+
+
+
+    private void hienThiChinhSuaThongTinCaNhan(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
+        if (nd == null) {
+            render(req, res, "dangNhap");
+            return;
+        }
+
+        // Chuyển đối tượng người dùng vào request để hiển thị trong form
+        req.setAttribute("nguoiDung", nd);
+        render(req, res, "chinhSuaThongTinCaNhan");
+    }
+
+
     private void layThongTinCaNhan(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
         if (nd == null) {

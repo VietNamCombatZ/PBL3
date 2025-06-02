@@ -90,11 +90,11 @@
 
             <td class="border px-4 py-2">
                 <% if (coTheGopY) { %>
-                <form action="<%= request.getContextPath() %>/gopY/taoGopY" method="get" class="inline">
+                <form action="<%= request.getContextPath() %>/danhGia/taoDanhGia" method="get" class="inline">
                     <input type="hidden" name="idDatSan" value="<%= ds.getId() %>"/>
                     <button type="submit"
                             class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
-                        Góp ý
+                        Đánh giá
                     </button>
                 </form>
                 <% } %>
