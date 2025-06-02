@@ -54,17 +54,21 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
     private void getAvailableFields(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             String timestampStr = req.getParameter("timestamp");
+
             System.out.println("thoi gian: " + timestampStr);
+            String timestampEndStr = req.getParameter("timestampEnd");
 
             Timestamp timestamp = Timestamp.valueOf(timestampStr);
+            Timestamp timestampEnd = Timestamp.valueOf(timestampEndStr);
 
-            List<sanBong> availableFields = SanBongDAO.LayDanhSachSanCoSan(timestamp);
+            List<sanBong> availableFields = SanBongDAO.LayDanhSachSanCoSan(timestamp, timestampEnd);
 
             System.out.println("Available fields: " + availableFields.size());
 
             // Gán dữ liệu vào request để JSP có thể hiển thị
             req.setAttribute("availableFields", availableFields);
             req.setAttribute("selectedTime", timestampStr);
+            req.setAttribute("selectedTimeEnd", timestampEndStr);
 
             // Forward về lại trang JSP để hiển thị dữ liệu
 //            req.getRequestDispatcher("/danhSachSanCoSan.jsp").forward(req, resp);

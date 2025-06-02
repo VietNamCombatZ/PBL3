@@ -19,11 +19,16 @@
 <body class="bg-gray-100">
 <%
     String selectedTime = (String) request.getAttribute("selectedTime");
+    String selectedTimeEnd = (String) request.getAttribute("selectedTimeEnd");
     String selectedHour = "";
     String selectedDate = "";
+    String selectedEndHour="";
     if (selectedTime != null && selectedTime.contains(" ")) {
         selectedDate = selectedTime.split(" ")[0];
         selectedHour = selectedTime.split(" ")[1].substring(0, 5); // ví dụ "06:00"
+    }
+    if (selectedTimeEnd != null && selectedTimeEnd.contains(" ")) {
+        selectedEndHour = selectedTimeEnd.split(" ")[1].substring(0, 5); // ví dụ "17:00"
     }
 %>
 <%--navbar--%>
@@ -119,8 +124,11 @@
 
 
         // Gán giá trị timestamp vào input ẩn trong form
+        //2 trường trong nút tìm kiếm
         $('#hidden-timestamp').val(getTimeStamp());
         $('#hidden-timestamp-end').val(getEndTimeStamp());
+
+        //các trường của mỗi sân
         $('.hidden-timestamp-datSan').val(getTimeStamp());
         $('.hidden-timestamp-ketThuc').val(getEndTimeStamp());
 
@@ -234,6 +242,8 @@
     $(document).ready(function () {
         const selectedDate = '<%= selectedDate %>';
         const selectedHour = '<%= selectedHour %>';
+        const selectedEndHour = '<%= selectedEndHour %>';
+
 
         if (selectedDate) {
             $('#datepicker').val(selectedDate); // Gán lại ngày đã chọn
@@ -244,6 +254,12 @@
             setTimeout(() => {
                 $('#select-hour-start').val(parseInt(selectedHour.split(":")[0]));
             }, 100); // delay 100ms là đủ để dropdown load
+        }
+
+        if (selectedEndHour) {
+            setTimeout(() => {
+                $('#selected-hour-end').val(parseInt(selectedEndHour.split(":")[0]));
+            }, 200);
         }
     });
 
@@ -268,15 +284,18 @@
                 }
 
                 // Gán lại giờ
-                const selectHour = document.getElementById("select-hour-start");
-                if (selectHour) {
-                    for (let i = 0; i < selectHour.options.length; i++) {
-                        if (selectHour.options[i].value === timeStr) {
-                            selectHour.options[i].selected = true;
+                const selectHourStart = document.getElementById("select-hour-start");
+                if (selectHourStart) {
+                    for (let i = 0; i < selectHourStart.options.length; i++) {
+                        if (selectHourStart.options[i].value === timeStr) {
+                            selectHourStart.options[i].selected = true;
                             break;
                         }
                     }
                 }
+
+                // Cập nhật giờ kết thúc
+                updateEndHours();
             }
         }
     });

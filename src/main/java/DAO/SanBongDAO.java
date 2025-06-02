@@ -28,16 +28,17 @@ public class SanBongDAO {
         }
     }
 
-    public static List<sanBong> LayDanhSachSanCoSan(Timestamp timestamp) {
+    public static List<sanBong> LayDanhSachSanCoSan(Timestamp timestampStart, Timestamp timestampEnd) {
         List<sanBong> danhSachSan = new ArrayList<>();
 
         try (Connection conn = ketnoiCSDL.getConnection()) {
             String sql = "select * from sanBong where id not in (select idSanBong from datSan where ? >= gioBatDau  and ? < gioKetThuc )";
 
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setTimestamp(1, timestamp);
-                stmt.setTimestamp(2, timestamp);
-                System.out.println("Thực thi truy vấn với timestamp: " + timestamp.toString());
+                stmt.setTimestamp(1, timestampStart);
+                stmt.setTimestamp(2, timestampEnd);
+                System.out.println("Thực thi truy vấn với timestampStart: " + timestampStart.toString());
+                System.out.println("Thực thi truy vấn với timestampEnd: " + timestampEnd.toString());
 
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {

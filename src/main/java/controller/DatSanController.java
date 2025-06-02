@@ -12,6 +12,9 @@ import java.io.PrintWriter;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @WebServlet("/datSan/*")
@@ -112,69 +115,101 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
     try {
         int idSanBong = Integer.parseInt(req.getParameter("idSanBong"));
         String timestampStartStr = req.getParameter("timestamp");
-        if (timestampStartStr == null || timestampStartStr.isEmpty()) {
+        String timestampEndStr = req.getParameter("timestampEnd");
+
+        System.out.println("timestampStartStr: " + timestampStartStr);
+        System.out.println("timestampEndStr: " + timestampEndStr);
+
+        if (timestampStartStr == null || timestampEndStr == null ||
+                timestampStartStr.isEmpty() || timestampEndStr.isEmpty()) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu thông tin thời gian đặt sân");
             return;
         }
-        String timestampEndStr = req.getParameter("timestampEnd");
-        if (timestampEndStr == null || timestampEndStr.isEmpty()) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu thông tin thời gian kết thúc đặt sân");
-            return;
-        }
-
-        System.out.println("thoi gian: " + timestampStartStr);
 
         Timestamp timestampStart = Timestamp.valueOf(timestampStartStr);
         Timestamp timestampEnd = Timestamp.valueOf(timestampEndStr);
-        Date gioBatDauDatSan = new Date(timestampStart.getTime());
-        Date gioKetThucDatSan = new Date(timestampEnd.getTime());
-        // Lấy user từ session hoặc request
+
         nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
         if (nd == null) {
             req.getSession().setAttribute("thongBao", "Bạn cần đăng nhập để đặt sân");
-//            render(req, resp, "/dangNhap");
             resp.sendRedirect(req.getContextPath() + "/nguoiDung/dangNhap");
-
             return;
         }
 
-        String idLichDat = UUID.randomUUID().toString();
+        // Giờ nghỉ
+        LocalTime nghiBatDau = LocalTime.of(10, 0);
+        LocalTime nghiKetThuc = LocalTime.of(15, 0);
 
-        bangGia bg = BangGiaDAO.timGiaTheoGio(timestampStart);
-        if (bg == null) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Không tìm thấy bảng giá cho thời gian này");
+        LocalDateTime startDateTime = timestampStart.toLocalDateTime();
+        LocalDateTime endDateTime = timestampEnd.toLocalDateTime();
+
+        List<LocalDateTime[]> cacKhoangHopLe = new ArrayList<>();
+
+        // Trường hợp hoàn toàn trước giờ nghỉ
+        if (endDateTime.toLocalTime().isBefore(nghiBatDau) || endDateTime.toLocalTime().equals(nghiBatDau)) {
+            cacKhoangHopLe.add(new LocalDateTime[]{startDateTime, endDateTime});
+        }
+        // Trường hợp hoàn toàn sau giờ nghỉ
+        else if (startDateTime.toLocalTime().isAfter(nghiKetThuc) || startDateTime.toLocalTime().equals(nghiKetThuc)) {
+            cacKhoangHopLe.add(new LocalDateTime[]{startDateTime, endDateTime});
+        }
+        // Trường hợp chồng vào giờ nghỉ
+        else {
+            if (startDateTime.toLocalTime().isBefore(nghiBatDau)) {
+                LocalDateTime end1 = LocalDateTime.of(startDateTime.toLocalDate(), nghiBatDau);
+                cacKhoangHopLe.add(new LocalDateTime[]{startDateTime, end1});
+            }
+            if (endDateTime.toLocalTime().isAfter(nghiKetThuc)) {
+                LocalDateTime start2 = LocalDateTime.of(endDateTime.toLocalDate(), nghiKetThuc);
+                cacKhoangHopLe.add(new LocalDateTime[]{start2, endDateTime});
+            }
+        }
+
+        boolean coTaoDuocLich = false;
+
+        for (LocalDateTime[] khoang : cacKhoangHopLe) {
+            LocalDateTime gioBD = khoang[0];
+            LocalDateTime gioKT = khoang[1];
+
+            if (gioBD.isBefore(gioKT)) {
+                Timestamp gioBD_ts = Timestamp.valueOf(gioBD);
+                Timestamp gioKT_ts = Timestamp.valueOf(gioKT);
+
+                bangGia bg = BangGiaDAO.timGiaTheoGio(gioBD_ts);
+                if (bg == null) continue;
+
+                int soGio = (int) Duration.between(gioBD, gioKT).toHours();
+                int soTien = bg.getGiaTien1Gio() * soGio;
+
+                datSan ds = new datSan();
+                ds.setId(UUID.randomUUID().toString());
+                ds.setIdKhachHang(nd.getId());
+                ds.setIdSanBong(String.valueOf(idSanBong));
+                ds.setSoTien(soTien);
+                ds.setTrangThai(trangThaiDatSan.CHO_THANH_TOAN);
+                ds.setGioBatDau(new java.sql.Date(gioBD_ts.getTime()));
+                ds.setGioKetThuc(new java.sql.Date(gioKT_ts.getTime()));
+                ds.setNgayTao(new Timestamp(System.currentTimeMillis()));
+                ds.setNgayCapNhat(new Timestamp(System.currentTimeMillis()));
+
+                DatSanDAO.Tao(ds);
+                coTaoDuocLich = true;
+                System.out.println("Đã tạo lịch đặt hợp lệ: " + ds);
+            }
+        }
+
+        if (!coTaoDuocLich) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Không có khoảng thời gian hợp lệ để đặt sân.");
             return;
         }
-        Date gioBatDau = bg.getGioBatDau();
-        Date gioKetThuc = bg.getGioKetThuc();
-        int thoiGianThue = (int) ((gioKetThucDatSan.getTime() - gioBatDauDatSan.getTime()) / (1000 * 60 * 60));
-        System.out.println("thoi gian thue: " + thoiGianThue);
-        int soTien = bg.getGiaTien1Gio() * thoiGianThue;
 
-        datSan ds = new datSan();
-        ds.setId(idLichDat);
-        ds.setIdKhachHang(nd.getId());
-        ds.setIdSanBong(String.valueOf(idSanBong));
-        ds.setSoTien(soTien);
-        ds.setTrangThai(trangThaiDatSan.CHO_THANH_TOAN);
-        ds.setGioBatDau(new java.sql.Date(gioBatDauDatSan.getTime()));
-        ds.setGioKetThuc(new java.sql.Date(gioKetThucDatSan.getTime()));
-        ds.setNgayTao(new Timestamp(System.currentTimeMillis()));
-        ds.setNgayCapNhat(new Timestamp(System.currentTimeMillis()));
-
-
-        // Gọi DAO thêm lịch đặt
-        DatSanDAO.Tao(ds);
-        System.out.println("Lịch đặt đã được tạo ở DatSanController: " + ds);
-
-        // Redirect về trang danh sách lịch đặt
-//        resp.sendRedirect(req.getContextPath() + "/lichDatCuaToi.jsp");
         render(req, resp, "lichDatCuaToi");
     } catch (Exception e) {
         e.printStackTrace();
         resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi đặt sân");
     }
 }
+
 private void layLichDatCuaKhachHang(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
     String idKhachHang = req.getParameter("id");
 
