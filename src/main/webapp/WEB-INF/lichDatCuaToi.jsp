@@ -6,6 +6,7 @@
 <%@ page import="DAO.DatSanDAO" %>
 <%@ page import="model.datSan" %>
 <%@ page import="model.trangThaiDatSan" %>
+<%@ page import="model.*" %>
 <%@ page import="controller.BaseController" %>
 <%@ page session="true" %>
 
@@ -58,7 +59,7 @@
     <table class="w-full border border-collapse">
         <thead>
         <tr class="bg-gray-200">
-            <th class="border px-4 py-2">ID đặt</th>
+<%--            <th class="border px-4 py-2">ID đặt</th>--%>
             <th class="border px-4 py-2">Tên sân</th>
             <th class="border px-4 py-2">Giờ bắt đầu</th>
             <th class="border px-4 py-2">Giờ kết thúc</th>
@@ -77,15 +78,16 @@
                     continue; // Nếu không tìm thấy sân, bỏ qua
                 }
 
+
                 Date gioBatDau = ds.getGioBatDau();
                 Date gioKetThuc = ds.getGioKetThuc();
 
                 long millisToStart = gioBatDau.getTime() - now.getTime();
                 boolean coTheHuy = millisToStart > 3 * 60 * 60 * 1000 && ds.getTrangThai() != trangThaiDatSan.DA_HUY; // > 3 giờ trước giờ bắt đầu và sân chưa huỷ
-                boolean coTheGopY = now.after(gioKetThuc); // đã kết thúc
+                boolean coTheDanhGia = now.after(gioKetThuc); // đã kết thúc
         %>
         <tr>
-            <td class="border px-4 py-2"><%= ds.getId() %></td>
+<%--            <td class="border px-4 py-2"><%= ds.getId() %></td>--%>
             <td class="border px-4 py-2"><%= sb.getTenSan() %></td>
             <td class="border px-4 py-2"><%= sdf.format(gioBatDau) %></td>
             <td class="border px-4 py-2"><%= sdf.format(gioKetThuc) %></td>
@@ -93,29 +95,41 @@
             <td class="border px-4 py-2"><%= ds.getTrangThai().toString() %></td>
 
             <td class="border px-4 py-2">
-                <% if (coTheGopY) { %>
-                <form action="<%= request.getContextPath() %>/danhGia/taoDanhGia" method="get" class="inline">
-                    <input type="hidden" name="idDatSan" value="<%= ds.getId() %>"/>
-                    <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
-                        Đánh giá
-                    </button>
-                </form>
-                <% } %>
+                <div class="flex space-x-[15px]">
+                    <% if (coTheDanhGia) { %>
+                    <form action="<%= request.getContextPath() %>/danhGia/taoDanhGia" method="get">
+                        <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
+                            Đánh giá
+                        </button>
+                    </form>
+
+                    <form action="<%= request.getContextPath() %>/danhGia/chinhSua" method="get">
+                        <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
+                        <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
+                            Chỉnh sửa
+                        </button>
+                    </form>
+                    <% } %>
+                </div>
 
                 <% if (coTheHuy) { %>
-                <form action="<%= request.getContextPath() %>/datSan/huyDatSan" method="post" class="inline ml-2"
-                      onsubmit="return confirm('Bạn có chắc chắn muốn hủy lịch đặt này không?');">
-                    <input type="hidden" name="idDatSan" value="<%= ds.getId() %>"/>
-                    <button type="submit"
-                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                <form action="<%= request.getContextPath() %>/datSan/chinhSuaDatSan" method="get" onsubmit="return confirm('Bạn có chắc chắn muốn hủy lịch đặt này không?');" class="mt-2">
+                    <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                        Chỉnh sửa lịch đặt
+                    </button>
+                </form>
+
+                <form action="<%= request.getContextPath() %>/datSan/huyDatSan" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn hủy lịch đặt này không?');" class="mt-2">
+                    <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
                         Hủy đặt
                     </button>
                 </form>
                 <% } %>
-
-
             </td>
+
         </tr>
         <%
             }

@@ -92,6 +92,7 @@
             %>
             <li class="border p-2 mb-2 flex justify-between items-center">
                 <span><%= sb.getTenSan() %></span>
+                <span class="text-gray-600">Kiểu sân: <%= sb.getKieuSan().toString() %> </span>
                 <form action="<%=request.getContextPath()%>/datSan/taoLichDat" method="POST" style="margin: 0;">
                     <input type="hidden" name="idSanBong" value="<%= sb.getId() %>">
                     <input type="hidden" name="timestamp" class="hidden-timestamp-datSan" >

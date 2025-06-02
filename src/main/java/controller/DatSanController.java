@@ -35,6 +35,8 @@ public class DatSanController extends BaseController{
 //                render(req, resp, "lichDatCuaKhachHang");
                 layLichDatCuaKhachHang(req, resp);
                 break;
+            case "/chinhSuaDatSan":
+                chinhSuaLichDatCaNhan(req, resp);
 
             default:
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -113,7 +115,7 @@ case "/huyDatSan":
 //    }
 private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     try {
-        int idSanBong = Integer.parseInt(req.getParameter("idSanBong"));
+        String idSanBong = req.getParameter("idSanBong");
         String timestampStartStr = req.getParameter("timestamp");
         String timestampEndStr = req.getParameter("timestampEnd");
 
@@ -228,6 +230,13 @@ private void layLichDatCuaKhachHang(HttpServletRequest req, HttpServletResponse 
     req.setAttribute("khachHang", khachHang);
     render(req, resp, "lichDatCuaKhachHang");
 }
+
+private void chinhSuaLichDatCaNhan(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    String idDatSan = req.getParameter("idDatSan");
+
+}
+
+
 private void khachHangHuyDatSan(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
     // Lấy ID đặt sân từ request
     String idDatSan = req.getParameter("idDatSan");

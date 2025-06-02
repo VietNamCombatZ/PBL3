@@ -32,7 +32,7 @@ public class SanBongDAO {
         List<sanBong> danhSachSan = new ArrayList<>();
 
         try (Connection conn = ketnoiCSDL.getConnection()) {
-            String sql = "select * from sanBong where id not in (select idSanBong from datSan where ? >= gioBatDau  and ? < gioKetThuc )";
+            String sql = "select * from sanBong where id not in (select idSanBong from datSan where ? >= gioBatDau  and ? < gioKetThuc ) AND trangThai != 'BAO_TRI'";
 
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setTimestamp(1, timestampStart);
@@ -44,7 +44,12 @@ public class SanBongDAO {
                 while (rs.next()) {
                     sanBong san = new sanBong();
                     san.setId(rs.getString("id"));
-                    san.setTenSan(rs.getString("tenSan")); // tuỳ tên cột
+                    san.setTenSan(rs.getString("tenSan"));
+                    san.setTrangThai(trangThaiSan.valueOf(rs.getString("trangThai")));
+                    san.setKieuSan(loaiSan.valueOf(rs.getString("kieuSan")));
+                    san.setNgayTao(rs.getTimestamp("ngayTao"));
+                    san.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
+
                     danhSachSan.add(san);
                 }
             }
