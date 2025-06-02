@@ -81,6 +81,28 @@ public class SanBongDAO {
         return null;
     }
 
+    public static List<sanBong> timDanhSachSanTheoKieuSan(loaiSan kieuSan) {
+        String sql = "SELECT * FROM sanBong WHERE kieuSan = ?";
+        List<sanBong> danhSachSan = new ArrayList<>();
+        try (Connection conn = ketnoiCSDL.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, kieuSan.name());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                sanBong sb = new sanBong();
+                sb.setId(rs.getString("id"));
+                sb.setTenSan(rs.getString("tenSan"));
+                sb.setTrangThai(trangThaiSan.valueOf(rs.getString("trangThai")));
+                sb.setKieuSan(loaiSan.valueOf(rs.getString("kieuSan")));
+                danhSachSan.add(sb);
+            }
+            return danhSachSan;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static sanBong capNhatThongTinSan(String id, Map<String, Object> thongTinCapNhat){
         if (thongTinCapNhat == null || thongTinCapNhat.isEmpty()) return null;
 

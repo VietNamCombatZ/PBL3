@@ -114,7 +114,7 @@
                 </div>
 
                 <% if (coTheHuy) { %>
-                <form action="<%= request.getContextPath() %>/datSan/chinhSuaDatSan" method="get" onsubmit="return confirm('Bạn có chắc chắn muốn hủy lịch đặt này không?');" class="mt-2">
+                <form action="<%= request.getContextPath() %>/datSan/chinhSuaDatSan" method="get" class="mt-2">
                     <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
                     <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
                         Chỉnh sửa lịch đặt
