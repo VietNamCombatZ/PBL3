@@ -113,7 +113,7 @@ public class DatSanDAO {
     public static datSan capNhatThongTinDatSan(String id, Map<String, Object> thongTinCapNhat){
         if (thongTinCapNhat == null || thongTinCapNhat.isEmpty()) return null;
 
-        StringBuilder sql = new StringBuilder("UPDATE cars SET ");
+        StringBuilder sql = new StringBuilder("UPDATE datSan SET ");
         List<Object> values = new ArrayList<>();
 
 
@@ -122,6 +122,8 @@ public class DatSanDAO {
             sql.append(column).append(" = ?, ");
             values.add(thongTinCapNhat.get(column));
         }
+        System.out.println("SQL: " + sql);
+        System.out.println("Values: " + values);
 
         // Remove the last comma and space, and add the WHERE clause
         sql.setLength(sql.length() - 2);

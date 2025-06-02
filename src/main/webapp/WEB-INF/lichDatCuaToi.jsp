@@ -4,6 +4,8 @@
 <%@ page import="DAO.SanBongDAO" %>
 <%@ page import="model.nguoiDung" %>
 <%@ page import="DAO.DatSanDAO" %>
+<%@ page import="model.datSan" %>
+<%@ page import="model.trangThaiDatSan" %>
 <%@ page import="controller.BaseController" %>
 <%@ page session="true" %>
 
@@ -56,6 +58,7 @@
     <table class="w-full border border-collapse">
         <thead>
         <tr class="bg-gray-200">
+            <th class="border px-4 py-2">ID đặt</th>
             <th class="border px-4 py-2">Tên sân</th>
             <th class="border px-4 py-2">Giờ bắt đầu</th>
             <th class="border px-4 py-2">Giờ kết thúc</th>
@@ -78,10 +81,11 @@
                 Date gioKetThuc = ds.getGioKetThuc();
 
                 long millisToStart = gioBatDau.getTime() - now.getTime();
-                boolean coTheHuy = millisToStart > 3 * 60 * 60 * 1000; // > 3 giờ
+                boolean coTheHuy = millisToStart > 3 * 60 * 60 * 1000 && ds.getTrangThai() != trangThaiDatSan.DA_HUY; // > 3 giờ trước giờ bắt đầu và sân chưa huỷ
                 boolean coTheGopY = now.after(gioKetThuc); // đã kết thúc
         %>
         <tr>
+            <td class="border px-4 py-2"><%= ds.getId() %></td>
             <td class="border px-4 py-2"><%= sb.getTenSan() %></td>
             <td class="border px-4 py-2"><%= sdf.format(gioBatDau) %></td>
             <td class="border px-4 py-2"><%= sdf.format(gioKetThuc) %></td>
@@ -109,6 +113,8 @@
                     </button>
                 </form>
                 <% } %>
+
+
             </td>
         </tr>
         <%

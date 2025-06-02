@@ -230,7 +230,7 @@ private void layLichDatCuaKhachHang(HttpServletRequest req, HttpServletResponse 
 }
 private void khachHangHuyDatSan(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
     // Lấy ID đặt sân từ request
-    String idDatSan = req.getParameter("id");
+    String idDatSan = req.getParameter("idDatSan");
     String loiDatSan = null;
 
     if (idDatSan == null || idDatSan.isEmpty()) {
