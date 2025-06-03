@@ -13,6 +13,11 @@
 </head>
 <body class="bg-gray-100">
 
+<%-- Navbar --%>
+<%@ include file="navbar.jsp" %>
+
+
+
 <div class="max-w-3xl mx-auto bg-white shadow-md p-6 mt-6 rounded">
   <h2 class="text-2xl font-bold mb-4">Chỉnh Sửa Lịch Đặt Của Tôi</h2>
   <%
