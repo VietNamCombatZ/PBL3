@@ -1,7 +1,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, model.mucDiem" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.*, model.datSan, java.text.SimpleDateFormat" %>
+<%@ page import="model.sanBong" %>
+<%@ page import="DAO.SanBongDAO" %>
+<%@ page import="model.nguoiDung" %>
+<%@ page import="DAO.DatSanDAO" %>
+<%@ page import="model.datSan" %>
+<%@ page import="model.trangThaiDatSan" %>
+<%@ page import="model.*" %>
+<%@ page import="controller.BaseController" %>
+<%@ page session="true" %>
 <%
-  String idSanBong = request.getParameter("idSanBong"); // truyền từ danh sách sân đã đặt
+  String idDatSan = request.getParameter("idDatSan"); // truyền từ danh sách sân đã đặt
+  datSan ds = DatSanDAO.timDatSanTheoId(idDatSan);
+    if (ds == null) {
+        response.sendRedirect(request.getContextPath() + "/nguoiDung/lichDatCuaToi");
+        return;
+    }
+
 %>
 <!DOCTYPE html>
 <html>
@@ -79,9 +96,10 @@
 <%@ include file="navbar.jsp" %>
 
 
-<form action="${pageContext.request.contextPath}/danhGia/luuDanhGia" method="post">
+<form action="<%= request.getContextPath() %>/danhGia/taoDanhGia" method="post">
+  <input type="hidden" name ="idDatSan" value ="<%= idDatSan %>"/>
   <!-- ID sân bóng cần đánh giá (ẩn) -->
-  <input type="hidden" name="idSanBong" value="<%= idSanBong %>"/>
+  <input type="hidden" name="idSanBong" value="<%= ds.getIdSanBong() %>"/>
 
   <label for="mucDiem">Chọn mức đánh giá:</label>
   <select name="mucDiem" id="mucDiem" required>

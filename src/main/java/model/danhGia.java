@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 public class danhGia {
     private String id;
     private String idKhachHang;
+
+    private String idDatSan;
     private String idSanBong;
 
     private String noiDung;
@@ -16,9 +18,9 @@ public class danhGia {
     // Constructors
     public danhGia() {}
 
-    public danhGia(String idKhachHang, String idSanBong , String noiDung, mucDiem mucDiem) {
+    public danhGia(String idKhachHang, String idDatSan , String noiDung, mucDiem mucDiem) {
         this.idKhachHang = idKhachHang;
-        this.idSanBong = idSanBong;
+        this.idDatSan = idDatSan;
         this.noiDung = noiDung;
         this.mucDiem = mucDiem;
     }
@@ -30,9 +32,11 @@ public class danhGia {
     public String getIdKhachHang() { return idKhachHang; }
     public void setIdKhachHang(String idKhachHang) { this.idKhachHang = idKhachHang; }
 
+    public String getIdDatSan() { return idDatSan; }
+    public void setIdDatSan(String idDatSan) { this.idDatSan = idDatSan; }
+
     public String getIdSanBong() { return idSanBong; }
     public void setIdSanBong(String idSanBong) { this.idSanBong = idSanBong; }
-
 
     public String getNoiDung() { return noiDung; }
     public void setNoiDung(String noiDung) { this.noiDung = noiDung; }

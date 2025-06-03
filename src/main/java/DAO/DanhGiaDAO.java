@@ -11,16 +11,17 @@ import java.util.Map;
 
 public class DanhGiaDAO {
     public static boolean Tao(danhGia dg) {
-        String sql = "INSERT INTO danhGia (id, idNguoiDung, idSanBong,noiDung, mucDiem,  ngayTao, ngayCapNhat) " +
-                "VALUES (?, ?, ?, ?,?, NOW(), NOW())";
+        String sql = "INSERT INTO danhGia (id, idKhachHang, idDatSan, idSanBong, noiDung, mucDiem,  ngayTao, ngayCapNhat) " +
+                "VALUES (?, ?, ?, ?,?,?, NOW(), NOW())";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, dg.getId());
             stmt.setString(2, dg.getIdKhachHang());
-            stmt.setString(3, dg.getIdSanBong());
-            stmt.setString(4, dg.getNoiDung());
-            stmt.setString(5, dg.getMucDiem().name());
+            stmt.setString(3, dg.getIdDatSan());
+            stmt.setString(4, dg.getIdSanBong());
+            stmt.setString(5, dg.getNoiDung());
+            stmt.setString(6, dg.getMucDiem().name());
 
 
 
@@ -41,7 +42,8 @@ public class DanhGiaDAO {
             if (rs.next()) {
                 danhGia dg = new danhGia();
                 dg.setId(rs.getString("id"));
-                dg.setIdKhachHang(rs.getString("idNguoiDung"));
+                dg.setIdKhachHang(rs.getString("idKhachHang"));
+                dg.setIdDatSan(rs.getString("idDatSan"));
                 dg.setIdSanBong(rs.getString("idSanBong"));
                 dg.setNoiDung(rs.getString("noiDung"));
                 dg.setMucDiem(mucDiem.valueOf(rs.getString("mucDiem")));
@@ -65,7 +67,8 @@ public class DanhGiaDAO {
             while (rs.next()) {
                 danhGia dg = new danhGia();
                 dg.setId(rs.getString("id"));
-                dg.setIdKhachHang(rs.getString("idNguoiDung"));
+                dg.setIdKhachHang(rs.getString("idKhachHang"));
+                dg.setIdDatSan(rs.getString("idDatSan"));
                 dg.setIdSanBong(rs.getString("idSanBong"));
                 dg.setNoiDung(rs.getString("noiDung"));
                 dg.setMucDiem(mucDiem.valueOf(rs.getString("mucDiem")));
@@ -80,7 +83,7 @@ public class DanhGiaDAO {
     }
 
     public static List<danhGia> timDanhGiaTheoKhachHang(String idKhachHang){
-        String sql = "SELECT * FROM danhGia WHERE idNguoiDung = ?";
+        String sql = "SELECT * FROM danhGia WHERE idKhachHang = ?";
         List<danhGia> dsDanhGia = new ArrayList<>();
 
         try (Connection conn = ketnoiCSDL.getConnection();
@@ -90,8 +93,8 @@ public class DanhGiaDAO {
             while (rs.next()) {
                 danhGia dg = new danhGia();
                 dg.setId(rs.getString("id"));
-                dg.setIdKhachHang(rs.getString("idNguoiDung"));
-                dg.setIdSanBong(rs.getString("idSanBong"));
+                dg.setIdKhachHang(rs.getString("idKhachHang"));
+                dg.setIdDatSan(rs.getString("idDatSan"));
                 dg.setNoiDung(rs.getString("noiDung"));
                 dg.setMucDiem(mucDiem.valueOf(rs.getString("mucDiem")));
                 dsDanhGia.add(dg);
@@ -114,7 +117,7 @@ public class DanhGiaDAO {
             while (rs.next()) {
                 danhGia dg = new danhGia();
                 dg.setId(rs.getString("id"));
-                dg.setIdKhachHang(rs.getString("idNguoiDung"));
+                dg.setIdKhachHang(rs.getString("idKhachHang"));
                 dg.setIdSanBong(rs.getString("idSanBong"));
                 dg.setNoiDung(rs.getString("noiDung"));
                 dg.setMucDiem(mucDiem.valueOf(rs.getString("mucDiem")));
@@ -125,5 +128,28 @@ public class DanhGiaDAO {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public danhGia timDanhGiaTheoDatSan(String idDatSan) {
+        String sql = "SELECT * FROM danhGia WHERE idDatSan = ?";
+        try (Connection conn = ketnoiCSDL.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idDatSan);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                danhGia dg = new danhGia();
+                dg.setId(rs.getString("id"));
+                dg.setIdKhachHang(rs.getString("idKhachHang"));
+                dg.setIdDatSan(rs.getString("idDatSan"));
+                dg.setIdSanBong(rs.getString("idSanBong"));
+                dg.setNoiDung(rs.getString("noiDung"));
+                dg.setMucDiem(mucDiem.valueOf(rs.getString("mucDiem")));
+                return dg;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
     }
 }

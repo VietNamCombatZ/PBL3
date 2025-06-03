@@ -36,12 +36,49 @@ public class DanhGiaController extends BaseController{
         System.out.println("Path: " + path);
 
         switch (path) {
-//            case "/taoDanhGia":
-//                taoDanhGia(req, resp);
-//                break;
+            case "/taoDanhGia":
+                taoDanhGia(req, resp);
+                break;
             default:
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
+        }
+    }
+
+    private void taoDanhGia(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String idDatSan = req.getParameter("idDatSan");
+        String idSanBong = req.getParameter("idSanBong");
+        String noiDung = req.getParameter("noiDung");
+        mucDiem mucDiemValue = null;
+        try {
+            mucDiemValue = mucDiem.valueOf(req.getParameter("mucDiem"));
+            // Tiếp tục xử lý
+        } catch (IllegalArgumentException e) {
+            // Xử lý khi giá trị không hợp lệ, ví dụ chuyển hướng hoặc hiển thị thông báo lỗi
+            e.printStackTrace();
+        }
+
+        datSan ds = DatSanDAO.timDatSanTheoId(idDatSan);
+        if (ds == null) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Đặt sân không tồn tại.");
+            return;
+        }
+
+        danhGia dg = new danhGia();
+        dg.setId(UUID.randomUUID().toString());
+        dg.setIdKhachHang(ds.getIdKhachHang());
+        dg.setIdDatSan(idDatSan);
+        dg.setIdSanBong(idSanBong);
+        dg.setNoiDung(noiDung);
+        dg.setMucDiem(mucDiemValue);
+        dg.setNgayTao(new Timestamp(System.currentTimeMillis()));
+        dg.setNgayCapNhat(new Timestamp(System.currentTimeMillis()));
+
+        boolean success = DanhGiaDAO.Tao(dg);
+        if (success) {
+            resp.sendRedirect(req.getContextPath() + "/datSan/lichDatCaNhan");
+        } else {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Không thể tạo đánh giá.");
         }
     }
 }
