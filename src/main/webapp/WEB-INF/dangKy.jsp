@@ -17,7 +17,7 @@
 <div class="overlay">
   <div class="register-form">
     <h2>Đăng ký</h2>
-    <form action="dangky" method="post">
+    <form action="<%= request.getContextPath()%>/nguoiDung/dangky" method="post">
       <input type="text" name="ten" placeholder="Tên *" required>
       <input type="email" name="email" placeholder="Email *" required>
       <input type="password" name="matkhau" placeholder="Mật khẩu *" required>

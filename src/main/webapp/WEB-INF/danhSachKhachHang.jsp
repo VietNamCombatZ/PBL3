@@ -76,10 +76,12 @@
                 </div>
 
             </div>
-            <button class="add-employee-btn" onclick="addEmployee()">
-                <i class="fas fa-plus mr-2"></i>
-                Thêm khách hàng mới
-            </button>
+<%--            <button class="add-employee-btn" onclick="addEmployee()">--%>
+<%--                <i class="fas fa-plus mr-2"></i>--%>
+<%--                Thêm khách hàng mới--%>
+<%--            </button>--%>
+
+            <a href="<%= request.getContextPath()%>/nguoiDung/taoKhachHang" ><i class="fas fa-plus mr-2"></i>Thêm khách hàng mới</a>
         </div>
     </div>
 
@@ -114,7 +116,7 @@
                     <td class="px-6 py-4">
                         <div class="employee-info">
                             <div class="employee-name"><%= kh.getTen() %></div>
-                            <div class="employee-id"><%= kh.getId() %></div>
+<%--                            <div class="employee-id"><%= kh.getId() %></div>--%>
                         </div>
                     </td>
                     <td class="px-6 py-4">
@@ -126,7 +128,7 @@
                     <td class="px-6 py-4">
                         <div class="flex space-x-2 justify-center">
                             <%
-                                if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {
+                                if(nd != null && (nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY || nd.getVaiTroNguoiDung() == vaiTro.NHAN_VIEN) ) {
                             %>
                             <a href="<%= request.getContextPath() %>/datSan/lichDatKhachHang?id=<%= kh.getId() %>"
                                class="btn-action btn-view" title="Xem lịch sử đặt sân">

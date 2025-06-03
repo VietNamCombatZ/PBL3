@@ -47,6 +47,10 @@ public class NguoiDungController  extends BaseController {
             case "/chinhSuaThongTinCaNhan":
                 hienThiChinhSuaThongTinCaNhan(request, response);
                 break;
+
+            case "/taoKhachHang":
+                render(request, response, "taoKhachHang");
+                break;
 //            case "/capNhatThongTin":
 //                capNhatThongTin(request, response);
 //                break;
@@ -71,6 +75,10 @@ public class NguoiDungController  extends BaseController {
             case "/chinhSuaThongTinCaNhan":
                 luuChinhSuaThongTinCaNhan(request, response);
                 break;
+
+                case "/taoKhachHang":
+                    taoKhachHang(request, response);
+                    break;
 //            case "/CapNhatThongTin":
 //                CapNhatThongTin capNhat = new CapNhatThongTin();
 //                capNhat.doPost(request, response);
@@ -78,6 +86,65 @@ public class NguoiDungController  extends BaseController {
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
+        }
+    }
+
+    private void taoKhachHang(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+
+        String ten = req.getParameter("ten");
+        String email = req.getParameter("email");
+        String matkhau = req.getParameter("matkhau");
+        String nhaplaimatkhau = req.getParameter("nhaplaimatkhau");
+        String ngaysinhStr = req.getParameter("ngaysinh");
+
+        nguoiDung nguoiDungDaTonTai = NguoiDungDAO.layNguoiDungTheoEmail(email);
+        if (nguoiDungDaTonTai != null) {
+            req.setAttribute("error", "Email đã tồn tại");
+            render(req, resp, "taoKhachHang");
+        }
+
+        // Kiểm tra mật khẩu khớp nhau
+        if (!matkhau.equals(nhaplaimatkhau)) {
+            req.setAttribute("error", "Mật khẩu không khớp");
+//            req.getRequestDispatcher("taoKhachHang.jsp").forward(req, resp);
+            render(req, resp, "taoKhachHang");
+            return;
+        }
+
+        // Chuyển String -> java.sql.Date
+        java.sql.Date ngaySinh = null;
+        try {
+            ngaySinh = java.sql.Date.valueOf(ngaysinhStr); // format yyyy-MM-dd
+        } catch (IllegalArgumentException e) {
+            req.setAttribute("error", "Ngày sinh không hợp lệ");
+//            req.getRequestDispatcher("taoKhachHang.jsp").forward(req, resp);
+            render(req, resp, "taoKhachHang");
+            return;
+
+        }
+
+        // Tạo đối tượng người dùng
+        nguoiDung user = new nguoiDung();
+        user.setId(UUID.randomUUID().toString()); //sinh id ngẫu nhiên
+        user.setTen(ten);
+        user.setEmail(email);
+        user.setMatKhau(matkhau);
+        user.setNgaySinh(ngaySinh);
+        user.setVaiTroNguoiDung(vaiTro.KHACH_HANG); // mặc định
+
+        boolean thanhCong = NguoiDungDAO.Tao(user);
+
+        if (thanhCong) {
+//            resp.sendRedirect("dangNhap.jsp");
+//            render(req, resp, "dangNhap");
+            resp.sendRedirect(req.getContextPath() + "/nguoiDung/DanhsachKhachHang");
+
+        } else {
+            req.setAttribute("error", "Đăng ký thất bại (vui lòng thử lại)");
+            render(req, resp, "taoKhachHang");
+//            req.getRequestDispatcher("dangKy.jsp").forward(req, resp);
         }
     }
 
