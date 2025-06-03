@@ -45,6 +45,10 @@ public class DanhGiaController extends BaseController{
                 case "/chinhSuaDanhGia":
                     chinhSuaDanhGia(req, resp);
                     break;
+
+            case "/xoaDanhGia":
+                xoaDanhGia(req, resp);
+                break;
             default:
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
@@ -124,6 +128,23 @@ public class DanhGiaController extends BaseController{
             resp.sendRedirect(req.getContextPath() + "/datSan/lichDatCaNhan");
         } else {
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Không thể cập nhật đánh giá.");
+        }
+    }
+
+
+    private void xoaDanhGia(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String idDanhGia = req.getParameter("idDanhGia");
+        danhGia dg = DanhGiaDAO.timDanhGiaTheoId(idDanhGia);
+        if (dg == null) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Đánh giá không tồn tại.");
+            return;
+        }
+
+        boolean success = DanhGiaDAO.xoaDanhGia(idDanhGia);
+        if (success) {
+            resp.sendRedirect(req.getContextPath() + "/datSan/lichDatCaNhan");
+        } else {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Không thể xóa đánh giá.");
         }
     }
 }

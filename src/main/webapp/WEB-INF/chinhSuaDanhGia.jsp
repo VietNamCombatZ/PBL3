@@ -91,6 +91,13 @@
   <textarea name="noiDung" id="noiDung" maxlength="200" required><%= danhGiaHienTai.getNoiDung() %></textarea>
 
   <button type="submit">Cập nhật đánh giá</button>
+
+  <!-- Nút xoá đánh giá -->
+  <button type="submit" formaction="<%= request.getContextPath() %>/danhGia/xoaDanhGia" formmethod="post"
+          onclick="return confirm('Bạn có chắc chắn muốn xoá đánh giá này?');"
+          style="background-color: #dc3545; margin-top: 10px;">
+    Xoá đánh giá
+  </button>
 </form>
 
 </body>

@@ -146,6 +146,7 @@ public class DanhGiaDAO {
                 dg.setMucDiem(mucDiem.valueOf(rs.getString("mucDiem")));
                 return dg;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -185,5 +186,18 @@ public class DanhGiaDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return null; }
+    }
+
+    public static boolean xoaDanhGia(String id) {
+        String sql = "DELETE FROM danhGia WHERE id = ?";
+        try (Connection conn = ketnoiCSDL.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, id);
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

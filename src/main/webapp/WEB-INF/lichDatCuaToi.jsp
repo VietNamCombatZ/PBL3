@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, model.datSan, java.text.SimpleDateFormat" %>
 <%@ page import="model.sanBong" %>
-<%@ page import="DAO.SanBongDAO" %>
+<%@ page import="DAO.*" %>
 <%@ page import="model.nguoiDung" %>
 <%@ page import="DAO.DatSanDAO" %>
 <%@ page import="model.datSan" %>
@@ -72,11 +72,13 @@
         <%
             Date now = new Date();
             for (datSan ds : lichDat) {
+                String idDatSan = ds.getId();
                 String idSan = ds.getIdSanBong();
                 sanBong sb = SanBongDAO.timSanTheoId(idSan);
                 if (sb == null) {
                     continue; // Nếu không tìm thấy sân, bỏ qua
                 }
+                danhGia dg = DanhGiaDAO.timDanhGiaTheoDatSan(idDatSan);
 
 
                 Date gioBatDau = ds.getGioBatDau();
@@ -96,21 +98,25 @@
 
             <td class="border px-4 py-2">
                 <div class="flex space-x-[15px]">
-                    <% if (coTheDanhGia) { %>
+                    <% if (coTheDanhGia) {
+                        if (dg == null) { // đã đánh giá
+
+                    %>
                     <form action="<%= request.getContextPath() %>/danhGia/taoDanhGia" method="get">
                         <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
                         <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
-                            Đánh giá
+                            Tạo đánh giá
                         </button>
                     </form>
+                    <% } else{%>
 
                     <form action="<%= request.getContextPath() %>/danhGia/chinhSuaDanhGia" method="get">
                         <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
                         <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
-                            Chỉnh sửa
+                            Chỉnh sửa đánh giá
                         </button>
                     </form>
-                    <% } %>
+                    <% }} %>
                 </div>
 
                 <% if (coTheHuy) { %>

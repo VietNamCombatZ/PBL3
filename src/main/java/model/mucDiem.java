@@ -1,11 +1,14 @@
 package model;
 
 public enum mucDiem {
-    RAT_TIEU_CUC,
-    TIEU_CUC,
-    TRUNG_BINH,
+
+
+    RAT_TICH_CUC,
     TICH_CUC,
-    RAT_TICH_CUC;
+
+    TRUNG_BINH,
+    TIEU_CUC,
+    RAT_TIEU_CUC
 
 
 }
