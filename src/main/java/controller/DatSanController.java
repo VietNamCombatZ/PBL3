@@ -181,7 +181,9 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
                 Timestamp gioKT_ts = Timestamp.valueOf(gioKT);
 
                 sanBong sb = SanBongDAO.timSanTheoId(idSanBong);
-//                String kieuSan = sb.getKieuSan().name();
+               if( sb == null) {
+                continue;
+            }
 
                 bangGia bg = BangGiaDAO.timGiaTheoGio(gioBD_ts, sb.getKieuSan());
                 if (bg == null) continue;
@@ -310,11 +312,11 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
                         coCapNhat = true;
 //                        render(req, resp, "lichDatCuaToi");
                         resp.sendRedirect(req.getContextPath() + "/nguoiDung/lichDatCuaToi");
-                        return;
+
                     } else {
                         resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Cập nhật thất bại.");
                     }
-                    break;
+
                 }
             }
 
@@ -368,11 +370,11 @@ private void chinhSuaLichDatCaNhan(HttpServletRequest req, HttpServletResponse r
         return;
     }
 
-    List<sanBong> sameTypeFields = SanBongDAO.timDanhSachSanTheoKieuSan(sb.getKieuSan());
+    List<sanBong> sanBongCungKieu = SanBongDAO.timDanhSachSanTheoKieuSan(sb.getKieuSan());
 
     req.setAttribute("lichDat", datSan);
     req.setAttribute("sanBong", sb);
-    req.setAttribute("sanBongCungKieu", sameTypeFields);
+    req.setAttribute("sanBongCungKieu", sanBongCungKieu);
     render(req, resp, "chinhSuaLichDatCuaToi");
 
 }
