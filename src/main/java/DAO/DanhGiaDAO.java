@@ -130,7 +130,7 @@ public class DanhGiaDAO {
         }
     }
 
-    public danhGia timDanhGiaTheoDatSan(String idDatSan) {
+    public static danhGia timDanhGiaTheoDatSan(String idDatSan) {
         String sql = "SELECT * FROM danhGia WHERE idDatSan = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -151,5 +151,39 @@ public class DanhGiaDAO {
             return null;
         }
         return null;
+    }
+
+    public static danhGia capNhatThongTinDanhGia(String id, Map<String, Object> thongTinCapNhat){
+        if (thongTinCapNhat == null || thongTinCapNhat.isEmpty()) return null;
+
+        StringBuilder sql = new StringBuilder("UPDATE danhGia SET ");
+        List<Object> values = new ArrayList<>();
+
+
+
+        for (String column : thongTinCapNhat.keySet()) {
+            sql.append(column).append(" = ?, ");
+            values.add(thongTinCapNhat.get(column));
+        }
+
+        // Remove the last comma and space, and add the WHERE clause
+        sql.setLength(sql.length() - 2);
+        sql.append(" WHERE id = ?");
+        values.add(id);
+
+        try (Connection conn = ketnoiCSDL.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+            for (int i = 0; i < values.size(); i++) {
+                stmt.setObject(i + 1, values.get(i));
+            }
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
+                return timDanhGiaTheoId(id);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; }
     }
 }

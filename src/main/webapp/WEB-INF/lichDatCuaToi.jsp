@@ -104,7 +104,7 @@
                         </button>
                     </form>
 
-                    <form action="<%= request.getContextPath() %>/danhGia/chinhSua" method="get">
+                    <form action="<%= request.getContextPath() %>/danhGia/chinhSuaDanhGia" method="get">
                         <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
                         <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
                             Chỉnh sửa

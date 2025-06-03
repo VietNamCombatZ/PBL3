@@ -25,6 +25,9 @@ public class DanhGiaController extends BaseController{
             case "/taoDanhGia":
                 render(req, resp, "taoDanhGia");
                 break;
+
+            case "/chinhSuaDanhGia":
+                render(req, resp, "chinhSuaDanhGia");
             default:
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
@@ -39,6 +42,9 @@ public class DanhGiaController extends BaseController{
             case "/taoDanhGia":
                 taoDanhGia(req, resp);
                 break;
+                case "/chinhSuaDanhGia":
+                    chinhSuaDanhGia(req, resp);
+                    break;
             default:
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
@@ -79,6 +85,45 @@ public class DanhGiaController extends BaseController{
             resp.sendRedirect(req.getContextPath() + "/datSan/lichDatCaNhan");
         } else {
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Không thể tạo đánh giá.");
+        }
+    }
+
+    private void chinhSuaDanhGia(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String idDanhGia = req.getParameter("idDanhGia");
+        danhGia dg = DanhGiaDAO.timDanhGiaTheoId(idDanhGia);
+        if (dg == null) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Đánh giá không tồn tại.");
+            return;
+        }
+
+        String noiDung = req.getParameter("noiDung");
+        mucDiem mucDiemValue = null;
+        try {
+            mucDiemValue = mucDiem.valueOf(req.getParameter("mucDiem"));
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Mức điểm không hợp lệ.");
+            return;
+        }
+
+        dg.setNoiDung(noiDung);
+        dg.setMucDiem(mucDiemValue);
+        dg.setNgayCapNhat(new Timestamp(System.currentTimeMillis()));
+
+        // Cập nhật đánh giá
+        Map<String, Object> thongTinCapNhat = new HashMap<>();
+
+        thongTinCapNhat.put("mucDiem", mucDiemValue.name());
+        thongTinCapNhat.put("noiDung", noiDung);
+
+        thongTinCapNhat.put("ngayCapNhat", new Timestamp(System.currentTimeMillis()));
+
+        danhGia daCapNhat = DanhGiaDAO.capNhatThongTinDanhGia(idDanhGia, thongTinCapNhat);
+        if (daCapNhat != null) {
+//            resp.sendRedirect(req.getContextPath() + "/danhGia/chiTiet?id=" + idDanhGia);
+            resp.sendRedirect(req.getContextPath() + "/datSan/lichDatCaNhan");
+        } else {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Không thể cập nhật đánh giá.");
         }
     }
 }

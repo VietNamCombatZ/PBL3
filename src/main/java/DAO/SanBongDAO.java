@@ -106,7 +106,7 @@ public class SanBongDAO {
     public static sanBong capNhatThongTinSan(String id, Map<String, Object> thongTinCapNhat){
         if (thongTinCapNhat == null || thongTinCapNhat.isEmpty()) return null;
 
-        StringBuilder sql = new StringBuilder("UPDATE cars SET ");
+        StringBuilder sql = new StringBuilder("UPDATE sanBong SET ");
         List<Object> values = new ArrayList<>();
 
 
