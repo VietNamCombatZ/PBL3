@@ -224,8 +224,12 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
         try {
             String idDatSan = req.getParameter("idDatSan");
             String idSanBong = req.getParameter("idSanBong");
-            String timestampStartStr = req.getParameter("startTime");
-            String timestampEndStr = req.getParameter("endTime");
+            String timestampStartStr = req.getParameter("timestampStart");
+            String timestampEndStr = req.getParameter("timestampEnd");
+            System.out.println("idDatSan ở capNhatLichDatCuaToi: " + idDatSan);
+            System.out.println("idSanBong ở capNhatLichDatCuaToi: " + idSanBong);
+            System.out.println("timestampStartStr ở capNhatLichDatCuaToi: " + timestampStartStr);
+            System.out.println("timestampEndStr ở capNhatLichDatCuaToi: " + timestampEndStr);
 
             if (idDatSan == null || idSanBong == null || timestampStartStr == null || timestampEndStr == null ||
                     idDatSan.isEmpty() || idSanBong.isEmpty() || timestampStartStr.isEmpty() || timestampEndStr.isEmpty()) {
@@ -233,8 +237,16 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
                 return;
             }
 
-            Timestamp timestampStart = Timestamp.valueOf(timestampStartStr.replace("T", " ") + ":00");
-            Timestamp timestampEnd = Timestamp.valueOf(timestampEndStr.replace("T", " ") + ":00");
+//            Timestamp timestampStart = Timestamp.valueOf(timestampStartStr.replace("T", " ") + ":00");
+//            Timestamp timestampEnd = Timestamp.valueOf(timestampEndStr.replace("T", " ") + ":00");
+
+            Timestamp timestampStart = Timestamp.valueOf(timestampStartStr);
+            Timestamp timestampEnd = Timestamp.valueOf(timestampEndStr);
+
+            System.out.println("timestampStart: " + timestampStart);
+            System.out.println("timestampEnd: " + timestampEnd);
+
+
 
             nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
             if (nd == null) {
@@ -300,6 +312,7 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
 
                     // Cập nhật thông tin đặt sân
                     Map<String, Object> thongTinCapNhat = new HashMap<>();
+                    thongTinCapNhat.put("idSanBong", idSanBong);
                     thongTinCapNhat.put("gioBatDau", timestampStart);
                     thongTinCapNhat.put("gioKetThuc", timestampEnd);
                     thongTinCapNhat.put("soTien", soTien);
@@ -311,7 +324,7 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
                         req.setAttribute("thongBao", "Cập nhật lịch đặt thành công.");
                         coCapNhat = true;
 //                        render(req, resp, "lichDatCuaToi");
-                        resp.sendRedirect(req.getContextPath() + "/nguoiDung/lichDatCuaToi");
+                        resp.sendRedirect(req.getContextPath() + "/datSan/lichDatCaNhan");
 
                     } else {
                         resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Cập nhật thất bại.");

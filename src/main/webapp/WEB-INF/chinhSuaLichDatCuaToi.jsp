@@ -64,7 +64,7 @@
   <!-- Chọn sân -->
   <div class="mb-4">
     <label class="block text-gray-700">Chọn sân:</label>
-    <select name="idSanBong" class="w-full px-3 py-2 border rounded">
+    <select name="idSanBong" id="idSanBongSelect" class="w-full px-3 py-2 border rounded">
       <%
         List<sanBong> sanBongCungKieu = (List<sanBong>) request.getAttribute("sanBongCungKieu");
         if (sanBongCungKieu != null) {
@@ -81,7 +81,8 @@
   <!-- Submit -->
   <div class="mb-4">
     <form action="<%= request.getContextPath() %>/datSan/capNhatLichDatCuaToi" method="post">
-        <input type="hidden" name="idDatSan" value="<%= request.getAttribute("idDatSan") %>">
+        <input type="hidden" name="idDatSan" value="<%= ds.getId() %>">
+        <input type="hidden" name="idSanBong" id="hidden-idSanBong" >
       <input type="hidden" name="timestampStart" id="hidden-timestamp-start">
       <input type="hidden" name="timestampEnd" id="hidden-timestamp-end">
       <button type="submit" onclick="return prepareSubmit()"
@@ -92,7 +93,12 @@
 </div>
 
 <script>
-  const availableHours = [6, 7, 8, 9, 15, 16, 17, 18, 19, 20];
+  const availableStartHour = [6, 7, 8, 9, 15, 16, 17, 18, 19, 20];
+  const availableEndHour =[7,8,9,10,16,17,18,19,20,21]
+  $('#idSanBongSelect').on('change', function () {
+    const selectedId = $(this).val();
+    $('#hidden-idSanBong').val(selectedId);
+  });
 
   function loadStartHours(dateStr) {
     const today = new Date();
@@ -100,7 +106,7 @@
     let nowHour = today.getHours();
 
     $('#start-hour').empty();
-    availableHours.forEach(hour => {
+    availableStartHour.forEach(hour => {
       if (selectedDate.toDateString() !== today.toDateString() || hour > nowHour) {
         $('#start-hour').append(`<option value="${hour}:00">${hour}:00</option>`);
       }
@@ -111,7 +117,7 @@
   function loadEndHours(start) {
     const startHour = parseInt(start.split(":")[0]);
     $('#end-hour').empty();
-    availableHours.forEach(hour => {
+    availableEndHour.forEach(hour => {
       if (hour > startHour) {
         $('#end-hour').append(`<option value="${hour}:00">${hour}:00</option>`);
       }
@@ -122,14 +128,16 @@
     const date = $('#datepicker').val();
     const start = $('#start-hour').val();
     const end = $('#end-hour').val();
+    const sanBongId = $('#idSanBongSelect').val();
 
-    if (!date || !start || !end) {
+    if (!date || !start || !end || !sanBongId) {
       alert("Vui lòng chọn đầy đủ ngày, giờ bắt đầu và giờ kết thúc.");
       return false;
     }
 
     $('#hidden-timestamp-start').val(`${date} ${start}:00`);
     $('#hidden-timestamp-end').val(`${date} ${end}:00`);
+    $('#hidden-idSanBong').val(sanBongId);
     return true;
   }
 
