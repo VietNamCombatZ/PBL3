@@ -28,6 +28,10 @@ public class DanhGiaController extends BaseController{
 
             case "/chinhSuaDanhGia":
                 render(req, resp, "chinhSuaDanhGia");
+                break;
+            case "/xemDanhGiaCuaKhachHang":
+                render(req, resp, "danhGiaCuaKhachHang");
+                break;
             default:
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;

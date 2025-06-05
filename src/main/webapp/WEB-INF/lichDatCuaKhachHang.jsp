@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, java.text.SimpleDateFormat" %>
-<%@ page import="model.datSan, model.sanBong, DAO.SanBongDAO" %>
+<%@ page import="model.*, model.sanBong, DAO.SanBongDAO" %>
+<%@ page import="DAO.DanhGiaDAO" %>
 
 <%
   List<datSan> lichDat = (List<datSan>) request.getAttribute("lichDat");
@@ -48,6 +49,10 @@
       for (datSan ds : lichDat) {
         sanBong sb = SanBongDAO.timSanTheoId(ds.getIdSanBong());
         if (sb == null) continue;
+
+        boolean coTheHuy = ds.getTrangThai() == trangThaiDatSan.DA_THANH_TOAN ||
+                          ds.getTrangThai() == trangThaiDatSan.DA_HUY;
+        danhGia dg = DanhGiaDAO.timDanhGiaTheoDatSan(ds.getId());
     %>
     <tr>
       <td class="border px-4 py-2"><%= sb.getTenSan() %></td>
@@ -59,28 +64,21 @@
         <div class="flex space-x-[15px]">
 
 <%--          chỉnh sửa lại chỉ gồm nút Đã thanh Toán, chưa thanh toán, huỷ đặt, xem góp ý--%>
-<%--          <% if (coTheDanhGia) {--%>
-<%--            if (dg == null) { // đã đánh giá--%>
+          <% if (dg != null) { // đã đánh giá
+           // đã đánh giá
 
-<%--          %>--%>
-<%--          <form action="<%= request.getContextPath() %>/danhGia/taoDanhGia" method="get">--%>
-<%--            <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />--%>
-<%--            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">--%>
-<%--              Đã thanh toán--%>
-<%--            </button>--%>
-<%--          </form>--%>
-<%--          <% } else{%>--%>
+          %>
+          <form action="<%= request.getContextPath() %>/danhGia/xemDanhGiaCuaKhachHang" method="get"  class="mt-2">
+            <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
+            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                Xem đánh giá
+            </button>
+          </form>
 
-<%--          <form action="<%= request.getContextPath() %>/danhGia/chinhSuaDanhGia" method="get">--%>
-<%--            <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />--%>
-<%--            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">--%>
-<%--              Chỉnh sửa đánh giá--%>
-<%--            </button>--%>
-<%--          </form>--%>
-<%--          <% }} %>--%>
-<%--        </div>--%>
+          <% } %>
+        </div>
 
-<%--        <% if (coTheHuy) { %>--%>
+        <% if (coTheHuy) { %>
 <%--        <form action="<%= request.getContextPath() %>/datSan/chinhSuaDatSan" method="get" class="mt-2">--%>
 <%--          <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />--%>
 <%--          <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">--%>
@@ -88,13 +86,13 @@
 <%--          </button>--%>
 <%--        </form>--%>
 
-<%--        <form action="<%= request.getContextPath() %>/datSan/huyDatSan" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn hủy lịch đặt này không?');" class="mt-2">--%>
-<%--          <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />--%>
-<%--          <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">--%>
-<%--            Hủy đặt--%>
-<%--          </button>--%>
-<%--        </form>--%>
-<%--        <% } %>--%>
+        <form action="<%= request.getContextPath() %>/datSan/huyDatSanKhachHang" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn hủy lịch đặt này không?');" class="mt-2">
+          <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
+          <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+            Hủy đặt
+          </button>
+        </form>
+        <% } %>
       </td>
     </tr>
     <%
