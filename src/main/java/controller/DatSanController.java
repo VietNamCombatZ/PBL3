@@ -60,6 +60,10 @@ public class DatSanController extends BaseController{
                 capNhatLichDatCuaToi(req, resp);
                 break;
 
+            case "/thanhToanSan":
+                xacNhanThanhToan(req, resp);
+                break;
+
 case "/huyDatSan":
     khachHangHuyDatSan(req,resp);
     break;
@@ -352,6 +356,8 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
 
 
 private void layLichDatCuaKhachHang(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    HttpSession session = req.getSession();
+
     String idKhachHang = req.getParameter("id");
 
     if (idKhachHang == null || idKhachHang.isEmpty()) {
@@ -362,11 +368,16 @@ private void layLichDatCuaKhachHang(HttpServletRequest req, HttpServletResponse 
     // Tìm danh sách đặt sân của khách hàng đó
     List<datSan> lichDat = DatSanDAO.timDanhSachDatSanTheoNguoiDung(idKhachHang);
     nguoiDung khachHang = NguoiDungDAO.layNguoiDungTheoId(idKhachHang);
+    System.out.println("thông tin khách hàng lần1: " + khachHang);
 
     // Gửi sang JSP
     req.setAttribute("lichDat", lichDat);
 //    req.setAttribute("idKhachHang", idKhachHang); // optional nếu cần
     req.setAttribute("khachHang", khachHang);
+    session.setAttribute("lichDat", lichDat);
+    session.setAttribute("khachHang", khachHang); // Lưu thông tin khách hàng vào session
+
+    System.out.println("thông tin khách hàng lần2: " + khachHang);
     render(req, resp, "lichDatCuaKhachHang");
 }
 
@@ -394,6 +405,48 @@ private void chinhSuaLichDatCaNhan(HttpServletRequest req, HttpServletResponse r
     req.setAttribute("sanBongCungKieu", sanBongCungKieu);
     render(req, resp, "chinhSuaLichDatCuaToi");
 
+}
+
+
+private void xacNhanThanhToan(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    String idDatSan = req.getParameter("idDatSan");
+
+    if (idDatSan == null || idDatSan.isEmpty()) {
+        req.setAttribute("error", "ID đặt sân không hợp lệ");
+        render(req, resp, "lichDatCuaKhachHang");
+        return;
+    }
+
+    datSan ds = DatSanDAO.timDatSanTheoId(idDatSan);
+    if (ds == null) {
+        req.setAttribute("error", "Không tìm thấy đặt sân");
+        render(req, resp, "lichDatCuaKhachHang");
+        return;
+    }
+
+    String idKhachHang = ds.getIdKhachHang();
+    nguoiDung khachHang = NguoiDungDAO.layNguoiDungTheoId(idKhachHang);
+
+
+    // Cập nhật trạng thái đặt sân thành ĐÃ THANH TOÁN
+    Map<String, Object> updates = new HashMap<>();
+    updates.put("trangThai", trangThaiDatSan.DA_THANH_TOAN.name());
+
+    datSan daCapNhat = DatSanDAO.capNhatThongTinDatSan(idDatSan, updates);
+    List<datSan> lichDat = DatSanDAO.timDanhSachDatSanTheoNguoiDung(idKhachHang);
+
+
+    if (daCapNhat != null) {
+        req.setAttribute("thongBao", "Thanh toán thành công");
+        req.setAttribute("lichDat", lichDat);
+        req.setAttribute("khachHang", khachHang);
+        render(req, resp, "lichDatCuaKhachHang");
+    } else {
+        req.setAttribute("error", "Lỗi không thể thanh toán");
+        req.setAttribute("lichDat", lichDat);
+        req.setAttribute("khachHang", khachHang);
+        render(req, resp, "lichDatCuaKhachHang");
+    }
 }
 
 

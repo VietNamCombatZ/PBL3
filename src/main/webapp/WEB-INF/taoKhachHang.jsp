@@ -10,6 +10,13 @@
 <body>
 <div class="overlay">
     <div class="register-form">
+        <% String thongBao = (String) request.getAttribute("thongBao");
+            if(thongBao == null){
+                thongBao = (String) session.getAttribute("thongBao");
+            }%>
+        <% if (thongBao != null) { %>
+        <p style="color: red;"><%= thongBao %></p>
+        <% } %>
         <h2>Tạo người dùng</h2>
         <form action="<%= request.getContextPath()%>/nguoiDung/taoKhachHang" method="post">
             <input type="text" name="ten" placeholder="Tên *" required>

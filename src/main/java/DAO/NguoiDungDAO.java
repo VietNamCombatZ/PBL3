@@ -100,7 +100,7 @@ public class NguoiDungDAO {
         }
     }
 
-    public boolean xoa(String id) {
+    public static boolean xoa(String id) {
         String sql = "DELETE FROM nguoiDung WHERE id = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

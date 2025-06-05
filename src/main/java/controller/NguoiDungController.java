@@ -22,7 +22,7 @@ public class NguoiDungController  extends BaseController {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
-        System.out.println("Path: " + path);
+        System.out.println("Path ở doGet: " + path);
         switch (path) {
             case "/dangKy":
                 render(request, response, "dangKy");
@@ -63,7 +63,7 @@ public class NguoiDungController  extends BaseController {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
-        System.out.println("Path: " + path);
+        System.out.println("Path ở doPost: " + path);
         switch (path) {
             case "/dangKy":
                 dangKy(request, response);
@@ -83,6 +83,9 @@ public class NguoiDungController  extends BaseController {
 //                CapNhatThongTin capNhat = new CapNhatThongTin();
 //                capNhat.doPost(request, response);
 //                break;
+            case "/xoaKhachHang":
+                xoaKhachHang(request, response);
+                break;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
@@ -407,6 +410,32 @@ public class NguoiDungController  extends BaseController {
     }
 
 
+    public void xoaKhachHang(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        nguoiDung nd = (nguoiDung) request.getSession().getAttribute("nguoiDung");
+        if (nd == null) {
+            response.sendRedirect("dangNhap.jsp");
+            return;
+        }
 
+        String id = request.getParameter("id");
+        System.out.println("ID người dùng cần xóa: " + id);
+        if (id == null || id.isEmpty()) {
+            request.setAttribute("error", "ID người dùng không hợp lệ");
+            render(request, response, "danhSachKhachHang");
+            return;
+        }
+
+        boolean thanhCong = NguoiDungDAO.xoa(id);
+        System.out.println("Xóa khách hàng thành công: " + thanhCong);
+        if (thanhCong) {
+            request.setAttribute("thongBao", "Xóa khách hàng thành công");
+        } else {
+            request.setAttribute("error", "Xóa khách hàng thất bại");
+        }
+        System.out.println("Đang chuyển hướng đến danh sách khách hàng");
+        layDanhSachKhachHang(request, response);
+
+
+    }
 
 }

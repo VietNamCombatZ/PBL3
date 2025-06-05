@@ -4,9 +4,13 @@
 <%@ page import="DAO.DanhGiaDAO" %>
 
 <%
-  List<datSan> lichDat = (List<datSan>) request.getAttribute("lichDat");
+//  List<datSan> lichDat = (List<datSan>) request.getAttribute("lichDat");
   SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-  nguoiDung khachHang = (nguoiDung) request.getAttribute("khachHang");
+//  nguoiDung khachHang = (nguoiDung) request.getAttribute("khachHang");
+
+    List<datSan> lichDat = (List<datSan>) session.getAttribute("lichDat");
+    nguoiDung khachHang = (nguoiDung) session.getAttribute("khachHang");
+    System.out.println("thông tin khách hàng lần1 ở jsp: " + khachHang);
     if (khachHang == null) {
         throw new IllegalStateException("Không tìm thấy thông tin khách hàng trong phiên làm việc.");
     }
@@ -50,8 +54,9 @@
         sanBong sb = SanBongDAO.timSanTheoId(ds.getIdSanBong());
         if (sb == null) continue;
 
-        boolean coTheHuy = ds.getTrangThai() == trangThaiDatSan.DA_THANH_TOAN ||
+        boolean coTheHuy = ds.getTrangThai() == trangThaiDatSan.CHO_THANH_TOAN ||
                           ds.getTrangThai() == trangThaiDatSan.DA_HUY;
+        boolean coTheThanhToan = ds.getTrangThai() == trangThaiDatSan.CHO_THANH_TOAN;
         danhGia dg = DanhGiaDAO.timDanhGiaTheoDatSan(ds.getId());
     %>
     <tr>
@@ -77,6 +82,22 @@
 
           <% } %>
         </div>
+          <% if (coTheThanhToan) { %>
+          <%--        <form action="<%= request.getContextPath() %>/datSan/chinhSuaDatSan" method="get" class="mt-2">--%>
+          <%--          <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />--%>
+          <%--          <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">--%>
+          <%--            Chỉnh sửa lịch đặt--%>
+          <%--          </button>--%>
+          <%--        </form>--%>
+
+          <form action="<%= request.getContextPath() %>/datSan/thanhToanSan" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xác nhận thanh toán lịch đặt này không?');" class="mt-2">
+              <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
+              <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                  Xác nhận thanh toán
+              </button>
+          </form>
+          <% } %>
+
 
         <% if (coTheHuy) { %>
 <%--        <form action="<%= request.getContextPath() %>/datSan/chinhSuaDatSan" method="get" class="mt-2">--%>
