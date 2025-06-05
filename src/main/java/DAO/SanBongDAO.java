@@ -32,11 +32,22 @@ public class SanBongDAO {
         List<sanBong> danhSachSan = new ArrayList<>();
 
         try (Connection conn = ketnoiCSDL.getConnection()) {
-            String sql = "select * from sanBong where id not in (select idSanBong from datSan where ? >= gioBatDau  and ? < gioKetThuc ) AND trangThai != 'BAO_TRI'";
+//            String sql = "select * from sanBong where id not in (select idSanBong from datSan where ? >= gioBatDau  and ? < gioKetThuc ) AND trangThai != 'BAO_TRI'";
+
+            //lấy các sân có trạng thái sân khác bảo trì, và giờ đặt sân không trùng với giờ đặt sân đã có
+//            String sql ="select * from sanBong where id not in (select idSanBong from datSan where (gioBatDau <= ? and ? <= gioKetThuc)or(gioBatDau <= ? and ? <= gioKetThuc)) and trangThai != 'BAO_TRI' ";
+            String sql = "SELECT * FROM sanBong WHERE id NOT IN (" +
+                    "SELECT idSanBong FROM datSan " +
+                    "WHERE gioKetThuc > ? AND gioBatDau < ?" +
+                    ") AND trangThai != 'BAO_TRI'";
+
+
 
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setTimestamp(1, timestampStart);
-                stmt.setTimestamp(2, timestampEnd);
+                stmt.setTimestamp(2, timestampStart);
+                stmt.setTimestamp(3, timestampEnd);
+                stmt.setTimestamp(4, timestampEnd);
                 System.out.println("Thực thi truy vấn với timestampStart: " + timestampStart.toString());
                 System.out.println("Thực thi truy vấn với timestampEnd: " + timestampEnd.toString());
 

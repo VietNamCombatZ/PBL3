@@ -37,6 +37,7 @@ public class DatSanController extends BaseController{
                 break;
             case "/chinhSuaDatSan":
                 chinhSuaLichDatCaNhan(req, resp);
+                break;
 
             default:
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
