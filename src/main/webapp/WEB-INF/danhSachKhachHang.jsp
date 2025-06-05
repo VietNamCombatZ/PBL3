@@ -135,28 +135,24 @@
                                 <i class="fas fa-eye"></i>
                             </a>
 
-<%--                            <a href="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinKhachHang?id=<%= kh.getId() %>"--%>
-<%--                               class="btn-action btn-edit" title="Chỉnh sửa">--%>
-<%--                                <i class="fas fa-edit"></i>--%>
-<%--                            </a>--%>
-                            <form action="<%=request.getContextPath()%>/nguoiDung/chinhSuaThongTinKhachHang?id=<%= kh.getId() %>" method="POST" style="margin: 0;">
 
-                                <button onclick="return confirm('Bạn có chắc chắn muốn xoá khách hàng này không?');"  type="submit" class="btn-action btn-edit  text-white px-3 py-1 rounded hover:bg-blue-700">
-                                    Chỉnh sửa người dùng
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </form>
+                            <a href="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinKhachHang?id=<%= kh.getId() %>"
+                               class="btn-action btn-view" title="Chỉnh sửa người dùng">
+                                <i class="fas fa-eye"></i>
+                            </a>
+<%--                            <form action="<%=request.getContextPath()%>/nguoiDung/chinhSuaThongTinKhachHang?id=<%= kh.getId() %>" method="GET" style="margin: 0;">--%>
+
+<%--                                <button onclick="return confirm('Bạn có chắc chắn muốn xoá khách hàng này không?');"  type="submit" class="btn-action btn-edit  ">--%>
+<%--                                    Chỉnh sửa người dùng--%>
+<%--                                    <i class="fas fa-edit"></i>--%>
+<%--                                </button>--%>
+<%--                            </form>--%>
 
                             <form action="<%=request.getContextPath()%>/nguoiDung/xoaKhachHang?id=<%= kh.getId() %>" method="POST" style="margin: 0;">
 
-                                <button onclick="return confirm('Bạn có chắc chắn muốn xoá khách hàng này không?');"  type="submit" class="btn-action btn-delete text-white px-3 py-1 rounded hover:bg-blue-700">Xoá người dùng <i class="fas fa-trash"></i></button>
+                                <button onclick="return confirm('Bạn có chắc chắn muốn xoá khách hàng này không?');"  type="submit" class="btn-action btn-delete ">Xoá người dùng <i class="fas fa-trash"></i></button>
                             </form>
-<%--                            <a href="<%= request.getContextPath() %>/nguoiDung/xoaKhachHang?id=<%= kh.getId() %>" method="post"--%>
-<%--                               class="btn-action btn-delete"--%>
-<%--                               onclick="return confirm('Bạn có chắc chắn muốn xoá khách hàng này không?');"--%>
-<%--                               title="Xóa">--%>
-<%--                                <i class="fas fa-trash"></i>--%>
-<%--                            </a>--%>
+
                             <%
                                 }
                             %>

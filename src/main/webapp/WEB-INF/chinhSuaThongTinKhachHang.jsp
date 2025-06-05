@@ -7,6 +7,12 @@
     response.sendRedirect(request.getContextPath() + "/nguoiDung/dangNhap");
     return;
   }
+
+  nguoiDung khachHang = (nguoiDung) request.getAttribute("khachHang");
+    if (khachHang == null) {
+      response.sendRedirect(request.getContextPath() + "/nguoiDung/DanhsachKhachHang");
+      return;
+    }
 %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -19,20 +25,20 @@
 <body>
 <div class="container">
   <h1>Chỉnh sửa thông tin cá nhân</h1>
-  <form id="editForm" action="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinCaNhan" method="post" novalidate>
+  <form id="editForm" action="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinKhachHang?id=<%= khachHang.getId() %>" method="post" novalidate>
     <label for="name">Tên</label>
     <input type="text" id="name" name="name" placeholder="Nhập tên"
-           value="<%= nd.getTen() != null ? nd.getTen() : "" %>" required />
+           value="<%= khachHang.getTen() != null ? khachHang.getTen() : "" %>" required />
     <div class="error" id="nameError"></div>
 
     <label for="email">Email</label>
     <input type="email" id="email" name="email" placeholder="Nhập email"
-           value="<%= nd.getEmail() != null ? nd.getEmail() : "" %>" required />
+           value="<%= khachHang.getEmail() != null ? khachHang.getEmail() : "" %>" required />
     <div class="error" id="emailError"></div>
 
     <label for="ngaySinh">Ngày sinh</label>
     <input type="date" id="ngaySinh" name="ngaySinh"
-           value="<%= nd.getNgaySinh() != null ? nd.getNgaySinh().toString() : "" %>" required />
+           value="<%= khachHang.getNgaySinh() != null ? khachHang.getNgaySinh().toString() : "" %>" required />
     <div class="error" id="ngaySinhError"></div>
 
     <label for="password">Mật khẩu</label>

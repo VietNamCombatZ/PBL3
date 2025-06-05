@@ -47,6 +47,9 @@ public class NguoiDungController  extends BaseController {
             case "/chinhSuaThongTinCaNhan":
                 hienThiChinhSuaThongTinCaNhan(request, response);
                 break;
+            case "/chinhSuaThongTinKhachHang":
+                hienThiChinhSuaThongTinKhachHang(request, response);
+                break;
 
             case "/taoKhachHang":
                 render(request, response, "taoKhachHang");
@@ -74,6 +77,9 @@ public class NguoiDungController  extends BaseController {
 
             case "/chinhSuaThongTinCaNhan":
                 luuChinhSuaThongTinCaNhan(request, response);
+                break;
+            case "/chinhSuaThongTinKhachHang":
+                luuChinhSuaThongTinKhachHang(request, response);
                 break;
 
                 case "/taoKhachHang":
@@ -161,6 +167,8 @@ public class NguoiDungController  extends BaseController {
             return;
         }
 
+
+
         req.setCharacterEncoding("UTF-8");
 
         // Lấy dữ liệu từ form
@@ -214,6 +222,84 @@ public class NguoiDungController  extends BaseController {
         }
     }
 
+    private void luuChinhSuaThongTinKhachHang(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException {
+
+        nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
+
+        if (nd == null) {
+            render(req, res, "dangNhap");
+            return;
+        }
+        String idKhachHang = req.getParameter("id");
+        System.out.println("id khách hàng:" + idKhachHang);
+
+        nguoiDung khachHang = NguoiDungDAO.layNguoiDungTheoId(idKhachHang);
+        System.out.println("khachHang: " + khachHang);
+
+
+        req.setCharacterEncoding("UTF-8");
+
+        // Lấy dữ liệu từ form
+        String ten = req.getParameter("name");
+
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        String ngaySinhStr = req.getParameter("ngaySinh");
+
+        // Validate cơ bản
+        if (ten == null || ten.trim().isEmpty() ||
+                email == null || email.trim().isEmpty() ||
+                ngaySinhStr == null || ngaySinhStr.trim().isEmpty()) {
+            req.setAttribute("error", "Vui lòng nhập đầy đủ thông tin bắt buộc");
+            render(req, res, "chinhSuaThongTinKhachHang");
+            return;
+        }
+
+        // Chuyển đổi ngày sinh
+        java.sql.Date ngaySinh = null;
+        try {
+            ngaySinh = java.sql.Date.valueOf(ngaySinhStr); // định dạng yyyy-MM-dd
+        } catch (IllegalArgumentException e) {
+            req.setAttribute("error", "Ngày sinh không hợp lệ");
+            render(req, res, "chinhSuaThongTinKhachHang");
+            return;
+        }
+
+        // Cập nhật thông tin
+        khachHang.setTen(ten.trim());
+        khachHang.setEmail(email.trim());
+        khachHang.setNgaySinh(ngaySinh);
+
+        // Nếu người dùng nhập mật khẩu mới thì cập nhật
+        if (password != null && !password.trim().isEmpty()) {
+            if (password.length() < 6) {
+                req.setAttribute("error", "Mật khẩu phải có ít nhất 6 ký tự");
+                render(req, res, "chinhSuaThongTinKhachHang");
+                return;
+            }
+            khachHang.setMatKhau(password.trim()); // Hoặc mã hóa nếu có
+        }
+
+        System.out.println("== Thông tin gửi vào DAO ==");
+        System.out.println("Email: " + khachHang.getEmail());
+        System.out.println("Mật khẩu: " + khachHang.getMatKhau());
+        System.out.println("Tên: " + khachHang.getTen());
+        System.out.println("Ảnh đại diện: " + khachHang.getAnhDaiDien());
+        System.out.println("Vai trò: " + (khachHang.getVaiTroNguoiDung() != null ? khachHang.getVaiTroNguoiDung().name() : "null"));
+        System.out.println("Ngày sinh: " + khachHang.getNgaySinh());
+        System.out.println("ID: " + khachHang.getId());
+        boolean thanhCong = NguoiDungDAO.capNhat(khachHang);
+
+        if (thanhCong) {
+            req.getSession().setAttribute("nguoiDung", nd);
+            layDanhSachKhachHang(req, res);
+        } else {
+            req.setAttribute("error", "Cập nhật thông tin thất bại, vui lòng thử lại.");
+            res.sendRedirect(req.getContextPath()+"nguoiDung/DanhsachKhachHang");
+        }
+    }
+
 
 
     private void hienThiChinhSuaThongTinCaNhan(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -226,6 +312,30 @@ public class NguoiDungController  extends BaseController {
         // Chuyển đối tượng người dùng vào request để hiển thị trong form
         req.setAttribute("nguoiDung", nd);
         render(req, res, "chinhSuaThongTinCaNhan");
+    }
+
+    private void hienThiChinhSuaThongTinKhachHang(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
+        if (nd == null) {
+            render(req, res, "dangNhap");
+            return;
+        }
+        String idKhachHang = req.getParameter("id");
+        if (idKhachHang == null || idKhachHang.isEmpty()) {
+            req.setAttribute("error", "ID khách hàng không hợp lệ");
+            render(req, res, "danhSachKhachHang");
+            return;
+        }
+        nguoiDung khachHang = NguoiDungDAO.layNguoiDungTheoId(idKhachHang);
+        if (khachHang == null) {
+            req.setAttribute("error", "Không tìm thấy khách hàng với ID: " + idKhachHang);
+            render(req, res, "danhSachKhachHang");
+            return;
+        }
+
+        // Chuyển đối tượng người dùng vào request để hiển thị trong form
+        req.setAttribute("khachHang", khachHang);
+        render(req, res, "chinhSuaThongTinKhachHang");
     }
 
 
@@ -377,8 +487,7 @@ public class NguoiDungController  extends BaseController {
     private void layDanhSachKhachHang(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         nguoiDung nd = (nguoiDung) request.getSession().getAttribute("nguoiDung");
         if (nd == null) {
-            response.sendRedirect("dangNhap.jsp");
-            return;
+            render(request, response, "dangNhap");
         }
 
         // Lấy danh sách khách hàng từ DAO
@@ -393,7 +502,7 @@ public class NguoiDungController  extends BaseController {
     private void layDanhSachNhanVien(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         nguoiDung nd = (nguoiDung) request.getSession().getAttribute("nguoiDung");
         if (nd == null) {
-            response.sendRedirect("dangNhap.jsp");
+            render(request, response, "dangNhap");
             return;
         }
 
@@ -413,7 +522,7 @@ public class NguoiDungController  extends BaseController {
     public void xoaKhachHang(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         nguoiDung nd = (nguoiDung) request.getSession().getAttribute("nguoiDung");
         if (nd == null) {
-            response.sendRedirect("dangNhap.jsp");
+            render(request, response, "dangNhap");
             return;
         }
 
