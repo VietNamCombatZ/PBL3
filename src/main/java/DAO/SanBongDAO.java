@@ -45,9 +45,8 @@ public class SanBongDAO {
 
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setTimestamp(1, timestampStart);
-                stmt.setTimestamp(2, timestampStart);
-                stmt.setTimestamp(3, timestampEnd);
-                stmt.setTimestamp(4, timestampEnd);
+
+                stmt.setTimestamp(2, timestampEnd);
                 System.out.println("Thực thi truy vấn với timestampStart: " + timestampStart.toString());
                 System.out.println("Thực thi truy vấn với timestampEnd: " + timestampEnd.toString());
 
