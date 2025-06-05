@@ -14,7 +14,7 @@
       <span class="text-yellow-400">365</span>
     </div>
     <nav class="hidden md:flex space-x-6 text-sm font-medium">
-      <a href="#home" class="hover:text-yellow-400">Trang chủ</a>
+      <a href="<%=request.getContextPath()%>/trangChu" class="hover:text-yellow-400">Trang chủ</a>
       <a href="<%=request.getContextPath()%>/sanBong/danhSachSanCoSan"  class="hover:text-yellow-400">Danh sách sân bãi</a>
       <%
         nguoiDung thongTinNguoiDung = (nguoiDung) session.getAttribute("nguoiDung");
