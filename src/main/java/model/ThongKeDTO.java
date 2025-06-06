@@ -14,6 +14,7 @@ public class ThongKeDTO {
         this.nhan = nhan;
         this.tongDoanhThu = tongDoanhThu;
         this.soLuotDat = soLuotDat;
+
     }
 
     public String getNhan() { return nhan; }
