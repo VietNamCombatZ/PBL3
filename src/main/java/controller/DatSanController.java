@@ -25,9 +25,7 @@ public class DatSanController extends BaseController{
         System.out.println("Path ở doGet: " + path);
 
         switch (path) {
-//            case "/taoLichDat":
-//                render(req, resp, "taoLichDat");
-//                break;
+
             case"/tatCaLichDat":
                 render(req, resp, "danhSachTatCaLichDat");
                 break;
@@ -85,51 +83,6 @@ case "/huyDatSan":
 
 
     }
-
-//    private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        try {
-//
-//            int idSanBong = Integer.parseInt(req.getParameter("idSanBong"));
-//            System.out.println("timestamp tại taoLichDat trong DatSanController: " + req.getParameter("timestamp"));
-//            Timestamp timestamp = Timestamp.valueOf(req.getParameter("timestamp"));
-//            // Lấy user từ session hoặc request
-//            nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
-//
-//            String idLichDat = UUID.randomUUID().toString();
-//
-//            bangGia bg = BangGiaDAO.timGiaTheoGio(timestamp);
-//            if (bg == null) {
-//                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Không tìm thấy bảng giá cho thời gian này");
-//                return;
-//            }
-//            Date gioBatDau = bg.getGioBatDau();
-//            Date gioKetThuc = bg.getGioKetThuc();
-//            int soTien = bg.getGiaTien1Gio() * (int) ((timestamp.getTime() - gioBatDau.getTime()) / (1000 * 60 * 60));
-//
-//            datSan ds = new datSan();
-//            ds.setId(idLichDat);
-//            ds.setIdKhachHang(nd.getId());
-//            ds.setIdSanBong(String.valueOf(idSanBong));
-//            ds.setSoTien(soTien);
-//            ds.setTrangThai(trangThaiDatSan.CHO_THANH_TOAN);
-//            ds.setGioBatDau(new java.sql.Date(gioBatDau.getTime()));
-//            ds.setGioKetThuc(new java.sql.Date(gioKetThuc.getTime()));
-//            ds.setNgayTao(new Timestamp(System.currentTimeMillis()));
-//            ds.setNgayCapNhat(new Timestamp(System.currentTimeMillis()));
-//
-//
-//            // Gọi DAO thêm lịch đặt
-//            DatSanDAO.Tao(ds);
-//            System.out.println("Lịch đặt đã được tạo ở DatSanController: " + ds);
-//
-//            // Redirect về trang danh sách lịch đặt
-////            resp.sendRedirect(req.getContextPath() + "/lichDatCuaToi");
-//            render(req, resp, "lichDatCuaToi");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi đặt sân");
-//        }
-//    }
 
 
 
