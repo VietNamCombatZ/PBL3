@@ -62,9 +62,6 @@ public class NguoiDungController  extends BaseController {
             case "/taoNhanVien":
                 render(request, response, "taoNhanVien");
                 break;
-//            case "/capNhatThongTin":
-//                capNhatThongTin(request, response);
-//                break;
 
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -103,6 +100,10 @@ public class NguoiDungController  extends BaseController {
 
             case "/xoaKhachHang":
                 xoaKhachHang(request, response);
+                break;
+
+            case "/xoaNhanVien":
+                xoaNhanVien(request, response);
                 break;
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -561,7 +562,7 @@ public class NguoiDungController  extends BaseController {
         // Kiểm tra mật khẩu khớp nhau
         if (!matkhau.equals(nhaplaimatkhau)) {
             request.setAttribute("error", "Mật khẩu không khớp");
-//            request.getRequestDispatcher("dangKy.jsp").forward(request, response);
+
             render(request, response, "dangKy");
             return;
         }
@@ -590,13 +591,13 @@ public class NguoiDungController  extends BaseController {
         boolean thanhCong = NguoiDungDAO.Tao(user);
 
         if (thanhCong) {
-//            response.sendRedirect("dangNhap.jsp");
+
             render(request, response, "dangNhap");
 
         } else {
             request.setAttribute("error", "Đăng ký thất bại (vui lòng thử lại)");
             render(request, response, "dangKy");
-//            request.getRequestDispatcher("dangKy.jsp").forward(request, response);
+
         }
     }
 
@@ -629,7 +630,7 @@ public class NguoiDungController  extends BaseController {
             // Đăng nhập thất bại
             System.out.println("Dang Nhap that bai");
             request.setAttribute("thongBao", "Email hoặc mật khẩu không đúng!");
-//            request.getRequestDispatcher("dangNhap.jsp").forward(request, response);
+
             render(request, response, "dangNhap");
         }
 
@@ -656,7 +657,7 @@ public class NguoiDungController  extends BaseController {
         request.setAttribute("danhSachKhachHang", danhSachKhachHang);
 
         // Chuyển hướng đến trang danh sách khách hàng
-//        request.getRequestDispatcher("/danhSachKhachHang.jsp").forward(request, response);
+
         render(request, response, "danhSachKhachHang");
 
 }
@@ -708,4 +709,31 @@ public class NguoiDungController  extends BaseController {
 
     }
 
+    public void xoaNhanVien(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        nguoiDung nd = (nguoiDung) request.getSession().getAttribute("nguoiDung");
+        if (nd == null) {
+            render(request, response, "dangNhap");
+            return;
+        }
+
+        String id = request.getParameter("id");
+        System.out.println("ID nhân viên cần xóa: " + id);
+        if (id == null || id.isEmpty()) {
+            request.setAttribute("error", "ID nhân viên không hợp lệ");
+            render(request, response, "danhSachNhanVien");
+            return;
+        }
+
+        boolean thanhCong = NguoiDungDAO.xoa(id);
+        System.out.println("Xóa nhân viên thành công: " + thanhCong);
+        if (thanhCong) {
+            request.setAttribute("thongBao", "Xóa nhân viên thành công");
+        } else {
+            request.setAttribute("error", "Xóa nhân viên thất bại");
+        }
+        System.out.println("Đang chuyển hướng đến danh sách nhân viên");
+        layDanhSachNhanVien(request, response);
+
+
+    }
 }

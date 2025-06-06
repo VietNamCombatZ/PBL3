@@ -53,14 +53,14 @@
         Xem danh sách nhân viên
       </a>
       <div class="relative group">
-        <a href="#" class="hover:text-yellow-400">Xem góp ý</a>
+        <a href="#" class="hover:text-yellow-400">Xem đánh giá</a>
         <div class="absolute hidden group-hover:block top-full left-0 bg-white shadow-lg rounded z-50">
-          <a href="<%= request.getContextPath() %>/gopY/khachHang" class="block px-4 py-2 hover:bg-yellow-100 text-black">Góp ý của khách hàng</a>
-          <a href="<%= request.getContextPath() %>/gopY/san" class="block px-4 py-2 hover:bg-yellow-100 text-black">Góp ý của từng sân</a>
+          <a href="<%= request.getContextPath() %>/danhGia/khachHang" class="block px-4 py-2 hover:bg-yellow-100 text-black">Đánh giá của khách hàng</a>
+          <a href="<%= request.getContextPath() %>/danhGia/san" class="block px-4 py-2 hover:bg-yellow-100 text-black">Đánh giá của từng sân</a>
         </div>
       </div>
 
-      <a href="#" class="hover:text-yellow-400">Xem doanh thu</a>
+      <a href="<%= request.getContextPath() %>/doanhThu" class="hover:text-yellow-400">Xem doanh thu</a>
     </nav>
 
 
