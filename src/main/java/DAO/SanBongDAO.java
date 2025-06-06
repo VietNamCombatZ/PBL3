@@ -28,6 +28,40 @@ public class SanBongDAO {
         }
     }
 
+    public static List<sanBong> layDanhSachSanBong(){
+        List<sanBong> danhSachSan = new ArrayList<>();
+
+        try (Connection conn = ketnoiCSDL.getConnection()) {
+//            String sql = "select * from sanBong where id not in (select idSanBong from datSan where ? >= gioBatDau  and ? < gioKetThuc ) AND trangThai != 'BAO_TRI'";
+
+            //lấy các sân có trạng thái sân khác bảo trì, và giờ đặt sân không trùng với giờ đặt sân đã có
+//            String sql ="select * from sanBong where id not in (select idSanBong from datSan where (gioBatDau <= ? and ? <= gioKetThuc)or(gioBatDau <= ? and ? <= gioKetThuc)) and trangThai != 'BAO_TRI' ";
+            String sql = "SELECT * FROM sanBong";
+
+
+
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    sanBong san = new sanBong();
+                    san.setId(rs.getString("id"));
+                    san.setTenSan(rs.getString("tenSan"));
+                    san.setTrangThai(trangThaiSan.valueOf(rs.getString("trangThai")));
+                    san.setKieuSan(loaiSan.valueOf(rs.getString("kieuSan")));
+                    san.setNgayTao(rs.getTimestamp("ngayTao"));
+                    san.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
+
+                    danhSachSan.add(san);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi SQL: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return danhSachSan;
+    }
+
     public static List<sanBong> LayDanhSachSanCoSan(Timestamp timestampStart, Timestamp timestampEnd) {
         List<sanBong> danhSachSan = new ArrayList<>();
 

@@ -19,7 +19,7 @@ import java.util.*;
 public class DanhGiaController extends BaseController{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getPathInfo() == null ? "/" : req.getPathInfo();
-        System.out.println("Path: " + path);
+        System.out.println("Path ở doGet: " + path);
 
         switch (path) {
             case "/taoDanhGia":
@@ -40,7 +40,7 @@ public class DanhGiaController extends BaseController{
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getPathInfo() == null ? "/" : req.getPathInfo();
-        System.out.println("Path: " + path);
+        System.out.println("Path ở doPost: " + path);
 
         switch (path) {
             case "/taoDanhGia":

@@ -28,6 +28,16 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
             System.out.println("Vao danh sach san co san");
             render(req, resp, "danhSachSanCoSan");
             break;
+        case "/xemTinhTrangSan":
+            System.out.println("Vao xem tinh trang san");
+            // Lấy danh sách sân bóng từ DAO
+
+            render(req, resp, "danhSachSanBong");
+            break;
+
+        default:
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            break;
     }
 }
 
