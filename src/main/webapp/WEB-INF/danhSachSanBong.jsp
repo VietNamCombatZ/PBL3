@@ -57,7 +57,7 @@
 
 <div class="header-container">
     <h2>Danh sách sân bóng</h2>
-    <a class="button" href="<%= request.getContextPath() %>/sanBong/themSanBong">+ Thêm sân bóng</a>
+    <a class="button" href="<%= request.getContextPath() %>/sanBong/taoSanBong">+ Thêm sân bóng</a>
 </div>
 
 <table>

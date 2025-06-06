@@ -11,7 +11,7 @@ import java.util.Map;
 public class SanBongDAO {
 
     public static boolean Tao(sanBong sb) {
-        String sql = "INSERT INTO sanBong(id, tenSan, trangThai,  loaiSan, ngayTao, ngayCapNhat) " +
+        String sql = "INSERT INTO sanBong(id, tenSan, trangThai,  kieuSan, ngayTao, ngayCapNhat) " +
                 "VALUES (?, ?, ?, ?, NOW(), NOW())";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -103,6 +103,25 @@ public class SanBongDAO {
         }
 
         return danhSachSan;
+    }
+    public static sanBong timSanTheoTenSan(String tenSan) {
+        String sql = "SELECT * FROM sanBong WHERE tenSan = ?";
+        try (Connection conn = ketnoiCSDL.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, tenSan);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                sanBong sb = new sanBong();
+                sb.setTenSan(rs.getString("tenSan"));
+                sb.setId(rs.getString("id"));
+                sb.setTrangThai(trangThaiSan.valueOf(rs.getString("trangThai")));
+                sb.setKieuSan(loaiSan.valueOf(rs.getString("kieuSan")));
+                return sb;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static sanBong timSanTheoId(String id) {
