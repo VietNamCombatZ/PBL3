@@ -76,7 +76,7 @@
                 </div>
 
             </div>
-<%--            <button class="add-employee-btn" onclick="addEmployee()">--%>
+<%--            <button class="add-guest-btn" onclick="addEmployee()">--%>
 <%--                <i class="fas fa-plus mr-2"></i>--%>
 <%--                Thêm khách hàng mới--%>
 <%--            </button>--%>
@@ -110,13 +110,13 @@
                     <% } %>
                 </tr>
                 </thead>
-                <tbody id="employeeTableBody">
+                <tbody id="guestTableBody">
                 <% for (nguoiDung kh : danhSachKhachHang) { %>
                 <tr class="...">
                     <td class="px-6 py-4">
-                        <div class="employee-info">
-                            <div class="employee-name"><%= kh.getTen() %></div>
-<%--                            <div class="employee-id"><%= kh.getId() %></div>--%>
+                        <div class="guest-info">
+                            <div class="guest-name"><%= kh.getTen() %></div>
+<%--                            <div class="guest-id"><%= kh.getId() %></div>--%>
                         </div>
                     </td>
                     <td class="px-6 py-4">
@@ -169,5 +169,22 @@
 
 
 </div>
+
+<script>
+    document.getElementById("searchInput").addEventListener("input", function () {
+        const keyword = this.value.toLowerCase().trim();
+        const rows = document.querySelectorAll("#guestTableBody tr");
+
+        rows.forEach(row => {
+            const name = row.querySelector(".guest-name")?.textContent.toLowerCase() || "";
+            const email = row.querySelector("td:nth-child(3)")?.textContent.toLowerCase() || "";
+            const phone = row.querySelector("td:nth-child(3)")?.textContent.toLowerCase() || "";
+
+            const matched = name.includes(keyword) || email.includes(keyword) || phone.includes(keyword);
+
+            row.style.display = matched ? "" : "none";
+        });
+    });
+</script>
 </body>
 </html>
