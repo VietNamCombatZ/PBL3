@@ -87,7 +87,7 @@
                     <td class="px-6 py-4">
                         <div class="employee-info">
                             <div class="employee-name"><%= nv.getTen() %></div>
-                            <div class="employee-id"><%= nv.getId() %></div>
+<%--                            <div class="employee-id"><%= nv.getId() %></div>--%>
                         </div>
                     </td>
                     <td class="px-6 py-4">
@@ -99,18 +99,28 @@
                     <td class="px-6 py-4">
                         <div class="flex space-x-2 justify-center">
                             <%
-                                if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {
-                                    %>
-                            <button class="btn-action btn-view" onclick="viewEmployee('<%= nv.getId() %>')" title="Xem chi tiết">
+                                if(nd != null && (nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) ) {
+                            %>
+<%--                            <a href="<%= request.getContextPath() %>/datSan/lichDatKhachHang?id=<%= kh.getId() %>"--%>
+<%--                               class="btn-action btn-view" title="Xem lịch sử đặt sân">--%>
+<%--                                <i class="fas fa-eye"></i>--%>
+<%--                            </a>--%>
+
+
+                            <a href="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinNhanVien?id=<%= nv.getId() %>"
+                               class="btn-action btn-view" title="Chỉnh sửa người dùng">
                                 <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn-action btn-edit" onclick="editEmployee('<%= nv.getId() %>')" title="Chỉnh sửa">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-action btn-delete" onclick="deleteEmployee('<%= nv.getId() %>')" title="Xóa">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <% } %>
+                            </a>
+
+
+                            <form action="<%=request.getContextPath()%>/nguoiDung/xoaNhanVien?id=<%= nv.getId() %>" method="POST" style="margin: 0;">
+
+                                <button onclick="return confirm('Bạn có chắc chắn muốn xoá nhân viên này không?');"  type="submit" class="btn-action btn-delete ">Xoá người dùng <i class="fas fa-trash"></i></button>
+                            </form>
+
+                            <%
+                                }
+                            %>
                         </div>
                     </td>
                 </tr>
