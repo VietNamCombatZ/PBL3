@@ -25,6 +25,14 @@
 <body>
 <div class="container">
   <h1>Chỉnh sửa thông tin sân bóng</h1>
+  <%-- Hiển thị thông báo lỗi nếu có --%>
+  <% String thongBao = (String) request.getAttribute("thongBao");
+    if(thongBao == null){
+      thongBao = (String) session.getAttribute("thongBao");
+    }%>
+  <% if (thongBao != null) { %>
+  <p style="color: red;"><%= thongBao %></p>
+  <% } %>
   <form id="editForm"
         action="<%= request.getContextPath() %>/sanBong/chinhSuaThongTinSan?id=<%= san.getId() %>"
         method="post" novalidate>

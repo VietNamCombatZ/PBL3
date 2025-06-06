@@ -17,6 +17,14 @@
 <div class="overlay">
   <div class="register-form">
     <h2>Đăng ký</h2>
+    <%-- Hiển thị thông báo lỗi nếu có --%>
+    <% String thongBao = (String) request.getAttribute("thongBao");
+      if(thongBao == null){
+        thongBao = (String) session.getAttribute("thongBao");
+      }%>
+    <% if (thongBao != null) { %>
+    <p style="color: red;"><%= thongBao %></p>
+    <% } %>
     <form action="<%= request.getContextPath()%>/nguoiDung/dangky" method="post">
       <input type="text" name="ten" placeholder="Tên *" required>
       <input type="email" name="email" placeholder="Email *" required>
