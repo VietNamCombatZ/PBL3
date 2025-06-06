@@ -12,7 +12,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách khách hàng</title>
+    <title>Danh sách nhân viên</title>
 <%--    <link rel="stylesheet" href="css/danhSachNhanVien.css" />--%>
 <%--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />--%>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -123,6 +123,25 @@
 
 
 </div>
+
+<script>
+    document.getElementById("searchInput").addEventListener("input", function () {
+        const keyword = this.value.toLowerCase().trim();
+        const rows = document.querySelectorAll("#employeeTableBody tr");
+
+        rows.forEach(row => {
+            const name = row.querySelector(".employee-name")?.textContent.toLowerCase() || "";
+            const vaiTro = row.querySelector("td:nth-child(2)")?.textContent.toLowerCase() || "";
+            const email = row.querySelector("td:nth-child(3)")?.textContent.toLowerCase() || "";
+
+
+            const matched = name.includes(keyword)  || vaiTro.includes(keyword) || email.includes(keyword);
+
+            row.style.display = matched ? "" : "none";
+        });
+    });
+</script>
+
 
 </body>
 </html>

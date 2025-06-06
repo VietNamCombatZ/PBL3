@@ -24,33 +24,6 @@
 <%@include file="navbar-nhanvien.jsp" %>
 
 <%--body--%>
-<%--<div class="container">--%>
-<%--    <h1>Danh sách khách hàng</h1>--%>
-<%--    <table>--%>
-<%--        <thead>--%>
-<%--        <tr>--%>
-<%--            <th>Tên</th>--%>
-<%--            <th>Email</th>--%>
-<%--            <th>Ngày sinh</th>--%>
-<%--        </tr>--%>
-<%--        </thead>--%>
-<%--        <tbody>--%>
-<%--        <%--%>
-<%--            for (nguoiDung nd : danhSach) {--%>
-<%--                if (nd.getVaiTroNguoiDung() == vaiTro.KHACH_HANG) {--%>
-<%--        %>--%>
-<%--        <tr>--%>
-<%--            <td><%= nd.getTen() %></td>--%>
-<%--            <td><%= nd.getEmail() %></td>--%>
-<%--            <td><%= nd.getNgaySinh() %></td>--%>
-<%--        </tr>--%>
-<%--        <%--%>
-<%--                }--%>
-<%--            }--%>
-<%--        %>--%>
-<%--        </tbody>--%>
-<%--    </table>--%>
-<%--</div>--%>
 
 <div class="container mx-auto px-6 py-8">
     <!-- Page Title -->
@@ -76,10 +49,7 @@
                 </div>
 
             </div>
-<%--            <button class="add-guest-btn" onclick="addEmployee()">--%>
-<%--                <i class="fas fa-plus mr-2"></i>--%>
-<%--                Thêm khách hàng mới--%>
-<%--            </button>--%>
+
 
             <a href="<%= request.getContextPath()%>/nguoiDung/taoKhachHang" ><i class="fas fa-plus mr-2"></i>Thêm khách hàng mới</a>
         </div>
@@ -140,13 +110,7 @@
                                class="btn-action btn-view" title="Chỉnh sửa người dùng">
                                 <i class="fas fa-eye"></i>
                             </a>
-<%--                            <form action="<%=request.getContextPath()%>/nguoiDung/chinhSuaThongTinKhachHang?id=<%= kh.getId() %>" method="GET" style="margin: 0;">--%>
 
-<%--                                <button onclick="return confirm('Bạn có chắc chắn muốn xoá khách hàng này không?');"  type="submit" class="btn-action btn-edit  ">--%>
-<%--                                    Chỉnh sửa người dùng--%>
-<%--                                    <i class="fas fa-edit"></i>--%>
-<%--                                </button>--%>
-<%--                            </form>--%>
 
                             <form action="<%=request.getContextPath()%>/nguoiDung/xoaKhachHang?id=<%= kh.getId() %>" method="POST" style="margin: 0;">
 
@@ -178,9 +142,9 @@
         rows.forEach(row => {
             const name = row.querySelector(".guest-name")?.textContent.toLowerCase() || "";
             const email = row.querySelector("td:nth-child(3)")?.textContent.toLowerCase() || "";
-            const phone = row.querySelector("td:nth-child(3)")?.textContent.toLowerCase() || "";
 
-            const matched = name.includes(keyword) || email.includes(keyword) || phone.includes(keyword);
+
+            const matched = name.includes(keyword) || email.includes(keyword) ;
 
             row.style.display = matched ? "" : "none";
         });
