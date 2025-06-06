@@ -28,6 +28,9 @@ public class DatSanController extends BaseController{
 //            case "/taoLichDat":
 //                render(req, resp, "taoLichDat");
 //                break;
+            case"/tatCaLichDat":
+                render(req, resp, "danhSachTatCaLichDat");
+                break;
             case "/lichDatCaNhan":
                 render(req, resp, "lichDatCuaToi");
                 break;
@@ -51,6 +54,9 @@ public class DatSanController extends BaseController{
         switch (path) {
             case "/taoLichDat":
                 taoLichDat(req, resp);
+                break;
+            case "/taoLichDatNhanVien":
+                taoLichDatNhanVien(req, resp);
                 break;
 
             case "/lichDatKhachHang":
@@ -124,6 +130,9 @@ case "/huyDatSan":
 //            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi đặt sân");
 //        }
 //    }
+
+
+
 private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     try {
         String idSanBong = req.getParameter("idSanBong");
@@ -227,6 +236,110 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
         resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi đặt sân");
     }
 }
+
+    private void taoLichDatNhanVien(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            String idSanBong = req.getParameter("idSanBong");
+            String timestampStartStr = req.getParameter("timestamp");
+            String timestampEndStr = req.getParameter("timestampEnd");
+
+            System.out.println("timestampStartStr: " + timestampStartStr);
+            System.out.println("timestampEndStr: " + timestampEndStr);
+
+            if (timestampStartStr == null || timestampEndStr == null ||
+                    timestampStartStr.isEmpty() || timestampEndStr.isEmpty()) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu thông tin thời gian đặt sân");
+                return;
+            }
+
+            Timestamp timestampStart = Timestamp.valueOf(timestampStartStr);
+            Timestamp timestampEnd = Timestamp.valueOf(timestampEndStr);
+
+            nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
+            if (nd == null) {
+                req.getSession().setAttribute("thongBao", "Bạn cần đăng nhập để đặt sân");
+                resp.sendRedirect(req.getContextPath() + "/nguoiDung/dangNhap");
+                return;
+            }
+
+            // Giờ nghỉ
+            LocalTime nghiBatDau = LocalTime.of(10, 0);
+            LocalTime nghiKetThuc = LocalTime.of(15, 0);
+
+            LocalDateTime startDateTime = timestampStart.toLocalDateTime();
+            LocalDateTime endDateTime = timestampEnd.toLocalDateTime();
+
+            List<LocalDateTime[]> cacKhoangHopLe = new ArrayList<>();
+
+            // Trường hợp hoàn toàn trước giờ nghỉ
+            if (endDateTime.toLocalTime().isBefore(nghiBatDau) || endDateTime.toLocalTime().equals(nghiBatDau)) {
+                cacKhoangHopLe.add(new LocalDateTime[]{startDateTime, endDateTime});
+            }
+            // Trường hợp hoàn toàn sau giờ nghỉ
+            else if (startDateTime.toLocalTime().isAfter(nghiKetThuc) || startDateTime.toLocalTime().equals(nghiKetThuc)) {
+                cacKhoangHopLe.add(new LocalDateTime[]{startDateTime, endDateTime});
+            }
+            // Trường hợp chồng vào giờ nghỉ
+            else {
+                if (startDateTime.toLocalTime().isBefore(nghiBatDau)) {
+                    LocalDateTime end1 = LocalDateTime.of(startDateTime.toLocalDate(), nghiBatDau);
+                    cacKhoangHopLe.add(new LocalDateTime[]{startDateTime, end1});
+                }
+                if (endDateTime.toLocalTime().isAfter(nghiKetThuc)) {
+                    LocalDateTime start2 = LocalDateTime.of(endDateTime.toLocalDate(), nghiKetThuc);
+                    cacKhoangHopLe.add(new LocalDateTime[]{start2, endDateTime});
+                }
+            }
+
+            boolean coTaoDuocLich = false;
+
+            for (LocalDateTime[] khoang : cacKhoangHopLe) {
+                LocalDateTime gioBD = khoang[0];
+                LocalDateTime gioKT = khoang[1];
+
+                if (gioBD.isBefore(gioKT)) {
+                    Timestamp gioBD_ts = Timestamp.valueOf(gioBD);
+                    Timestamp gioKT_ts = Timestamp.valueOf(gioKT);
+
+                    sanBong sb = SanBongDAO.timSanTheoId(idSanBong);
+                    if( sb == null) {
+                        continue;
+                    }
+
+                    bangGia bg = BangGiaDAO.timGiaTheoGio(gioBD_ts, sb.getKieuSan());
+                    if (bg == null) continue;
+
+                    int soGio = (int) Duration.between(gioBD, gioKT).toHours();
+                    int soTien = bg.getGiaTien1Gio() * soGio;
+
+                    datSan ds = new datSan();
+                    ds.setId(UUID.randomUUID().toString());
+                    ds.setIdKhachHang(nd.getId());
+                    ds.setIdSanBong(String.valueOf(idSanBong));
+                    ds.setSoTien(soTien);
+                    ds.setTrangThai(trangThaiDatSan.DA_THANH_TOAN);
+                    ds.setGioBatDau(new java.sql.Date(gioBD_ts.getTime()));
+                    ds.setGioKetThuc(new java.sql.Date(gioKT_ts.getTime()));
+                    ds.setNgayTao(new Timestamp(System.currentTimeMillis()));
+                    ds.setNgayCapNhat(new Timestamp(System.currentTimeMillis()));
+
+                    DatSanDAO.Tao(ds);
+                    coTaoDuocLich = true;
+                    System.out.println("Đã tạo lịch đặt hợp lệ: " + ds);
+                }
+            }
+
+            if (!coTaoDuocLich) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Không có khoảng thời gian hợp lệ để đặt sân.");
+                return;
+            }
+
+            render(req, resp, "danhSachTatCaLichDat");
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi đặt sân");
+        }
+    }
 
     private void capNhatLichDatCuaToi(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {

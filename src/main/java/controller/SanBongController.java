@@ -34,6 +34,10 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
             System.out.println("Vao danh sach san co san");
             render(req, resp, "danhSachSanCoSan");
             break;
+        case "/danhSachSanCoSanNhanVien":
+            System.out.println("Vao danh sach san co san");
+            render(req, resp, "danhSachSanCoSan-nhanvien");
+            break;
         case "/xemTinhTrangSan":
             System.out.println("Vao xem tinh trang san");
             // Lấy danh sách sân bóng từ DAO
@@ -64,6 +68,9 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
                 break;
             case "/danhSachSanCoSan":
                 getAvailableFields(req, resp);
+                break;
+            case "/danhSachSanCoSanNhanVien":
+                getAvailableFieldsNhanVien(req, resp);
                 break;
 
 //            case "/datSan/taoLichDat":
@@ -165,6 +172,37 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
             req.setAttribute("error", "Lỗi xử lý dữ liệu");
 //            req.getRequestDispatcher("/danhSachSanCoSan.jsp").forward(req, resp);
             render(req, resp, "danhSachSanCoSan");
+        }
+    }
+    private void getAvailableFieldsNhanVien(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String timestampStr = req.getParameter("timestamp");
+
+            System.out.println("thoi gian: " + timestampStr);
+            String timestampEndStr = req.getParameter("timestampEnd");
+
+            Timestamp timestamp = Timestamp.valueOf(timestampStr);
+            Timestamp timestampEnd = Timestamp.valueOf(timestampEndStr);
+
+            List<sanBong> availableFields = SanBongDAO.LayDanhSachSanCoSan(timestamp, timestampEnd);
+
+            System.out.println("Available fields: " + availableFields.size());
+
+            // Gán dữ liệu vào request để JSP có thể hiển thị
+            req.setAttribute("availableFields", availableFields);
+            req.setAttribute("selectedTime", timestampStr);
+            req.setAttribute("selectedTimeEnd", timestampEndStr);
+
+            // Forward về lại trang JSP để hiển thị dữ liệu
+//            req.getRequestDispatcher("/danhSachSanCoSan.jsp").forward(req, resp);
+            render(req, resp, "danhSachSanCoSan-nhanvien");
+
+        } catch (Exception e) {
+            System.out.println("Đã xảy ra lỗi trong getAvailableFields:");
+            e.printStackTrace();
+            req.setAttribute("error", "Lỗi xử lý dữ liệu");
+//            req.getRequestDispatcher("/danhSachSanCoSan.jsp").forward(req, resp);
+            render(req, resp, "danhSachSanCoSan-nhanvien");
         }
     }
     private void luuChinhSuaThongTinSanBong(HttpServletRequest req, HttpServletResponse res)

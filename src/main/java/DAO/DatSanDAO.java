@@ -34,6 +34,30 @@ public class DatSanDAO {
         }
     }
 
+    public static List<datSan> timDanhSachDatSan() {
+        String sql = "SELECT * FROM datSan";
+        List<datSan> danhSachDatSan = new ArrayList<>();
+        try (Connection conn = ketnoiCSDL.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                datSan ds = new datSan();
+                ds.setId(rs.getString("id"));
+                ds.setIdKhachHang(rs.getString("idKhachHang"));
+                ds.setIdSanBong(rs.getString("idSanBong"));
+                ds.setSoTien(rs.getInt("soTien"));
+                ds.setTrangThai(trangThaiDatSan.valueOf(rs.getString("trangThai")));
+                ds.setGioBatDau(new java.sql.Date(rs.getTimestamp("gioBatDau").getTime()));
+                ds.setGioKetThuc(new java.sql.Date(rs.getTimestamp("gioKetThuc").getTime()));
+                danhSachDatSan.add(ds);
+            }
+            return danhSachDatSan;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static datSan timDatSanTheoId(String id){
         String sql = "SELECT * FROM datSan WHERE id = ?";
         try (Connection conn = ketnoiCSDL.getConnection();

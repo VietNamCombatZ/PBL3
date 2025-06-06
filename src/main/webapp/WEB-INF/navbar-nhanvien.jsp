@@ -42,7 +42,7 @@
         <a href="#" class="hover:text-yellow-400">Xem danh sách sân</a>
         <div class="absolute hidden group-hover:block top-full left-0 bg-white shadow-lg rounded z-50">
           <a href="<%= request.getContextPath() %>/sanBong/xemTinhTrangSan" class="block px-4 py-2 hover:bg-yellow-100 text-black">Xem tình trạng sân</a>
-          <a href="<%= request.getContextPath() %>/sanBong/danhSachSanCoSan" class="block px-4 py-2 hover:bg-yellow-100 text-black">Xem danh sách sân có sẵn</a>
+          <a href="<%= request.getContextPath() %>/sanBong/danhSachSanCoSanNhanVien" class="block px-4 py-2 hover:bg-yellow-100 text-black">Xem danh sách sân có sẵn</a>
         </div>
       </div>
       <a href="<%= request.getContextPath() %>/nguoiDung/DanhsachKhachHang" class="hover:text-yellow-400">
