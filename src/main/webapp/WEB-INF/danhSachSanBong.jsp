@@ -70,7 +70,7 @@
     </tr>
     </thead>
     <tbody>
-        <%
+    <%
         List<sanBong> danhSachSan = SanBongDAO.layDanhSachSanBong();
         if (danhSachSan != null) {
             for (sanBong san : danhSachSan) {
@@ -92,4 +92,17 @@
             </a>
         </td>
     </tr>
-<%
+    <%
+        }
+    } else {
+    %>
+    <tr>
+        <td colspan="4">Không có sân bóng nào.</td>
+    </tr>
+    <%
+        }
+    %>
+    </tbody>
+</table>
+</body>
+</html>
