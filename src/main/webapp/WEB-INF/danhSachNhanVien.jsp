@@ -49,10 +49,7 @@
                 </div>
 
             </div>
-            <button class="add-employee-btn" onclick="addEmployee()">
-                <i class="fas fa-plus mr-2"></i>
-                Thêm nhân viên mới
-            </button>
+            <a href="<%= request.getContextPath()%>/nguoiDung/taoNhanVien" ><i class="fas fa-plus mr-2"></i>Thêm nhân viên mới</a>
         </div>
     </div>
 

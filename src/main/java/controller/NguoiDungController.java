@@ -58,6 +58,10 @@ public class NguoiDungController  extends BaseController {
             case "/taoKhachHang":
                 render(request, response, "taoKhachHang");
                 break;
+
+            case "/taoNhanVien":
+                render(request, response, "taoNhanVien");
+                break;
 //            case "/capNhatThongTin":
 //                capNhatThongTin(request, response);
 //                break;
@@ -93,6 +97,9 @@ public class NguoiDungController  extends BaseController {
                 case "/taoKhachHang":
                     taoKhachHang(request, response);
                     break;
+            case "/taoNhanVien":
+                taoNhanVien(request, response);
+                break;
 
             case "/xoaKhachHang":
                 xoaKhachHang(request, response);
@@ -158,6 +165,88 @@ public class NguoiDungController  extends BaseController {
         } else {
             req.setAttribute("error", "Đăng ký thất bại (vui lòng thử lại)");
             render(req, resp, "taoKhachHang");
+//            req.getRequestDispatcher("dangKy.jsp").forward(req, resp);
+        }
+    }
+    private void taoNhanVien(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+
+        String ten = req.getParameter("ten");
+        String email = req.getParameter("email");
+        String matkhau = req.getParameter("matKhau");
+        String nhaplaimatkhau = req.getParameter("nhapLaiMatKhau");
+        String ngaysinhStr = req.getParameter("ngaySinh");
+        String vaiTroNguoiDung = req.getParameter("vaiTro");
+
+
+        System.out.println("Tên: " + ten);
+        System.out.println("Email: " + email);
+        System.out.println("Mật khẩu: " + matkhau);
+        System.out.println("Nhập lại mật khẩu: " + nhaplaimatkhau);
+        System.out.println("Ngày sinh: " + ngaysinhStr);
+        System.out.println("Vai trò người dùng: " + vaiTroNguoiDung);
+
+        nguoiDung nguoiDungDaTonTai = NguoiDungDAO.layNguoiDungTheoEmail(email);
+        if (nguoiDungDaTonTai != null) {
+            System.out.print("Email đã tồn tại");
+            req.setAttribute("error", "Email đã tồn tại");
+            render(req, resp, "taoNhanVien");
+        }
+
+        // Kiểm tra mật khẩu khớp nhau
+        if (!matkhau.equals(nhaplaimatkhau)) {
+            System.out.print("Mật khẩu không khớp");
+            req.setAttribute("error", "Mật khẩu không khớp");
+//            req.getRequestDispatcher("taoNhanVien.jsp").forward(req, resp);
+            render(req, resp, "taoNhanVien");
+            return;
+        }
+
+        if (ten == null || ten.trim().isEmpty() ||
+                email == null || email.trim().isEmpty() ||
+                ngaysinhStr == null || ngaysinhStr.trim().isEmpty() ||
+                vaiTroNguoiDung == null || vaiTroNguoiDung.trim().isEmpty()) {
+            System.out.print("Vui lòng nhập đầy đủ thông tin bắt buộc");
+            req.setAttribute("error", "Vui lòng nhập đầy đủ thông tin bắt buộc");
+            render(req, resp, "taoNhanVien");
+            return;
+        }
+
+        // Chuyển String -> java.sql.Date
+        java.sql.Date ngaySinh = null;
+        try {
+            ngaySinh = java.sql.Date.valueOf(ngaysinhStr); // format yyyy-MM-dd
+        } catch (IllegalArgumentException e) {
+            System.out.print("Ngày sinh không hợp lệ");
+            req.setAttribute("error", "Ngày sinh không hợp lệ");
+//            req.getRequestDispatcher("taoNhanVien.jsp").forward(req, resp);
+            render(req, resp, "taoNhanVien");
+            return;
+
+        }
+
+        // Tạo đối tượng người dùng
+        nguoiDung user = new nguoiDung();
+        user.setId(UUID.randomUUID().toString()); //sinh id ngẫu nhiên
+        user.setTen(ten);
+        user.setEmail(email);
+        user.setMatKhau(matkhau);
+        user.setNgaySinh(ngaySinh);
+        user.setVaiTroNguoiDung(vaiTro.valueOf(vaiTroNguoiDung));
+
+        System.out.println("Vai trò người dùng: " + user.getVaiTroNguoiDung());
+
+        boolean thanhCong = NguoiDungDAO.Tao(user);
+
+        if (thanhCong) {
+//            resp.sendRedirect("dangNhap.jsp");
+//            render(req, resp, "dangNhap");
+            resp.sendRedirect(req.getContextPath() + "/nguoiDung/DanhsachNhanVien");
+
+        } else {
+            req.setAttribute("error", "Đăng ký thất bại (vui lòng thử lại)");
+            render(req, resp, "taoNhanVien");
 //            req.getRequestDispatcher("dangKy.jsp").forward(req, resp);
         }
     }
