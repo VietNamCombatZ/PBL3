@@ -118,5 +118,8 @@
   <button type="submit">Gửi đánh giá</button>
 </form>
 
+
+<%--footer--%>
+<%@include file="footer.jsp" %>
 </body>
 </html>

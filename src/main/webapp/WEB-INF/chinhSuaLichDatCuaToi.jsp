@@ -97,6 +97,9 @@
   </div>
 </div>
 
+<%--footer--%>
+<%@include file="footer.jsp" %>
+
 <script>
   const availableStartHour = [6, 7, 8, 9, 15, 16, 17, 18, 19, 20];
   const availableEndHour =[7,8,9,10,16,17,18,19,20,21]

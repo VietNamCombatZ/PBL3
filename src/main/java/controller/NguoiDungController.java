@@ -620,10 +620,10 @@ public class NguoiDungController  extends BaseController {
             session.setAttribute("nguoiDung", nd);
             System.out.println("Dang Nhap thanh cong");
 
-            if(nd.getVaiTroNguoiDung().equals(vaiTro.QUAN_LY)  || nd.getVaiTroNguoiDung().equals(vaiTro.NHAN_VIEN) ){
-                render(request, response, "index-nhanvien");
-                return;
-            }
+//            if(nd.getVaiTroNguoiDung().equals(vaiTro.QUAN_LY)  || nd.getVaiTroNguoiDung().equals(vaiTro.NHAN_VIEN) ){
+//                render(request, response, "index-nhanvien");
+//                return;
+//            }
 
             render(request, response, "index");
         } else {

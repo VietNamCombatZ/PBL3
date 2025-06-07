@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="../css/chinhSuaThongTinCaNhan.css" />
 </head>
 <body>
+
+<%@ include file="navbar-nhanvien.jsp" %>
 <div class="container">
   <h1>Chỉnh sửa thông tin cá nhân</h1>
   <form id="editForm" action="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinKhachHang?id=<%= khachHang.getId() %>" method="post" novalidate>
@@ -50,45 +52,7 @@
   </form>
 </div>
 
-<%--<script>--%>
-<%--  (function(){--%>
-<%--    const form = document.getElementById('editForm');--%>
-<%--    const nameInput = document.getElementById('name');--%>
-<%--    const emailInput = document.getElementById('email');--%>
-<%--    const passwordInput = document.getElementById('password');--%>
-
-<%--    const nameError = document.getElementById('nameError');--%>
-<%--    const emailError = document.getElementById('emailError');--%>
-<%--    const passwordError = document.getElementById('passwordError');--%>
-
-<%--    function validateEmail(email) {--%>
-<%--      const re = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;--%>
-<%--      return re.test(email);--%>
-<%--    }--%>
-
-<%--    form.addEventListener('submit', function(e) {--%>
-<%--      nameError.textContent = '';--%>
-<%--      emailError.textContent = '';--%>
-<%--      passwordError.textContent = '';--%>
-
-<%--      let valid = true;--%>
-
-<%--      if (!nameInput.value.trim()) {--%>
-<%--        nameError.textContent = 'Vui lòng nhập tên.';--%>
-<%--        valid = false;--%>
-<%--      }--%>
-
-<%--      if (!emailInput.value.trim()) {--%>
-<%--        emailError.textContent = 'Vui lòng nhập email.';--%>
-<%--        valid = false;--%>
-<%--      } else if (!validateEmail(emailInput.value.trim())) {--%>
-<%--        emailError.textContent = 'Email không hợp lệ.';--%>
-<%--        valid = false;--%>
-<%--      }--%>
-
-<%--      if (passwordInput.value && passwordInput.value.length < 6) {--%>
-<%--        passwordError.textContent = 'Mật khẩu phải có ít nhất 6 ký tự.';--%>
-<%--        valid = false;--%>
-<%--      }--%>
-
-<%--      if--%>
+<%--footer--%>
+<%@include file="footer.jsp" %>
+</body>
+</html>

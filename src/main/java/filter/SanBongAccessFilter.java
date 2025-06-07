@@ -43,7 +43,7 @@ public class SanBongAccessFilter implements Filter {
         }
 
         // Chỉ cho QUAN_LY
-        if (path.matches("^/(taoSanBong|chinhSuaThongTinSan)$")) {
+        if (path.matches("^/(taoSanBong|chinhSuaThongTinSan|xoaSanBong)$")) {
             if (!vaiTro.equals("QUAN_LY")) {
                 resp.sendRedirect(req.getContextPath() + "/accessFilter/accessDenied");
                 return;

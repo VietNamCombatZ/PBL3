@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../css/dangKy.css">
 </head>
 <body>
+
+<%@ include file="navbar-nhanvien.jsp" %>
 <div class="overlay">
     <div class="register-form">
         <% String thongBao = (String) request.getAttribute("thongBao");
@@ -28,5 +30,8 @@
         </form>
     </div>
 </div>
+
+<%--footer--%>
+<%@include file="footer.jsp" %>
 </body>
-</html>>
+</html>

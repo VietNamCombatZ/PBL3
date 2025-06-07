@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="<%= request.getContextPath() %>/css/chinhSuaThongTinCaNhan.css" />
 </head>
 <body>
+
+<%@ include file="navbar-nhanvien.jsp" %>
 <div class="container">
   <h1>Chỉnh sửa thông tin sân bóng</h1>
   <%-- Hiển thị thông báo lỗi nếu có --%>
@@ -58,5 +60,9 @@
     <button type="submit">Lưu thay đổi</button>
   </form>
 </div>
+
+<%--footer--%>
+<%@include file="footer.jsp" %>
+
 </body>
 </html>

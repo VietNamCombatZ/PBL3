@@ -200,7 +200,7 @@ public class SanBongDAO {
             return null; }
     }
 
-    public boolean xoa(String id) {
+    public static boolean xoa(String id) {
         String sql = "DELETE FROM sanBong WHERE id = ?";
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

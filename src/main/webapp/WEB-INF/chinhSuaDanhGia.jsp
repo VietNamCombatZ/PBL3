@@ -100,5 +100,8 @@
   </button>
 </form>
 
+<%--footer--%>
+<%@include file="footer.jsp" %>
+
 </body>
 </html>

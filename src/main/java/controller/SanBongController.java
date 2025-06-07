@@ -73,13 +73,15 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
                 getAvailableFieldsNhanVien(req, resp);
                 break;
 
-//            case "/datSan/taoLichDat":
-//                taoLichDat(req, resp);
-//                break;
+
             case "/chinhSuaThongTinSan":
                 System.out.println("Vao chinh sua thong tin san");
                 // Lấy danh sách sân bóng từ DAO
                 luuChinhSuaThongTinSanBong(req, resp);
+                break;
+
+            case "/xoaSanBong":
+                xoaSanBong(req, resp);
                 break;
             default:
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -268,6 +270,26 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
         }
     }
 
+    private void xoaSanBong( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        nguoiDung nd = (nguoiDung) req.getSession().getAttribute("nguoiDung");
+
+        if (nd == null) {
+            render(req, resp, "dangNhap");
+            return;
+        }
+
+        String idSanBong = req.getParameter("id");
+        System.out.println("ID sân bóng cần xóa: " + idSanBong);
+
+        boolean xoaThanhCong = SanBongDAO.xoa(idSanBong);
+
+        if (xoaThanhCong) {
+            resp.sendRedirect(req.getContextPath()+"/sanBong/xemTinhTrangSan");
+        } else {
+            req.setAttribute("error", "Xóa sân bóng thất bại, vui lòng thử lại.");
+            resp.sendRedirect(req.getContextPath()+"/sanBong/xemTinhTrangSan");
+        }
+    }
 
 }
 

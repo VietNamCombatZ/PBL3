@@ -25,10 +25,10 @@
       <%
         }
       %>
-      <a href="#" class="hover:text-yellow-400">Giới thiệu</a>
-      <a href="#" class="hover:text-yellow-400">Chính sách</a>
-      <a href="#" class="hover:text-yellow-400">Dành cho chủ sân</a>
-      <a href="#" class="hover:text-yellow-400">Liên hệ</a>
+      <a href="<%=request.getContextPath()%>/trangChu" class="hover:text-yellow-400">Giới thiệu</a>
+      <a href="<%=request.getContextPath()%>/trangChu" class="hover:text-yellow-400">Chính sách</a>
+      <a href="<%=request.getContextPath()%>/trangChu" class="hover:text-yellow-400">Dành cho chủ sân</a>
+      <a href="<%=request.getContextPath()%>/trangChu" class="hover:text-yellow-400">Liên hệ</a>
     </nav>
     <div class="flex items-center space-x-4">
       <%

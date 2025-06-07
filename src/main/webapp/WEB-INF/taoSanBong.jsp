@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="<%= request.getContextPath() %>/css/chinhSuaThongTinCaNhan.css" />
 </head>
 <body>
+<%@ include file="navbar-nhanvien.jsp" %>
 <div class="container">
   <h1>Thêm sân bóng mới</h1>
   <% String error = (String) request.getAttribute("error"); %>
@@ -48,5 +49,8 @@
     <button type="submit">Thêm sân</button>
   </form>
 </div>
+
+<%--footer--%>
+<%@include file="footer.jsp" %>
 </body>
 </html>

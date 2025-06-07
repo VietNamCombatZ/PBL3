@@ -131,6 +131,9 @@
 
 </div>
 
+<%--footer--%>
+<%@include file="footer.jsp" %>
+
 <script>
     document.getElementById("searchInput").addEventListener("input", function () {
         const keyword = this.value.toLowerCase().trim();

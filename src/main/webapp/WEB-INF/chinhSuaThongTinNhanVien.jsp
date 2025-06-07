@@ -24,6 +24,8 @@
   <link rel="stylesheet" href="../css/chinhSuaThongTinCaNhan.css" />
 </head>
 <body>
+
+<%@ include file="navbar-nhanvien.jsp" %>
 <div class="container">
   <h1>Chỉnh sửa thông tin nhân viên</h1>
   <form id="editForm" action="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinNhanVien?id=<%= nhanVien.getId() %>" method="post" novalidate>
@@ -54,5 +56,9 @@
     <button type="submit">Lưu thay đổi</button>
   </form>
 </div>
+<%--footer--%>
+<%@include file="footer.jsp" %>
+</body>
+</html>
 
 

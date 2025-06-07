@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../css/chinhSuaThongTinCaNhan.css" />
 </head>
 <body>
-
+<%@ include file="navbar-nhanvien.jsp" %>
   <div class="container">
 
     <h2>Tạo nhân viên</h2>
@@ -62,6 +62,9 @@
       <button type="submit">Tạo nhân viên</button>
     </form>
   </div>
+
+  <%--footer--%>
+  <%@include file="footer.jsp" %>
 
 </body>
 </html>>

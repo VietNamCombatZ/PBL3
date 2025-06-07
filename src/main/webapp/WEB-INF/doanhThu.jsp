@@ -142,6 +142,9 @@
   </div>
   </div>
 
+<%--footer--%>
+<%@include file="footer.jsp" %>
+
   <script>
     <% if (doanhThuTheoNgay != null) { %>
     const chartNgay = new Chart(document.getElementById('chartNgay'), {
