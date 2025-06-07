@@ -86,6 +86,41 @@ public class DoanhThuDAO {
         return result;
     }
 
+    public static Map<String, Integer> getSoLuongSanTheoGioTheoNgay(String tuNgay, String denNgay) {
+        Map<String, Integer> result = new LinkedHashMap<>();
+
+        // Khởi tạo đủ 24 giờ từ 0h đến 23h với giá trị mặc định là 0
+        for (int i = 0; i < 24; i++) {
+            result.put(i + "h", 0);
+        }
+
+        String sql = "SELECT HOUR(d.gioBatDau) AS gio, COUNT(*) AS soLuong " +
+                "FROM datSan d " +
+                "WHERE DATE(d.ngayTao) BETWEEN ? AND ? AND d.trangThai = 'DA_THANH_TOAN' " +
+                "GROUP BY HOUR(d.gioBatDau) " +
+                "ORDER BY gio";
+
+        try (Connection conn = ketnoiCSDL.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, tuNgay);
+            stmt.setString(2, denNgay);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    String gio = rs.getInt("gio") + "h";
+                    int soLuong = rs.getInt("soLuong");
+                    result.put(gio, soLuong);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 
     // 2. Doanh thu theo tuần
     public static Map<String, Integer> getDoanhThuTheoTuan() {
@@ -165,6 +200,46 @@ public class DoanhThuDAO {
 
         return result;
     }
+
+
+    public static Map<String, Integer> getSoLuongSanTheoGioTheoTuan(int tuTuan, int denTuan) {
+        Map<String, Integer> result = new LinkedHashMap<>();
+
+        // Khởi tạo đủ 24 giờ từ 0h đến 23h với giá trị mặc định là 0
+        for (int i = 0; i < 24; i++) {
+            result.put(i + "h", 0);
+        }
+
+        String sql = "SELECT HOUR(d.gioBatDau) AS gio, COUNT(*) AS soLuong " +
+                "FROM datSan d " +
+                "WHERE WEEK(d.ngayTao, 1) BETWEEN ? AND ? " +
+                "AND d.trangThai = 'DA_THANH_TOAN' " +
+                "GROUP BY HOUR(d.gioBatDau) " +
+                "ORDER BY gio";
+
+        try (Connection conn = ketnoiCSDL.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, tuTuan);
+            stmt.setInt(2, denTuan);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    String gio = rs.getInt("gio") + "h";
+                    int soLuong = rs.getInt("soLuong");
+                    result.put(gio, soLuong);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
+
 
 
 
@@ -256,6 +331,59 @@ public class DoanhThuDAO {
                     String loaiSan = rs.getString("kieuSan").replace("SAN_", "Sân ");
                     int tong = rs.getInt("tongTien");
                     result.put(loaiSan, result.getOrDefault(loaiSan, 0) + tong);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
+    public static Map<String, Integer> getSoLuongSanTheoGioTheoThang(int tuNam, int tuThang, int denNam, int denThang) {
+        Map<String, Integer> result = new LinkedHashMap<>();
+
+
+        // Tạo thời điểm bắt đầu và kết thúc
+        LocalDate startDate = LocalDate.of(tuNam, tuThang, 1);
+        LocalDate endDate = LocalDate.of(denNam, denThang, 1)
+                .withDayOfMonth(YearMonth.of(denNam, denThang).lengthOfMonth());
+
+        Timestamp startTimestamp = Timestamp.valueOf(startDate.atStartOfDay());
+        Timestamp endTimestamp = Timestamp.valueOf(endDate.atTime(LocalTime.MAX)); // 23:59:59.999999999
+
+        // Khởi tạo đủ 24 giờ từ 0h đến 23h với giá trị mặc định là 0
+        for (int i = 0; i < 24; i++) {
+            result.put(i + "h", 0);
+        }
+
+//        String sql = "SELECT HOUR(d.gioBatDau) AS gio, COUNT(*) AS soLuong " +
+//                "FROM datSan d " +
+//                "WHEREd.ngayTao, 1 BETWEEN ? AND ?" +
+//                "AND d.trangThai = 'DA_THANH_TOAN' " +
+//                "GROUP BY HOUR(d.gioBatDau) " +
+//                "ORDER BY gio";
+
+        String sql = "SELECT HOUR(d.gioBatDau) AS gio, COUNT(*) AS soLuong " +
+                "FROM datSan d " +
+                "WHERE d.ngayTao BETWEEN ? AND ? " +
+                "AND d.trangThai = 'DA_THANH_TOAN' " +
+                "GROUP BY HOUR(d.gioBatDau) " +
+                "ORDER BY gio";
+
+        try (Connection conn = ketnoiCSDL.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setTimestamp(1, startTimestamp);
+            stmt.setTimestamp(2, endTimestamp);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    String gio = rs.getInt("gio") + "h";
+                    int soLuong = rs.getInt("soLuong");
+                    result.put(gio, soLuong);
                 }
             }
 

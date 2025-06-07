@@ -46,7 +46,7 @@ public class DanhGiaController extends BaseController{
             case "/taoDanhGia":
                 taoDanhGia(req, resp);
                 break;
-                case "/chinhSuaDanhGia":
+            case "/chinhSuaDanhGia":
                     chinhSuaDanhGia(req, resp);
                     break;
 

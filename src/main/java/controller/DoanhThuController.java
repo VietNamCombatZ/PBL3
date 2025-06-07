@@ -32,14 +32,18 @@ public class DoanhThuController extends BaseController {
 //        request.setAttribute("soLuongSanTheoGio", DoanhThuDAO.getSoLuongSanTheoGio());
         request.setAttribute("doanhThuTheoNgay", new LinkedHashMap<String, Integer>());
         request.setAttribute("doanhThuNgayTheoLoaiSan", new LinkedHashMap<String, Integer>());
+        request.setAttribute("soLuongSanTheoGioTheoNgay", new LinkedHashMap<String, Integer>());
+
 
 
         request.setAttribute("doanhThuTheoTuan", new LinkedHashMap<String, Integer>());
         request.setAttribute("doanhThuTuanTheoLoaiSan", new LinkedHashMap<String, Integer>());
+        request.setAttribute("soLuongSanTheoGioTheoTuan", new LinkedHashMap<String, Integer>());
 
 
         request.setAttribute("doanhThuTheoThang", new LinkedHashMap<String, Integer>());
         request.setAttribute("doanhThuThangTheoLoaiSan", new LinkedHashMap<String, Integer>());
+        request.setAttribute("soLuongSanTheoGioTheoThang", new LinkedHashMap<String, Integer>());
 
 
         request.setAttribute("doanhThuTheoLoaiSan", new LinkedHashMap<String, Integer>());
@@ -72,14 +76,20 @@ public class DoanhThuController extends BaseController {
         // Lọc doanh thu theo điều kiện được chọn
         Map<String, Integer> doanhThuNgay = null;
         Map<String, Integer> doanhThuNgayTheoLoaiSan = null;
+        Map<String, Integer> soLuongSanTheoGioTheoNgay = null;
+
         Map<String, Integer> doanhThuTuan = null;
         Map<String, Integer> doanhThuTuanTheoLoaiSan = null;
+        Map<String, Integer> soLuongSanTheoGioTheoTuan = null;
+
         Map<String, Integer> doanhThuThang = null;
         Map<String, Integer> doanhThuThangTheoLoaiSan = null;
+        Map<String, Integer> soLuongSanTheoGioTheoThang = null;
 
         if (tuNgay != null && denNgay != null && !tuNgay.isEmpty() && !denNgay.isEmpty()) {
             doanhThuNgay = DoanhThuDAO.getDoanhThuTheoNgay(tuNgay, denNgay);
             doanhThuNgayTheoLoaiSan = DoanhThuDAO.getDoanhThuTheoLoaiSanTheoNgay(tuNgay, denNgay);
+            soLuongSanTheoGioTheoNgay = DoanhThuDAO.getSoLuongSanTheoGioTheoNgay(tuNgay, denNgay);
         } else {
             doanhThuNgay = DoanhThuDAO.getDoanhThuTheoNgay();
         }
@@ -89,6 +99,7 @@ public class DoanhThuController extends BaseController {
             int denTuanInt = Integer.parseInt(denTuan.split("-W")[1]);
             doanhThuTuan = DoanhThuDAO.getDoanhThuTheoTuan(tuTuanInt, denTuanInt);
             doanhThuTuanTheoLoaiSan = DoanhThuDAO.getDoanhThuTheoLoaiSanTheoTuan(tuTuanInt, denTuanInt);
+            soLuongSanTheoGioTheoTuan = DoanhThuDAO.getSoLuongSanTheoGioTheoTuan(tuTuanInt, denTuanInt);
         } else {
             doanhThuTuan = DoanhThuDAO.getDoanhThuTheoTuan();
         }
@@ -102,6 +113,10 @@ public class DoanhThuController extends BaseController {
 
             doanhThuThang = DoanhThuDAO.getDoanhThuTheoThang(tuNam, tuThangInt, denNam, denThangInt);
             doanhThuThangTheoLoaiSan = DoanhThuDAO.getDoanhThuTheoLoaiSanTheoThang(tuNam, tuThangInt, denNam, denThangInt);
+            soLuongSanTheoGioTheoThang = DoanhThuDAO.getSoLuongSanTheoGioTheoThang(tuNam, tuThangInt, denNam, denThangInt);
+
+
+
         } else {
             doanhThuThang = DoanhThuDAO.getDoanhThuTheoThang();
         }
@@ -109,13 +124,16 @@ public class DoanhThuController extends BaseController {
         // Gán các dữ liệu vào request
         request.setAttribute("doanhThuTheoNgay", doanhThuNgay);
         request.setAttribute("doanhThuNgayTheoLoaiSan", doanhThuNgayTheoLoaiSan);
+        request.setAttribute("soLuongSanTheoGioTheoNgay", soLuongSanTheoGioTheoNgay);
 
         request.setAttribute("doanhThuTheoTuan", doanhThuTuan);
         request.setAttribute("doanhThuTuanTheoLoaiSan", doanhThuTuanTheoLoaiSan);
+        request.setAttribute("soLuongSanTheoGioTheoTuan", soLuongSanTheoGioTheoTuan);
 
 
         request.setAttribute("doanhThuTheoThang", doanhThuThang);
         request.setAttribute("doanhThuThangTheoLoaiSan", doanhThuThangTheoLoaiSan);
+        request.setAttribute("soLuongSanTheoGioTheoThang", soLuongSanTheoGioTheoThang);
 
 
         request.setAttribute("doanhThuTheoLoaiSan", DoanhThuDAO.getDoanhThuTheoLoaiSan());

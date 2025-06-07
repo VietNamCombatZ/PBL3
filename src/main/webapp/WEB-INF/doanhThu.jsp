@@ -83,13 +83,16 @@
   <%
     Map<String, Integer> doanhThuTheoNgay = (Map<String, Integer>) request.getAttribute("doanhThuTheoNgay");
     Map<String, Integer> doanhThuNgayTheoLoaiSan = (Map<String, Integer>) request.getAttribute("doanhThuNgayTheoLoaiSan");
-
+    Map<String, Integer> soLuongSanTheoGioTheoNgay = (Map<String, Integer>) request.getAttribute("soLuongSanTheoGioTheoNgay");
 
     Map<String, Integer> doanhThuTheoTuan = (Map<String, Integer>) request.getAttribute("doanhThuTheoTuan");
     Map<String, Integer> doanhThuTuanTheoLoaiSan = (Map<String, Integer>) request.getAttribute("doanhThuTuanTheoLoaiSan");
+    Map<String, Integer> soLuongSanTheoGioTheoTuan = (Map<String, Integer>) request.getAttribute("soLuongSanTheoGioTheoTuan");
 
     Map<String, Integer> doanhThuTheoThang = (Map<String, Integer>) request.getAttribute("doanhThuTheoThang");
     Map<String, Integer> doanhThuThangTheoLoaiSan = (Map<String, Integer>) request.getAttribute("doanhThuThangTheoLoaiSan");
+    Map<String, Integer> soLuongSanTheoGioTheoThang = (Map<String, Integer>) request.getAttribute("soLuongSanTheoGioTheoThang");
+
 
     Map<String, Integer> doanhThuTheoLoaiSan = (Map<String, Integer>) request.getAttribute("doanhThuTheoLoaiSan");
     Map<String, Integer> soLuongSanTheoGio = (Map<String, Integer>) request.getAttribute("soLuongSanTheoGio");
@@ -103,6 +106,8 @@
     <canvas id="chartNgay"></canvas>
     <h2>Doanh thu sân theo ngày</h2>
     <canvas id="chartSanTheoNgay"></canvas>
+    <h2>Số lượng sân được đặt theo giờ</h2>
+    <canvas id="chartGioTheoNgay"></canvas>
 
   </div>
 
@@ -112,6 +117,9 @@
 
     <h2>Doanh thu sân theo tuần</h2>
     <canvas id="chartSanTheoTuan"></canvas>
+
+    <h2>Số lượng sân được đặt theo giờ</h2>
+    <canvas id="chartGioTheoTuan"></canvas>
   </div>
 
   <div class="chart-section">
@@ -119,6 +127,8 @@
     <canvas id="chartThang"></canvas>
     <h2>Doanh thu sân theo tháng</h2>
     <canvas id="chartSanTheoThang"></canvas>
+    <h2>Số lượng sân được đặt theo giờ</h2>
+    <canvas id="chartGioTheoThang"></canvas>
   </div>
 
           <div class="chart-section">
@@ -157,6 +167,18 @@
       }]
     }
   });
+
+    const chartGioTheoNgay = new Chart(document.getElementById('chartGioTheoNgay'), {
+      type: 'bar',
+      data: {
+        labels: [<% for (String key : soLuongSanTheoGioTheoNgay.keySet()) { %>"<%= key %>",<% } %>],
+        datasets: [{
+          label: 'Số lượng đặt sân',
+          data: [<% for (String key : soLuongSanTheoGioTheoNgay.keySet()) { %><%= soLuongSanTheoGioTheoNgay.get(key) %>,<% } %>],
+          backgroundColor: 'rgba(75, 192, 192, 0.5)'
+        }]
+      }
+    });
   <% } %>
 
     <% if (doanhThuTheoTuan != null) { %>
@@ -186,6 +208,19 @@
         }]
       }
     });
+
+
+    const chartGioTheoTuan = new Chart(document.getElementById('chartGioTheoTuan'), {
+      type: 'bar',
+      data: {
+        labels: [<% for (String key : soLuongSanTheoGioTheoTuan.keySet()) { %>"<%= key %>",<% } %>],
+        datasets: [{
+          label: 'Số lượng đặt sân',
+          data: [<% for (String key : soLuongSanTheoGioTheoTuan.keySet()) { %><%= soLuongSanTheoGioTheoTuan.get(key) %>,<% } %>],
+          backgroundColor: 'rgba(75, 192, 192, 0.5)'
+        }]
+      }
+    });
     <% } %>
 
     <% if (doanhThuTheoThang != null) { %>
@@ -209,6 +244,19 @@
           label: 'Doanh thu',
           data: [<% for (String key : doanhThuThangTheoLoaiSan.keySet()) { %><%= doanhThuThangTheoLoaiSan.get(key) %>,<% } %>],
           backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0']
+        }]
+      }
+    });
+
+
+    const chartGioTheoThang = new Chart(document.getElementById('chartGioTheoThang'), {
+      type: 'bar',
+      data: {
+        labels: [<% for (String key : soLuongSanTheoGioTheoThang.keySet()) { %>"<%= key %>",<% } %>],
+        datasets: [{
+          label: 'Số lượng đặt sân',
+          data: [<% for (String key : soLuongSanTheoGioTheoThang.keySet()) { %><%= soLuongSanTheoGioTheoThang.get(key) %>,<% } %>],
+          backgroundColor: 'rgba(75, 192, 192, 0.5)'
         }]
       }
     });
