@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/accessFilter")
+@WebServlet("/accessFilter/*")
 public class AccessController extends BaseController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
