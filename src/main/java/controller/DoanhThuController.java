@@ -25,11 +25,102 @@ public class DoanhThuController extends BaseController {
         System.out.println("DoanhThuController: doGet");
 
 
-        request.setAttribute("doanhThuTheoNgay", DoanhThuDAO.getDoanhThuTheoNgay());
-        request.setAttribute("doanhThuTheoTuan", DoanhThuDAO.getDoanhThuTheoTuan());
-        request.setAttribute("doanhThuTheoThang", DoanhThuDAO.getDoanhThuTheoThang());
+//        request.setAttribute("doanhThuTheoNgay", DoanhThuDAO.getDoanhThuTheoNgay());
+//        request.setAttribute("doanhThuTheoTuan", DoanhThuDAO.getDoanhThuTheoTuan());
+//        request.setAttribute("doanhThuTheoThang", DoanhThuDAO.getDoanhThuTheoThang());
+//        request.setAttribute("doanhThuTheoLoaiSan", DoanhThuDAO.getDoanhThuTheoLoaiSan());
+//        request.setAttribute("soLuongSanTheoGio", DoanhThuDAO.getSoLuongSanTheoGio());
+        request.setAttribute("doanhThuTheoNgay", new LinkedHashMap<String, Integer>());
+        request.setAttribute("doanhThuNgayTheoLoaiSan", new LinkedHashMap<String, Integer>());
+
+
+        request.setAttribute("doanhThuTheoTuan", new LinkedHashMap<String, Integer>());
+        request.setAttribute("doanhThuTuanTheoLoaiSan", new LinkedHashMap<String, Integer>());
+
+
+        request.setAttribute("doanhThuTheoThang", new LinkedHashMap<String, Integer>());
+        request.setAttribute("doanhThuThangTheoLoaiSan", new LinkedHashMap<String, Integer>());
+
+
+        request.setAttribute("doanhThuTheoLoaiSan", new LinkedHashMap<String, Integer>());
+        request.setAttribute("soLuongSanTheoGio", new LinkedHashMap<String, Integer>());
+
+        render(request, response, "doanhThu");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        System.out.println("DoanhThuController: doPost");
+
+        String tuNgay = request.getParameter("tuNgay");
+        String denNgay = request.getParameter("denNgay");
+
+
+        String tuTuan = request.getParameter("tuTuan");
+        String denTuan = request.getParameter("denTuan");
+
+
+
+        String tuThang = request.getParameter("tuThang");
+        String denThang = request.getParameter("denThang");
+
+        System.out.println("DoanhThuController: doPost - tuNgay: " + tuNgay + ", denNgay: " + denNgay);
+        System.out.println("DoanhThuController: doPost - tuTuan: " + tuTuan + ", denTuan: " + denTuan);
+        System.out.println("DoanhThuController: doPost - tuThang: " + tuThang + ", denThang: " + denThang);
+
+        // Lọc doanh thu theo điều kiện được chọn
+        Map<String, Integer> doanhThuNgay = null;
+        Map<String, Integer> doanhThuNgayTheoLoaiSan = null;
+        Map<String, Integer> doanhThuTuan = null;
+        Map<String, Integer> doanhThuTuanTheoLoaiSan = null;
+        Map<String, Integer> doanhThuThang = null;
+        Map<String, Integer> doanhThuThangTheoLoaiSan = null;
+
+        if (tuNgay != null && denNgay != null && !tuNgay.isEmpty() && !denNgay.isEmpty()) {
+            doanhThuNgay = DoanhThuDAO.getDoanhThuTheoNgay(tuNgay, denNgay);
+            doanhThuNgayTheoLoaiSan = DoanhThuDAO.getDoanhThuTheoLoaiSanTheoNgay(tuNgay, denNgay);
+        } else {
+            doanhThuNgay = DoanhThuDAO.getDoanhThuTheoNgay();
+        }
+
+        if (tuTuan != null && denTuan != null && !tuTuan.isEmpty() && !denTuan.isEmpty()) {
+            int tuTuanInt = Integer.parseInt(tuTuan.split("-W")[1]);
+            int denTuanInt = Integer.parseInt(denTuan.split("-W")[1]);
+            doanhThuTuan = DoanhThuDAO.getDoanhThuTheoTuan(tuTuanInt, denTuanInt);
+            doanhThuTuanTheoLoaiSan = DoanhThuDAO.getDoanhThuTheoLoaiSanTheoTuan(tuTuanInt, denTuanInt);
+        } else {
+            doanhThuTuan = DoanhThuDAO.getDoanhThuTheoTuan();
+        }
+
+        if (tuThang != null && denThang != null && !tuThang.isEmpty() && !denThang.isEmpty()) {
+            int tuNam = Integer.parseInt(tuThang.split("-")[0]);
+            int tuThangInt = Integer.parseInt(tuThang.split("-")[1]);
+
+            int denNam = Integer.parseInt(denThang.split("-")[0]);
+            int denThangInt = Integer.parseInt(denThang.split("-")[1]);
+
+            doanhThuThang = DoanhThuDAO.getDoanhThuTheoThang(tuNam, tuThangInt, denNam, denThangInt);
+            doanhThuThangTheoLoaiSan = DoanhThuDAO.getDoanhThuTheoLoaiSanTheoThang(tuNam, tuThangInt, denNam, denThangInt);
+        } else {
+            doanhThuThang = DoanhThuDAO.getDoanhThuTheoThang();
+        }
+
+        // Gán các dữ liệu vào request
+        request.setAttribute("doanhThuTheoNgay", doanhThuNgay);
+        request.setAttribute("doanhThuNgayTheoLoaiSan", doanhThuNgayTheoLoaiSan);
+
+        request.setAttribute("doanhThuTheoTuan", doanhThuTuan);
+        request.setAttribute("doanhThuTuanTheoLoaiSan", doanhThuTuanTheoLoaiSan);
+
+
+        request.setAttribute("doanhThuTheoThang", doanhThuThang);
+        request.setAttribute("doanhThuThangTheoLoaiSan", doanhThuThangTheoLoaiSan);
+
+
         request.setAttribute("doanhThuTheoLoaiSan", DoanhThuDAO.getDoanhThuTheoLoaiSan());
         request.setAttribute("soLuongSanTheoGio", DoanhThuDAO.getSoLuongSanTheoGio());
+
         render(request, response, "doanhThu");
     }
 }

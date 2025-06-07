@@ -53,54 +53,113 @@
 
 <div class="container">
   <h1>Thống kê doanh thu</h1>
+  <form action="<%= request.getContextPath() %>/doanhThu" method="post" style="margin-bottom: 40px; background-color: #fff; padding: 20px; border-radius: 10px;">
+    <h2>Lọc theo thời gian</h2>
+
+    <div style="margin-bottom: 15px;">
+      <label>🔹 Từ ngày:</label>
+      <input type="date" name="tuNgay" />
+      <label>Đến ngày:</label>
+      <input type="date" name="denNgay" />
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label>🔹 Từ tuần:</label>
+      <input type="week" name="tuTuan" />
+      <label>Đến tuần:</label>
+      <input type="week" name="denTuan" />
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label>🔹 Từ tháng:</label>
+      <input type="month" name="tuThang" />
+      <label>Đến tháng:</label>
+      <input type="month" name="denThang" />
+    </div>
+
+    <button type="submit" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Lọc thống kê</button>
+  </form>
 
   <%
     Map<String, Integer> doanhThuTheoNgay = (Map<String, Integer>) request.getAttribute("doanhThuTheoNgay");
+    Map<String, Integer> doanhThuNgayTheoLoaiSan = (Map<String, Integer>) request.getAttribute("doanhThuNgayTheoLoaiSan");
+
+
     Map<String, Integer> doanhThuTheoTuan = (Map<String, Integer>) request.getAttribute("doanhThuTheoTuan");
+    Map<String, Integer> doanhThuTuanTheoLoaiSan = (Map<String, Integer>) request.getAttribute("doanhThuTuanTheoLoaiSan");
+
     Map<String, Integer> doanhThuTheoThang = (Map<String, Integer>) request.getAttribute("doanhThuTheoThang");
+    Map<String, Integer> doanhThuThangTheoLoaiSan = (Map<String, Integer>) request.getAttribute("doanhThuThangTheoLoaiSan");
+
     Map<String, Integer> doanhThuTheoLoaiSan = (Map<String, Integer>) request.getAttribute("doanhThuTheoLoaiSan");
     Map<String, Integer> soLuongSanTheoGio = (Map<String, Integer>) request.getAttribute("soLuongSanTheoGio");
+
+
+
   %>
 
   <div class="chart-section">
     <h2>1. Doanh thu theo ngày</h2>
     <canvas id="chartNgay"></canvas>
+    <h2>Doanh thu sân theo ngày</h2>
+    <canvas id="chartSanTheoNgay"></canvas>
+
   </div>
 
   <div class="chart-section">
     <h2>2. Doanh thu theo tuần</h2>
     <canvas id="chartTuan"></canvas>
+
+    <h2>Doanh thu sân theo tuần</h2>
+    <canvas id="chartSanTheoTuan"></canvas>
   </div>
 
   <div class="chart-section">
     <h2>3. Doanh thu theo tháng</h2>
     <canvas id="chartThang"></canvas>
+    <h2>Doanh thu sân theo tháng</h2>
+    <canvas id="chartSanTheoThang"></canvas>
   </div>
 
-  <div class="chart-section">
-    <h2>4. Doanh thu theo loại sân</h2>
-    <canvas id="chartLoaiSan"></canvas>
+          <div class="chart-section">
+          <h2>4. Doanh thu theo loại sân</h2>
+  <canvas id="chartLoaiSan"></canvas>
   </div>
 
   <div class="chart-section">
     <h2>5. Số lượng sân được đặt theo giờ</h2>
     <canvas id="chartGio"></canvas>
   </div>
-</div>
+  </div>
 
-<script>
-  const chartNgay = new Chart(document.getElementById('chartNgay'), {
+  <script>
+    <% if (doanhThuTheoNgay != null) { %>
+    const chartNgay = new Chart(document.getElementById('chartNgay'), {
     type: 'bar',
     data: {
-      labels: [<% for (String key : doanhThuTheoNgay.keySet()) { %>"<%= key %>",<% } %>],
+    labels: [<% for (String key : doanhThuTheoNgay.keySet()) { %>"<%= key %>",<% } %>],
+    datasets: [{
+    label: 'Doanh thu',
+    data: [<% for (String key : doanhThuTheoNgay.keySet()) { %><%= doanhThuTheoNgay.get(key) %>,<% } %>],
+    backgroundColor: 'rgba(255, 99, 132, 0.5)'
+  }]
+  }
+  });
+
+    const chartNgayLoaiSan = new Chart(document.getElementById('chartSanTheoNgay'), {
+    type: 'pie',
+    data: {
+      labels: [<% for (String key : doanhThuNgayTheoLoaiSan.keySet()) { %>"<%= key %>",<% } %>],
       datasets: [{
         label: 'Doanh thu',
-        data: [<% for (String key : doanhThuTheoNgay.keySet()) { %><%= doanhThuTheoNgay.get(key) %>,<% } %>],
-        backgroundColor: 'rgba(255, 99, 132, 0.5)'
+        data: [<% for (String key : doanhThuNgayTheoLoaiSan.keySet()) { %><%= doanhThuNgayTheoLoaiSan.get(key) %>,<% } %>],
+        backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0']
       }]
     }
   });
+  <% } %>
 
+    <% if (doanhThuTheoTuan != null) { %>
   const chartTuan = new Chart(document.getElementById('chartTuan'), {
     type: 'line',
     data: {
@@ -116,6 +175,20 @@
     }
   });
 
+    const chartTuanLoaiSan = new Chart(document.getElementById('chartSanTheoTuan'), {
+      type: 'pie',
+      data: {
+        labels: [<% for (String key : doanhThuTuanTheoLoaiSan.keySet()) { %>"<%= key %>",<% } %>],
+        datasets: [{
+          label: 'Doanh thu',
+          data: [<% for (String key : doanhThuTuanTheoLoaiSan.keySet()) { %><%= doanhThuTuanTheoLoaiSan.get(key) %>,<% } %>],
+          backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0']
+        }]
+      }
+    });
+    <% } %>
+
+    <% if (doanhThuTheoThang != null) { %>
   const chartThang = new Chart(document.getElementById('chartThang'), {
     type: 'bar',
     data: {
@@ -127,6 +200,19 @@
       }]
     }
   });
+
+    const chartThangLoaiSan = new Chart(document.getElementById('chartSanTheoThang'), {
+      type: 'pie',
+      data: {
+        labels: [<% for (String key : doanhThuThangTheoLoaiSan.keySet()) { %>"<%= key %>",<% } %>],
+        datasets: [{
+          label: 'Doanh thu',
+          data: [<% for (String key : doanhThuThangTheoLoaiSan.keySet()) { %><%= doanhThuThangTheoLoaiSan.get(key) %>,<% } %>],
+          backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0']
+        }]
+      }
+    });
+    <% } %>
 
   const chartLoaiSan = new Chart(document.getElementById('chartLoaiSan'), {
     type: 'pie',
