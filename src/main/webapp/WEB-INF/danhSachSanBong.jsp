@@ -99,11 +99,12 @@
                 Chỉnh sửa
             </a>
             <form action="<%= request.getContextPath() %>/sanBong/xoaSanBong" method="POST" style="display:inline;">
-                <input type="hidden" name="id" value="<%= san.getId() %>">
+                <input type="hidden" name="idSanBong" value="<%= san.getId() %>">
                 <button type="submit" class="btn-delete button"
                         onclick="return confirm('Bạn có chắc chắn muốn xoá sân bóng này không?');">
                     Xoá
                 </button>
+            </form>
         </td>
     </tr>
     <%

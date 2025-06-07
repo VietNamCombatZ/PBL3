@@ -278,11 +278,15 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
             return;
         }
 
-        String idSanBong = req.getParameter("id");
+        String idSanBong = req.getParameter("idSanBong");
         System.out.println("ID sân bóng cần xóa: " + idSanBong);
 
         List<datSan> sanCoLichDat = DatSanDAO.timDanhSachDatSanTheoSanBong(idSanBong);
+        System.out.println("Danh sách lịch đặt của sân: " + sanCoLichDat);
+
+
         if (sanCoLichDat != null && !sanCoLichDat.isEmpty()) {
+            System.out.println("Sân bóng này có lịch đặt, không thể xóa.");
             req.setAttribute("error", "Không thể xóa sân bóng này vì có lịch đặt đã tồn tại.");
             resp.sendRedirect(req.getContextPath()+"/sanBong/xemTinhTrangSan");
             return;
@@ -293,6 +297,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
         if (xoaThanhCong) {
             resp.sendRedirect(req.getContextPath()+"/sanBong/xemTinhTrangSan");
         } else {
+            System.out.println("Xóa sân bóng thất bại.");
             req.setAttribute("error", "Xóa sân bóng thất bại, vui lòng thử lại.");
             resp.sendRedirect(req.getContextPath()+"/sanBong/xemTinhTrangSan");
         }
