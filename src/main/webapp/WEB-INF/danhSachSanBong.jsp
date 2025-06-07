@@ -57,6 +57,14 @@
 
 <div class="header-container">
     <h2>Danh sách sân bóng</h2>
+    <%-- Hiển thị thông báo lỗi nếu có --%>
+    <% String error = (String) request.getAttribute("error");
+        if(error == null){
+            error = (String) session.getAttribute("error");
+        }%>
+    <% if (error != null) { %>
+    <p style="color: red;"><%= error %></p>
+    <% } %>
     <a class="button" href="<%= request.getContextPath() %>/sanBong/taoSanBong">+ Thêm sân bóng</a>
 </div>
 

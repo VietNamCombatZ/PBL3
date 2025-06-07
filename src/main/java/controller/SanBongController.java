@@ -281,6 +281,13 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
         String idSanBong = req.getParameter("id");
         System.out.println("ID sân bóng cần xóa: " + idSanBong);
 
+        List<datSan> sanCoLichDat = DatSanDAO.timDanhSachDatSanTheoSanBong(idSanBong);
+        if (sanCoLichDat != null && !sanCoLichDat.isEmpty()) {
+            req.setAttribute("error", "Không thể xóa sân bóng này vì có lịch đặt đã tồn tại.");
+            resp.sendRedirect(req.getContextPath()+"/sanBong/xemTinhTrangSan");
+            return;
+        }
+
         boolean xoaThanhCong = SanBongDAO.xoa(idSanBong);
 
         if (xoaThanhCong) {

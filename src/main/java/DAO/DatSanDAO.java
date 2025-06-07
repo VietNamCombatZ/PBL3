@@ -107,6 +107,32 @@ public class DatSanDAO {
 
     }
 
+    public static List<datSan> timDanhSachDatSanTheoSanBong(String idSanBong){
+        String sql = "SELECT * FROM datSan WHERE idSanBong = ?";
+        List<datSan> danhSachDatSan = new ArrayList<>();
+        try (Connection conn = ketnoiCSDL.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idSanBong);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                datSan ds = new datSan();
+                ds.setId(rs.getString("id"));
+                ds.setIdKhachHang(rs.getString("idKhachHang"));
+                ds.setIdSanBong(rs.getString("idSanBong"));
+                ds.setSoTien(rs.getInt("soTien"));
+                ds.setTrangThai(trangThaiDatSan.valueOf(rs.getString("trangThai")));
+                ds.setGioBatDau(new java.sql.Date(rs.getTimestamp("gioBatDau").getTime()));
+                ds.setGioKetThuc(new java.sql.Date(rs.getTimestamp("gioKetThuc").getTime()));
+                danhSachDatSan.add(ds);
+            }
+            return danhSachDatSan;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
 
     public static List<datSan> timDanhSachDatSanTheoThoiGian(Date gioBatDau, Date gioKetThuc ){
         String sql = "SELECT * FROM datSan WHERE gioBatDau >= ? AND gioKetThuc <= ?";
