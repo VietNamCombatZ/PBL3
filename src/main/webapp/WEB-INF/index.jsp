@@ -194,7 +194,7 @@
 
 <!-- Navbar -->
 <%
-    if(vaiTroNguoiDung == vaiTro.NHAN_VIEN || vaiTroNguoiDung == vaiTro.QUAN_LY) {
+    if (vaiTroNguoiDung != null && (vaiTroNguoiDung == vaiTro.NHAN_VIEN || vaiTroNguoiDung == vaiTro.QUAN_LY)) {
 %>
 <%@include file="navbar-nhanvien.jsp" %>
 <%

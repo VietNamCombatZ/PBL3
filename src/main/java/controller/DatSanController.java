@@ -18,7 +18,6 @@ import java.time.LocalTime;
 import java.util.*;
 
 @WebServlet("/datSan/*")
-
 public class DatSanController extends BaseController{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getPathInfo() == null ? "/" : req.getPathInfo();
@@ -399,9 +398,11 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
                         coCapNhat = true;
 //                        render(req, resp, "lichDatCuaToi");
                         resp.sendRedirect(req.getContextPath() + "/datSan/lichDatCaNhan");
+                        return;
 
                     } else {
                         resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Cập nhật thất bại.");
+                        return;
                     }
 
                 }

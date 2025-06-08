@@ -184,6 +184,9 @@
   </style>
 </head>
 <body>
+
+<%@include file="navbar.jsp" %>
+
 <div class="login-container">
   <div class="login-card">
     <div class="login-header">

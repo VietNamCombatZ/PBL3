@@ -131,9 +131,14 @@
     const startHour = parseInt(start.split(":")[0]);
     $('#end-hour').empty();
     availableEndHour.forEach(hour => {
-      if (hour > startHour) {
+      if(startHour <= 9){ //nếu giờ bắt đầu là buổi sáng, chỉ cho chọn giờ kết thúc là buổi sáng
+      if (hour > startHour && hour <= 10) {
         $('#end-hour').append(`<option value="${hour}:00">${hour}:00</option>`);
-      }
+      }}
+      else
+        if (hour > startHour && hour <= 21) { //nếu giờ bắt đầu là buổi chiều, chỉ cho chọn giờ kết thúc là buổi chiều
+            $('#end-hour').append(`<option value="${hour}:00">${hour}:00</option>`);
+        }
     });
   }
 

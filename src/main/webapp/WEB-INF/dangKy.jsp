@@ -149,6 +149,10 @@
   </style>
 </head>
 <body>
+
+<%@include file="navbar.jsp" %>
+
+
 <div class="register-container">
   <div class="register-card">
     <div class="register-header">

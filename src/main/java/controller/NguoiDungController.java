@@ -635,12 +635,10 @@ public class NguoiDungController  extends BaseController {
         }
 
     }
-    private void dangXuat(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        HttpSession session = request.getSession();
+    private void dangXuat(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        HttpSession session = req.getSession();
         session.invalidate(); // Xóa phiên làm việc
-        render(request, response, "index");
-
-
+        render(req, resp, "dangNhap"); // Chuyển hướng về trang đăng nhập
 
     }
 
