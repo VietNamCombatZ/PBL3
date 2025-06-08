@@ -34,7 +34,7 @@ public class DanhGiaAccessFilter implements Filter
         }
 
         // Check theo từng chức năng cụ thể
-        if ("/xemDanhGiaCuaKhachHang".equals(path)) {
+        if (isKhachHangOnly(path)) {
             if (!vaiTro.equals("KHACH_HANG")) {
                 resp.sendRedirect(req.getContextPath() + "/accessFilter/accessDenied");
                 return;
@@ -50,4 +50,13 @@ public class DanhGiaAccessFilter implements Filter
         // Cho phép tiếp tục nếu hợp lệ
         chain.doFilter(request, response);
     }
+
+     private boolean isKhachHangOnly(String path) {
+         return path != null && (
+                 path.equals("/taoDanhGia") ||
+                         path.equals("/chinhSuaDanhGia") ||
+                         path.equals("/xoaDanhGia")
+
+         );
+     }
 }
