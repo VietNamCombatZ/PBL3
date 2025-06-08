@@ -501,6 +501,8 @@ private void xacNhanThanhToan(HttpServletRequest req, HttpServletResponse resp) 
     datSan daCapNhat = DatSanDAO.capNhatThongTinDatSan(idDatSan, updates);
     List<datSan> lichDat = DatSanDAO.timDanhSachDatSanTheoNguoiDung(idKhachHang);
 
+    System.out.println("Thông tin lịch đặt của khách hàng: " + lichDat);
+
 
     if (daCapNhat != null) {
         req.setAttribute("thongBao", "Thanh toán thành công");

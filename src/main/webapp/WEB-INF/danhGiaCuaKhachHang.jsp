@@ -24,7 +24,7 @@
 </head>
 <body>
 
-<%@ include file="navbar.jsp" %>
+<%@ include file="navbar-nhanvien.jsp" %>
 
 <div class="page-header">
     <div class="container">

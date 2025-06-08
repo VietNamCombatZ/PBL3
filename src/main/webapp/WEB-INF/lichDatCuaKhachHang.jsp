@@ -173,7 +173,7 @@
                                 <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
                                 <button type="submit" class="btn-action btn-view w-full">
                                     <i class="fas fa-star mr-1"></i>
-                                    Xem đánh giá <%= ds.getId() %>
+                                    Xem đánh giá
                                 </button>
                             </form>
                             <% } %>

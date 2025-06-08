@@ -172,13 +172,14 @@ public class DatSanDAO {
             sql.append(column).append(" = ?, ");
             values.add(thongTinCapNhat.get(column));
         }
-        System.out.println("SQL: " + sql);
-        System.out.println("Values: " + values);
+
 
         // Remove the last comma and space, and add the WHERE clause
         sql.setLength(sql.length() - 2);
         sql.append(" WHERE id = ?");
         values.add(id);
+        System.out.println("SQL: " + sql);
+        System.out.println("Values: " + values);
 
         try (Connection conn = ketnoiCSDL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
