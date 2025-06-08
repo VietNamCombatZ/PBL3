@@ -4,8 +4,8 @@
 <%@ page import="DAO.DanhGiaDAO" %>
 
 <%
-    List<datSan> lichDat = (List<datSan>) session.getAttribute("lichDat");
-    nguoiDung khachHang = (nguoiDung) session.getAttribute("khachHang");
+    List<datSan> lichDat = (List<datSan>) request.getAttribute("lichDat");
+    nguoiDung khachHang = (nguoiDung) request.getAttribute("khachHang");
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
     if (khachHang == null) {
