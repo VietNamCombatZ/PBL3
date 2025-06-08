@@ -56,6 +56,7 @@ PBL3/
 
 6. **Cấu hình database:**
     - Cập nhật kết nối tới MySQL trong file cấu hình (ví dụ: `src/main/resources/application.properties` hoặc trong code Java).
+    - Chạy script SQL `pbl3.sql` để tạo cấu trúc cơ sở dữ liệu cần thiết.
     - Đảm bảo MySQL đang chạy và đã tạo database cần thiết.
 
 7. **Truy cập ứng dụng:**
