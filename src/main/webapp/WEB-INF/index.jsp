@@ -11,8 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         .hero-section {
-            background: linear-gradient(135deg, rgba(30, 64, 175, 0.9) 0%, rgba(59, 130, 246, 0.8) 100%),
-            url('https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&w=1600&q=80');
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.9) 0%, rgba(59, 130, 246, 0.1) 100%),
+            /*url('https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&w=1600&q=80');*/
+            url('https://datsan247.com/images/22.jpg');
             background-size: cover;
             background-position: center;
             min-height: 80vh;
@@ -218,10 +219,10 @@
                 <option>7 người</option>
                 <option>11 người</option>
             </select>
-            <input type="text" placeholder="Nhập tên sân hoặc địa chỉ..." class="modern-form-control" />
-            <button class="btn-modern btn-secondary">
+            <input type="text" placeholder="Nhập tên sân..." class="modern-form-control" />
+            <a class="btn-modern btn-secondary" href="<%=request.getContextPath()%>/sanBong/danhSachSanCoSan">
                 <i class="fas fa-search"></i> Tìm kiếm
-            </button>
+            </a>
         </div>
     </div>
 </section>
