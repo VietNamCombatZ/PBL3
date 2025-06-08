@@ -13,50 +13,46 @@ import java.io.IOException;
 public class DanhGiaAccessFilter implements Filter
  {
 
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+             throws IOException, ServletException {
 
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
+         HttpServletRequest req = (HttpServletRequest) request;
+         HttpServletResponse resp = (HttpServletResponse) response;
 
-        HttpSession session = req.getSession(false);
-        nguoiDung nd = (session != null) ? (nguoiDung) session.getAttribute("nguoiDung") : null;
+         HttpSession session = req.getSession(false);
+         nguoiDung nd = (session != null) ? (nguoiDung) session.getAttribute("nguoiDung") : null;
+         String vaiTro = (nd != null) ? String.valueOf(nd.getVaiTroNguoiDung()) : null;
 
-//        String vaiTro = (session != null) ? (String) session.getAttribute("vaiTro") : null;
+         String path = req.getPathInfo();
+         if (path == null) path = "";
 
-        String vaiTro = (nd != null) ? String.valueOf(nd.getVaiTroNguoiDung()) : null; // Lấy vai trò từ đối tượng nguoiDung
-        String path = req.getPathInfo(); // Ví dụ: /taoDanhGia, /xemDanhGiaCuaKhachHang
+         if (vaiTro == null) {
+             resp.sendRedirect(req.getContextPath() + "/accessFilter/accessDenied");
+             return;
+         }
 
-        // Nếu chưa đăng nhập
-        if (vaiTro == null) {
-            resp.sendRedirect(req.getContextPath() + "/accessFilter/accessDenied");
-            return;
-        }
+         boolean khachHang = "KHACH_HANG".equals(vaiTro);
+         boolean nhanVienOrQuanLy = "NHAN_VIEN".equals(vaiTro) || "QUAN_LY".equals(vaiTro);
 
-        // Check theo từng chức năng cụ thể
-        if (isKhachHangOnly(path)) {
-            if (!vaiTro.equals("KHACH_HANG")) {
-                resp.sendRedirect(req.getContextPath() + "/accessFilter/accessDenied");
-                return;
-            }
-        } else {
-            // Các chức năng còn lại chỉ cho NV/QL
-            if (!(vaiTro.equals("NHAN_VIEN") || vaiTro.equals("QUAN_LY"))) {
-                resp.sendRedirect(req.getContextPath() + "/accessFilter/accessDenied");
-                return;
-            }
-        }
+         if (isKhachHangOnly(path)) {
+             if (!khachHang) {
+                 resp.sendRedirect(req.getContextPath() + "/accessFilter/accessDenied");
+                 return;
+             }
+         } else {
+             if (!nhanVienOrQuanLy) {
+                 resp.sendRedirect(req.getContextPath() + "/accessFilter/accessDenied");
+                 return;
+             }
+         }
 
-        // Cho phép tiếp tục nếu hợp lệ
-        chain.doFilter(request, response);
-    }
+         chain.doFilter(request, response);
+     }
 
      private boolean isKhachHangOnly(String path) {
-         return path != null && (
-                 path.equals("/taoDanhGia") ||
-                         path.equals("/chinhSuaDanhGia") ||
-                         path.equals("/xoaDanhGia")
-
-         );
+         return path.equals("/taoDanhGia") ||
+                 path.equals("/chinhSuaDanhGia") ||
+                 path.equals("/xoaDanhGia");
      }
-}
+
+ }

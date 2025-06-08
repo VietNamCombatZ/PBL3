@@ -13,122 +13,107 @@
 <head>
     <meta charset="UTF-8">
     <title>Danh sách nhân viên</title>
-<%--    <link rel="stylesheet" href="css/danhSachNhanVien.css" />--%>
-<%--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />--%>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="modern-style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 </head>
 <body>
 <%--navbar nhan vien--%>
 <%@include file="navbar-nhanvien.jsp" %>
 
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title">DANH SÁCH NHÂN VIÊN</h1>
+        <p class="page-subtitle">Quản lý thông tin nhân viên trong hệ thống</p>
+    </div>
+</div>
 
-
-
-<div class="container mx-auto px-6 py-8">
-    <!-- Page Title -->
-    <h1 class="page-title">DANH SÁCH NHÂN VIÊN</h1>
-
+<div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="stats-grid fade-in">
         <div class="stats-card">
-            <div class="text-3xl font-bold"><%= danhSachNhanVien.size() %></div>
-            <div class="text-sm opacity-90">Tổng nhân viên</div>
+            <div class="stats-number"><%= danhSachNhanVien.size() %></div>
+            <div class="stats-label">Tổng nhân viên</div>
         </div>
-
-
     </div>
 
     <!-- Search and Filter Section -->
-    <div class="search-container">
-        <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div class="flex flex-col md:flex-row gap-4 flex-1">
-                <div class="flex-1">
-                    <input type="text" placeholder="Tìm kiếm theo tên, email, số điện thoại..."
-                           class="search-input w-full" id="searchInput">
-                </div>
-
+    <div class="modern-search slide-up">
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
+            <div style="flex: 1; min-width: 300px;">
+                <input type="text" placeholder="Tìm kiếm theo tên, email, số điện thoại..."
+                       class="search-input" id="searchInput">
             </div>
-            <a href="<%= request.getContextPath()%>/nguoiDung/taoNhanVien" ><i class="fas fa-plus mr-2"></i>Thêm nhân viên mới</a>
+            <a href="<%= request.getContextPath()%>/nguoiDung/taoNhanVien" class="btn-modern btn-secondary">
+                <i class="fas fa-plus"></i>Thêm nhân viên mới
+            </a>
         </div>
     </div>
 
     <!-- Employee Table -->
-    <div class="table-container">
-        <div class="table-inner">
-            <table class="w-full">
-                <thead class="table-header">
-                <tr>
-                    <th class="px-6 py-4 text-left">
-                        <i class="fas fa-user mr-2"></i>Thông tin nhân viên
-                    </th>
-                    <th class="px-6 py-4 text-left">
-                        <i class="fas fa-building mr-2"></i>Vai trò
-                    </th>
-                    <th class="px-6 py-4 text-left">
-                        <i class="fas fa-phone mr-2"></i>Liên hệ
-                    </th>
-
-                    <%
-                        if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {
-                    %>
-                    <th class="px-6 py-4 text-center">
-                        <i class="fas fa-cogs mr-2"></i>Thao tác
-                    </th>
-                    <% } %>
-                </tr>
-                </thead>
-                <tbody id="employeeTableBody">
-                <% for (nguoiDung nv : danhSachNhanVien) { %>
-                <tr class="...">
-                    <td class="px-6 py-4">
-                        <div class="employee-info">
-                            <div class="employee-name"><%= nv.getTen() %></div>
-<%--                            <div class="employee-id"><%= nv.getId() %></div>--%>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="font-semibold text-gray-800"><%= nv.getVaiTroNguoiDung() %></div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="text-gray-800"><%= nv.getEmail() %></div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex space-x-2 justify-center">
-                            <%
-                                if(nd != null && (nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) ) {
-                            %>
-<%--                            <a href="<%= request.getContextPath() %>/datSan/lichDatKhachHang?id=<%= kh.getId() %>"--%>
-<%--                               class="btn-action btn-view" title="Xem lịch sử đặt sân">--%>
-<%--                                <i class="fas fa-eye"></i>--%>
-<%--                            </a>--%>
-
-
-                            <a href="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinNhanVien?id=<%= nv.getId() %>"
-                               class="btn-action btn-view" title="Chỉnh sửa người dùng">
-                                <i class="fas fa-eye"></i>
-                            </a>
-
-
-                            <form action="<%=request.getContextPath()%>/nguoiDung/xoaNhanVien?id=<%= nv.getId() %>" method="POST" style="margin: 0;">
-
-                                <button onclick="return confirm('Bạn có chắc chắn muốn xoá nhân viên này không?');"  type="submit" class="btn-action btn-delete ">Xoá người dùng <i class="fas fa-trash"></i></button>
-                            </form>
-
-                            <%
-                                }
-                            %>
-                        </div>
-                    </td>
-                </tr>
+    <div class="modern-table-container slide-up">
+        <table class="modern-table">
+            <thead>
+            <tr>
+                <th>
+                    <i class="fas fa-user" style="margin-right: 0.5rem;"></i>Thông tin nhân viên
+                </th>
+                <th>
+                    <i class="fas fa-building" style="margin-right: 0.5rem;"></i>Vai trò
+                </th>
+                <th>
+                    <i class="fas fa-phone" style="margin-right: 0.5rem;"></i>Liên hệ
+                </th>
+                <%
+                    if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {
+                %>
+                <th style="text-align: center;">
+                    <i class="fas fa-cogs" style="margin-right: 0.5rem;"></i>Thao tác
+                </th>
                 <% } %>
+            </tr>
+            </thead>
+            <tbody id="employeeTableBody">
+            <% for (nguoiDung nv : danhSachNhanVien) { %>
+            <tr>
+                <td>
+                    <div class="employee-info">
+                        <div class="employee-name" style="font-weight: 600; color: var(--primary-blue);"><%= nv.getTen() %></div>
+                    </div>
+                </td>
+                <td>
+                    <div style="font-weight: 600; color: #374151;"><%= nv.getVaiTroNguoiDung() %></div>
+                </td>
+                <td>
+                    <div style="color: #374151;"><%= nv.getEmail() %></div>
+                </td>
+                <td>
+                    <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                        <%
+                            if(nd != null && (nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) ) {
+                        %>
+                        <a href="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinNhanVien?id=<%= nv.getId() %>"
+                           class="btn-modern btn-outline" style="padding: 0.5rem 1rem; font-size: 0.8rem;" title="Chỉnh sửa người dùng">
+                            <i class="fas fa-eye"></i>
+                        </a>
 
-                </tbody>
-            </table>
-        </div>
+                        <form action="<%=request.getContextPath()%>/nguoiDung/xoaNhanVien?id=<%= nv.getId() %>" method="POST" style="margin: 0;">
+                            <button onclick="return confirm('Bạn có chắc chắn muốn xoá nhân viên này không?');"
+                                    type="submit"
+                                    class="btn-modern"
+                                    style="padding: 0.5rem 1rem; font-size: 0.8rem; background: #ef4444; color: white;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                        <%
+                            }
+                        %>
+                    </div>
+                </td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
     </div>
-
-
 </div>
 
 <%--footer--%>
@@ -144,14 +129,12 @@
             const vaiTro = row.querySelector("td:nth-child(2)")?.textContent.toLowerCase() || "";
             const email = row.querySelector("td:nth-child(3)")?.textContent.toLowerCase() || "";
 
-
             const matched = name.includes(keyword)  || vaiTro.includes(keyword) || email.includes(keyword);
 
             row.style.display = matched ? "" : "none";
         });
     });
 </script>
-
 
 </body>
 </html>

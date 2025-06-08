@@ -6,29 +6,30 @@
 <head>
   <meta charset="UTF-8">
   <title>Chỉnh Sửa Lịch Đặt</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="modern-style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
-<body class="bg-gray-100">
+<body>
 
 <%-- Navbar --%>
 <%@ include file="navbar.jsp" %>
 
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title">Chỉnh Sửa Lịch Đặt</h1>
+    <p class="page-subtitle">Cập nhật thông tin lịch đặt sân của bạn</p>
+  </div>
+</div>
 
-
-<div class="max-w-3xl mx-auto bg-white shadow-md p-6 mt-6 rounded">
-  <h2 class="text-2xl font-bold mb-4">Chỉnh Sửa Lịch Đặt Của Tôi</h2>
+<div class="container" style="max-width: 800px; margin: 0 auto; padding: 0 2rem;">
   <%
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
     datSan ds = (datSan) request.getAttribute("lichDat");
     if (ds == null) {
-
-
       response.sendRedirect(request.getContextPath() + "/nguoiDung/lichDatCuaToi");
       return;
-
     }
     String gioBatDau = sdf.format(ds.getGioBatDau());
     String gioKetThuc = sdf.format(ds.getGioKetThuc());
@@ -42,58 +43,62 @@
     System.out.println("Ngày: " + ngay);
     System.out.println("Giờ bắt đầu: " + gioBD);
     System.out.println("Giờ kết thúc: " + gioKT);
-
-
-
   %>
 
+  <div class="modern-form fade-in">
+    <div class="modern-card-header">
+      <h2 class="modern-card-title">Thông tin đặt sân</h2>
+    </div>
 
-  <!-- Chọn ngày -->
-  <div class="mb-4">
-    <label class="block text-gray-700">Chọn ngày:</label>
-    <input type="text" id="datepicker" name="ngay" class="w-full px-3 py-2 border rounded" />
-  </div>
+    <!-- Chọn ngày -->
+    <div class="modern-form-group">
+      <label class="modern-form label">Chọn ngày:</label>
+      <input type="text" id="datepicker" name="ngay" class="modern-form input" />
+    </div>
 
-  <!-- Chọn giờ bắt đầu -->
-  <div class="mb-4">
-    <label class="block text-gray-700">Giờ bắt đầu:</label>
-    <select id="start-hour" name="startHour" class="w-full px-3 py-2 border rounded"></select>
-  </div>
+    <!-- Chọn giờ bắt đầu -->
+    <div class="modern-form-group">
+      <label class="modern-form label">Giờ bắt đầu:</label>
+      <select id="start-hour" name="startHour" class="modern-form select"></select>
+    </div>
 
-  <!-- Chọn giờ kết thúc -->
-  <div class="mb-4">
-    <label class="block text-gray-700">Giờ kết thúc:</label>
-    <select id="end-hour" name="endHour" class="w-full px-3 py-2 border rounded"></select>
-  </div>
+    <!-- Chọn giờ kết thúc -->
+    <div class="modern-form-group">
+      <label class="modern-form label">Giờ kết thúc:</label>
+      <select id="end-hour" name="endHour" class="modern-form select"></select>
+    </div>
 
-  <!-- Chọn sân -->
-  <div class="mb-4">
-    <label class="block text-gray-700">Chọn sân:</label>
-    <select name="idSanBong" id="idSanBongSelect" class="w-full px-3 py-2 border rounded">
-      <%
-        List<sanBong> sanBongCungKieu = (List<sanBong>) request.getAttribute("sanBongCungKieu");
-        if (sanBongCungKieu != null) {
-          for (sanBong sb : sanBongCungKieu) {
-      %>
-      <option value="<%= sb.getId() %>"><%= sb.getTenSan() %></option>
-      <%
+    <!-- Chọn sân -->
+    <div class="modern-form-group">
+      <label class="modern-form label">Chọn sân:</label>
+      <select name="idSanBong" id="idSanBongSelect" class="modern-form select">
+        <%
+          List<sanBong> sanBongCungKieu = (List<sanBong>) request.getAttribute("sanBongCungKieu");
+          if (sanBongCungKieu != null) {
+            for (sanBong sb : sanBongCungKieu) {
+        %>
+        <option value="<%= sb.getId() %>"><%= sb.getTenSan() %></option>
+        <%
+            }
           }
-        }
-      %>
-    </select>
-  </div>
+        %>
+      </select>
+    </div>
 
-  <!-- Submit -->
-  <div class="mb-4">
-    <form action="<%= request.getContextPath() %>/datSan/capNhatLichDatCuaToi" method="post">
+    <!-- Submit -->
+    <div class="modern-form-group">
+      <form action="<%= request.getContextPath() %>/datSan/capNhatLichDatCuaToi" method="post">
         <input type="hidden" name="idDatSan" value="<%= ds.getId() %>">
         <input type="hidden" name="idSanBong" id="hidden-idSanBong" >
-      <input type="hidden" name="timestampStart" id="hidden-timestamp-start">
-      <input type="hidden" name="timestampEnd" id="hidden-timestamp-end">
-      <button type="submit" onclick="return prepareSubmit()"
-              class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Lưu Thay Đổi
-      </button>
-    </form>
+        <input type="hidden" name="timestampStart" id="hidden-timestamp-start">
+        <input type="hidden" name="timestampEnd" id="hidden-timestamp-end">
+        <button type="submit" onclick="return prepareSubmit()"
+                class="btn-modern btn-primary">
+          <i class="fas fa-save"></i>
+          Lưu Thay Đổi
+        </button>
+      </form>
+    </div>
   </div>
 </div>
 

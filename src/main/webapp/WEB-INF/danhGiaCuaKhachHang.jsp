@@ -7,74 +7,89 @@
     datSan ds = DatSanDAO.timDatSanTheoId(idDatSan);
     danhGia danhGiaKhachHang = DanhGiaDAO.timDanhGiaTheoDatSan(idDatSan);
 
-
     if (ds == null || danhGiaKhachHang == null) {
         response.sendRedirect(request.getContextPath() + "/quanLy/danhSachDatSan");
         return;
     }
     nguoiDung kh = NguoiDungDAO.layNguoiDungTheoId(danhGiaKhachHang.getIdKhachHang());
     sanBong sb = SanBongDAO.timSanTheoId(ds.getIdSanBong());
-
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Đánh Giá Của Khách Hàng</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f4f6;
-        }
-        .review-box {
-            background-color: #fff;
-            max-width: 500px;
-            margin: 30px auto;
-            padding: 25px 30px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .label {
-            margin-top: 15px;
-            font-weight: bold;
-            color: #444;
-        }
-        .value {
-            margin-top: 5px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            background-color: #f9f9f9;
-            font-size: 14px;
-        }
-    </style>
+    <link rel="stylesheet" href="modern-style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 </head>
 <body>
 
 <%@ include file="navbar.jsp" %>
 
-<h2 class="text-center text-2xl font-bold mt-10">Đánh Giá Của Khách Hàng</h2>
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title">Đánh Giá Của Khách Hàng</h1>
+        <p class="page-subtitle">Chi tiết đánh giá và phản hồi từ khách hàng</p>
+    </div>
+</div>
 
-<div class="review-box">
-    <div class="label">Khách hàng:</div>
-    <div class="value"><%= kh.getTen() %></div>
+<div class="container" style="max-width: 800px; margin: 0 auto; padding: 0 2rem;">
+    <div class="modern-card fade-in">
+        <div class="modern-card-header">
+            <h2 class="modern-card-title">
+                <i class="fas fa-star" style="color: var(--primary-yellow); margin-right: 0.5rem;"></i>
+                Thông tin đánh giá
+            </h2>
+        </div>
 
-    <div class="label">Sân bóng:</div>
-    <div class="value"><%= sb.getTenSan() %></div>
+        <div class="modern-form-group">
+            <label class="modern-form label">Khách hàng:</label>
+            <div class="modern-form input" style="background: #f8fafc; border: 2px solid #e2e8f0; font-weight: 600;">
+                <i class="fas fa-user" style="margin-right: 0.5rem; color: var(--primary-blue);"></i>
+                <%= kh.getTen() %>
+            </div>
+        </div>
 
-    <div class="label">Ngày đặt:</div>
-    <div class="value"><%= ds.getGioBatDau() %></div>
+        <div class="modern-form-group">
+            <label class="modern-form label">Sân bóng:</label>
+            <div class="modern-form input" style="background: #f8fafc; border: 2px solid #e2e8f0; font-weight: 600;">
+                <i class="fas fa-futbol" style="margin-right: 0.5rem; color: var(--primary-blue);"></i>
+                <%= sb.getTenSan() %>
+            </div>
+        </div>
 
-    <div class="label">Mức đánh giá:</div>
-    <div class="value"><%= danhGiaKhachHang.getMucDiem().name().replace("_", " ") %></div>
+        <div class="modern-form-group">
+            <label class="modern-form label">Ngày đặt:</label>
+            <div class="modern-form input" style="background: #f8fafc; border: 2px solid #e2e8f0;">
+                <i class="fas fa-calendar" style="margin-right: 0.5rem; color: var(--primary-blue);"></i>
+                <%= ds.getGioBatDau() %>
+            </div>
+        </div>
 
-    <div class="label">Nội dung đánh giá:</div>
-    <div class="value"><%= danhGiaKhachHang.getNoiDung() %></div>
+        <div class="modern-form-group">
+            <label class="modern-form label">Mức đánh giá:</label>
+            <div class="modern-form input" style="background: var(--light-yellow); border: 2px solid var(--primary-yellow); font-weight: 600;">
+                <i class="fas fa-star" style="margin-right: 0.5rem; color: var(--secondary-yellow);"></i>
+                <%= danhGiaKhachHang.getMucDiem().name().replace("_", " ") %>
+            </div>
+        </div>
 
-    <div class="label">Ngày đánh giá:</div>
-    <div class="value"><%= danhGiaKhachHang.getNgayTao() %></div>
+        <div class="modern-form-group">
+            <label class="modern-form label">Nội dung đánh giá:</label>
+            <div class="modern-form textarea" style="background: #f8fafc; border: 2px solid #e2e8f0; min-height: 100px; padding: 1rem;">
+                <i class="fas fa-comment" style="margin-right: 0.5rem; color: var(--primary-blue);"></i>
+                <%= danhGiaKhachHang.getNoiDung() %>
+            </div>
+        </div>
+
+        <div class="modern-form-group">
+            <label class="modern-form label">Ngày đánh giá:</label>
+            <div class="modern-form input" style="background: #f8fafc; border: 2px solid #e2e8f0;">
+                <i class="fas fa-clock" style="margin-right: 0.5rem; color: var(--primary-blue);"></i>
+                <%= danhGiaKhachHang.getNgayTao() %>
+            </div>
+        </div>
+    </div>
 </div>
 
 <%--footer--%>
