@@ -234,7 +234,12 @@
     </div>
 </div>
 
+
+<!-- Footer -->
 <%@include file="footer.jsp" %>
+
+
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
