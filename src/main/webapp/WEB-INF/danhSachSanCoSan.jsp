@@ -1,22 +1,233 @@
-<%@ page import="model.sanBong"  import="java.util.*"%><%--
-  Created by IntelliJ IDEA.
-  User: huynguyenduc
-  Date: 8/5/25
-  Time: 14:23
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="model.sanBong"  import="java.util.*"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Đặt Sân</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Đặt Sân - Modern</title>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/modern-style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        .booking-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .booking-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .booking-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-subtitle {
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: #f8fafc;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-btn {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 auto;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .fields-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .fields-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .fields-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .field-item {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .field-item:hover {
+            border-color: var(--primary-yellow);
+            background: var(--light-yellow);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .field-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .field-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .field-details h4 {
+            margin: 0 0 0.25rem 0;
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .field-details p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .book-btn {
+            background: var(--gradient-secondary);
+            color: var(--dark-blue);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .no-fields {
+            text-align: center;
+            padding: 3rem;
+            color: #64748b;
+        }
+
+        .no-fields i {
+            font-size: 3rem;
+            color: var(--primary-yellow);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .booking-container {
+                padding: 0 1rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .field-info {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body>
 <%
     String selectedTime = (String) request.getAttribute("selectedTime");
     String selectedTimeEnd = (String) request.getAttribute("selectedTimeEnd");
@@ -25,118 +236,160 @@
     String selectedEndHour="";
     if (selectedTime != null && selectedTime.contains(" ")) {
         selectedDate = selectedTime.split(" ")[0];
-        selectedHour = selectedTime.split(" ")[1].substring(0, 5); // ví dụ "06:00"
+        selectedHour = selectedTime.split(" ")[1].substring(0, 5);
     }
     if (selectedTimeEnd != null && selectedTimeEnd.contains(" ")) {
-        selectedEndHour = selectedTimeEnd.split(" ")[1].substring(0, 5); // ví dụ "17:00"
+        selectedEndHour = selectedTimeEnd.split(" ")[1].substring(0, 5);
     }
 %>
-<%--navbar--%>
+
 <%@include file="navbar.jsp" %>
-<%--body--%>
 
-<div class="max-w-4xl mx-auto bg-white shadow-md p-6 rounded-lg">
-    <h2 class="text-2xl font-bold mb-4">Đặt Sân</h2>
+<div class="booking-container fade-in">
+    <div class="booking-card">
+        <div class="booking-header">
+            <h2 class="booking-title">Đặt Sân Bóng</h2>
+            <p class="booking-subtitle">Tìm kiếm và đặt sân bóng phù hợp với thời gian của bạn</p>
+        </div>
 
-    <!-- Chọn ngày -->
-    <div class="mb-4">
-        <label class="block text-gray-700">Chọn ngày:</label>
-        <input type="text" id="datepicker" class="w-full px-3 py-2 border rounded" />
-    </div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-calendar"></i> Chọn ngày
+                </label>
+                <input type="text" id="datepicker" class="form-control" placeholder="Chọn ngày đặt sân" />
+            </div>
 
-    <!-- Chọn giờ -->
-    <div class="mb-4">
-        <label class="block text-gray-700">Chọn giờ:</label>
-        <select id="select-hour-start" class="w-full px-3 py-2 border rounded">
-            <!-- Các giờ sẽ được load sau khi chọn ngày -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-clock"></i> Giờ bắt đầu
+                </label>
+                <select id="select-hour-start" class="form-control">
+                    <option value="">Chọn giờ bắt đầu</option>
+                </select>
+            </div>
 
-        </select>
-    </div>
-
-    <!-- Chọn giờ kết thúc -->
-    <div class="mb-4">
-        <label class="block text-gray-700">Chọn giờ kết thúc:</label>
-        <select id="selected-hour-end" class="w-full px-3 py-2 border rounded">
-            <!-- Các giờ kết thúc sẽ được cập nhật theo giờ bắt đầu -->
-        </select>
-    </div>
-
-
-    <!-- Nút Tìm kiếm -->
-    <div class="mb-4">
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-clock"></i> Giờ kết thúc
+                </label>
+                <select id="selected-hour-end" class="form-control">
+                    <option value="">Chọn giờ kết thúc</option>
+                </select>
+            </div>
+        </div>
 
         <form id="booking-form" action="<%= request.getContextPath() %>/sanBong/danhSachSanCoSan" method="POST">
             <input type="hidden" name="timestamp" id="hidden-timestamp">
             <input type="hidden" name="timestampEnd" id="hidden-timestamp-end">
-            <button id="search-button" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                Tìm kiếm
+            <button type="button" id="search-button" class="search-btn">
+                <i class="fas fa-search"></i>
+                Tìm kiếm sân
             </button>
         </form>
     </div>
 
+    <div class="fields-section">
+        <div class="fields-header">
+            <i class="fas fa-futbol"></i>
+            Danh sách sân có sẵn
+        </div>
 
-    <!-- Hiển thị danh sách sân chưa được đặt -->
-    <div class="mb-4">
-        <h3 class="text-lg font-semibold">Danh sách sân có sẵn:</h3>
-        <ul id="available-fields" class="list-none p-0">
-            <!-- Các sân sẽ được hiển thị ở đây sau khi chọn ngày và giờ -->
+        <div class="fields-list" id="available-fields">
             <%
                 List<sanBong> availableFields = (List<sanBong>) request.getAttribute("availableFields");
                 if (availableFields != null) {
                     if (availableFields.isEmpty()) {
             %>
-            <li>Không có sân nào khả dụng trong khoảng thời gian này.</li>
+            <div class="no-fields">
+                <i class="fas fa-search"></i>
+                <h3>Không có sân nào khả dụng</h3>
+                <p>Vui lòng thử chọn thời gian khác hoặc liên hệ với chúng tôi để được hỗ trợ.</p>
+            </div>
             <%
             } else {
                 for (sanBong sb : availableFields) {
             %>
-            <li class="border p-2 mb-2 flex justify-between items-center">
-                <span><%= sb.getTenSan() %></span>
-                <span class="text-gray-600">Kiểu sân: <%= sb.getKieuSan().name().replace("_", " ") %> </span>
+            <div class="field-item">
+                <div class="field-info">
+                    <div class="field-icon">
+                        <i class="fas fa-futbol"></i>
+                    </div>
+                    <div class="field-details">
+                        <h4><%= sb.getTenSan() %></h4>
+                        <p><i class="fas fa-users"></i> Kiểu sân: <%= sb.getKieuSan().name().replace("_", " ") %></p>
+                    </div>
+                </div>
                 <form action="<%=request.getContextPath()%>/datSan/taoLichDat" method="POST" style="margin: 0;">
                     <input type="hidden" name="idSanBong" value="<%= sb.getId() %>">
                     <input type="hidden" name="timestamp" class="hidden-timestamp-datSan" >
                     <input type="hidden" name="timestampEnd" class="hidden-timestamp-ketThuc">
-                    <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Đặt sân</button>
+                    <button type="submit" class="book-btn">
+                        <i class="fas fa-calendar-plus"></i>
+                        Đặt sân
+                    </button>
                 </form>
-            </li>
+            </div>
             <%
-                        }
                     }
                 }
+            } else {
             %>
-        </ul>
+            <div class="no-fields">
+                <i class="fas fa-info-circle"></i>
+                <h3>Chọn thời gian để xem sân</h3>
+                <p>Vui lòng chọn ngày và giờ để tìm kiếm các sân bóng có sẵn.</p>
+            </div>
+            <%
+                }
+            %>
+        </div>
     </div>
 </div>
 
 <%--footer--%>
-<%@include file="footer.jsp" %>
-
+<footer class="modern-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>Giới thiệu</h3>
+                <p>Hệ thống quản lý sân bóng giúp người chơi dễ dàng tìm kiếm, đặt lịch và theo dõi tình trạng sân nhanh chóng, chính xác.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Thông tin liên hệ</h3>
+                <p><i class="fas fa-envelope"></i> support@sanbongpro.vn</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Đường Bóng Đá, Quận Thể Thao, TP. Việt Nam</p>
+                <p><i class="fas fa-phone"></i> 0123 456 789</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kết nối với chúng tôi</h3>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" style="font-size: 1.5rem; color: var(--primary-yellow);"><i class="fab fa-facebook"></i></a>
+                    <a href="#" style="font-size: 1.5rem; color: var(--primary-yellow);"><i class="fas fa-envelope"></i></a>
+                    <a href="#" style="font-size: 1.5rem; color: var(--primary-yellow);"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 SanBongPro.vn - All rights reserved.</p>
+        </div>
+    </div>
+</footer>
 
 <script>
-
-
     $('#search-button').click(function() {
-        // Lấy giá trị ngày đã chọn
-
         let endHour = $('#selected-hour-end').val();
         if (!endHour) {
             alert("Vui lòng chọn giờ kết thúc hợp lệ.");
             return;
         }
 
-
-
-        // Gán giá trị timestamp vào input ẩn trong form
-        //2 trường trong nút tìm kiếm
         $('#hidden-timestamp').val(getTimeStamp());
         $('#hidden-timestamp-end').val(getEndTimeStamp());
 
-        //các trường của mỗi sân
         $('.hidden-timestamp-datSan').val(getTimeStamp());
         $('.hidden-timestamp-ketThuc').val(getEndTimeStamp());
 
-        // Gửi form
         event.preventDefault();
         $('#booking-form').submit();
     });
@@ -156,7 +409,7 @@
         }
         $(this).find('.hidden-timestamp-ketThuc').val(timestampEnd);
     });
-    // Các khung giờ có sẵn cho phép đặt
+
     const availableStartHour = [6, 7, 8, 9, 15, 16, 17, 18, 19, 20];
     const availableEndHour = [7, 8, 9, 10, 16, 17, 18, 19, 20, 21];
 
@@ -169,12 +422,9 @@
             return;
         }
 
-        // Tạo timestamp đầy đủ theo định dạng "YYYY-MM-DD HH:MM:00"
         const fullTimestamp = `${selectedDate} ${selectedHour}:00:00`;
         return fullTimestamp;
-
     }
-    //
 
     function getEndTimeStamp() {
         let selectedDate = $('#datepicker').val();
@@ -186,17 +436,14 @@
         return `${selectedDate} ${endHour}:00:00`;
     }
 
-    // Kiểm tra ngày và lấy các giờ hợp lệ
     function getValidStartHour(currentHour, selectedDate) {
         const today = new Date();
         const targetDate = new Date(selectedDate);
 
-        // Nếu ngày chọn là ngày hôm nay, chỉ cho phép chọn các khung giờ sau giờ hiện tại
         if (targetDate.toDateString() === today.toDateString()) {
             return availableStartHour.filter(hour => hour > currentHour);
         }
 
-        // Nếu là ngày trong tương lai, cho phép chọn tất cả các khung giờ
         return availableStartHour;
     }
 
@@ -204,26 +451,21 @@
         const today = new Date();
         const targetDate = new Date(selectedDate);
 
-        // Nếu ngày chọn là ngày hôm nay, chỉ cho phép chọn các khung giờ sau giờ hiện tại
         if (targetDate.toDateString() === today.toDateString()) {
             return availableEndHour.filter(hour => hour > currentHour);
         }
 
-        // Nếu là ngày trong tương lai, cho phép chọn tất cả các khung giờ
         return availableEndHour;
     }
 
-    // Khởi tạo Flatpickr cho input chọn ngày
     flatpickr("#datepicker", {
-        dateFormat: "Y-m-d", // Định dạng ngày là YYYY-MM-DD
-        minDate: "today", // Chỉ cho phép chọn ngày hôm nay hoặc tương lai
+        dateFormat: "Y-m-d",
+        minDate: "today",
         onChange: function(selectedDates, dateStr, instance) {
-            // Khi người dùng chọn ngày, gọi hàm để tải các giờ có sẵn
             loadAvailableHours(dateStr);
         }
     });
 
-    // Hàm tải các giờ có sẵn
     function loadAvailableHours(date, selectedHour = null) {
         const currentDate = new Date();
         const currentHour = currentDate.getHours();
@@ -237,27 +479,21 @@
             hoursDropdown.append(`<option value="${hour}" ${isSelected ? "selected" : ""}>${hour}:00</option>`);
         });
 
-        // Gọi cập nhật giờ kết thúc sau khi chọn giờ bắt đầu
         setTimeout(() => updateEndHours(), 0);
     }
-
-
 
     $(document).ready(function () {
         const selectedDate = '<%= selectedDate %>';
         const selectedHour = '<%= selectedHour %>';
         const selectedEndHour = '<%= selectedEndHour %>';
 
-
         if (selectedDate) {
-            $('#datepicker').val(selectedDate); // Gán lại ngày đã chọn
+            $('#datepicker').val(selectedDate);
             loadAvailableHours(selectedDate, selectedHour);
-            // Gọi lại load giờ
 
-            // Đợi dropdown load xong rồi mới chọn giờ
             setTimeout(() => {
                 $('#select-hour-start').val(parseInt(selectedHour.split(":")[0]));
-            }, 100); // delay 100ms là đủ để dropdown load
+            }, 100);
         }
 
         if (selectedEndHour) {
@@ -267,27 +503,20 @@
         }
     });
 
-
-    //     load giờ đã chọn sau khi reload
     window.addEventListener('DOMContentLoaded', () => {
         const selectedTime = '<%= selectedTime != null ? selectedTime : "" %>';
         if (selectedTime) {
-            // Parse từ dạng: "2025-05-23 06:00:00.0"
             const parts = selectedTime.split(" ");
             if (parts.length >= 2) {
-                const dateStr = parts[0]; // "2025-05-23"
-                const timeStr = parts[1].substring(0, 5); // "06:00"
+                const dateStr = parts[0];
+                const timeStr = parts[1].substring(0, 5);
 
-                // Gán lại ngày
                 const datepicker = document.getElementById("datepicker");
                 if (datepicker) {
                     datepicker.value = dateStr;
-
-                    // Gọi lại sự kiện change nếu bạn có logic load giờ khi đổi ngày
                     datepicker.dispatchEvent(new Event("change"));
                 }
 
-                // Gán lại giờ
                 const selectHourStart = document.getElementById("select-hour-start");
                 if (selectHourStart) {
                     for (let i = 0; i < selectHourStart.options.length; i++) {
@@ -298,13 +527,11 @@
                     }
                 }
 
-                // Cập nhật giờ kết thúc
                 updateEndHours();
             }
         }
     });
 
-    // Cập nhật dropdown giờ kết thúc khi chọn giờ bắt đầu
     $('#select-hour-start').on('change', function () {
         updateEndHours();
     });
@@ -317,7 +544,6 @@
         let endDropdown = $('#selected-hour-end');
         endDropdown.empty();
 
-        // Chỉ thêm các giờ > giờ bắt đầu
         validHours.forEach(hour => {
             if (hour > startHour) {
                 endDropdown.append(`<option value="${hour}">${hour}:00</option>`);
@@ -329,8 +555,20 @@
         }
     }
 
+    // Add animation to field items
+    document.addEventListener('DOMContentLoaded', function() {
+        const fieldItems = document.querySelectorAll('.field-item');
+        fieldItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'all 0.6s ease-out';
+
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    });
 </script>
 </body>
 </html>
-
-

@@ -1,75 +1,85 @@
-
 <%@ page import="model.nguoiDung" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+  <title>Modern Navbar</title>
+  <link rel="stylesheet" href="<%= request.getContextPath() %>/css/modern-style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<header class="bg-blue-900 text-white shadow-lg sticky top-0 z-50">
-  <div class="container mx-auto flex justify-between items-center px-6 py-4">
-    <div class="flex items-center space-x-2 text-2xl font-bold">
-      <i class="fas fa-futbol text-yellow-400"></i>
-      <span>Đặt Sân</span>
-      <span class="text-yellow-400">365</span>
-    </div>
-    <nav class="hidden md:flex space-x-6 text-sm font-medium">
-      <a href="<%=request.getContextPath()%>/trangChu" class="hover:text-yellow-400">Trang chủ</a>
-      <a href="<%=request.getContextPath()%>/sanBong/danhSachSanCoSan"  class="hover:text-yellow-400">Danh sách sân bãi</a>
+<header class="modern-header">
+  <div class="container">
+    <a href="<%=request.getContextPath()%>/trangChu" class="modern-logo">
+      <i class="fas fa-futbol"></i>
+      <span>Đặt Sân <span style="color: var(--primary-yellow);">365</span></span>
+    </a>
+
+    <nav class="modern-nav">
+      <a href="<%=request.getContextPath()%>/trangChu">
+        <i class="fas fa-home"></i> Trang chủ
+      </a>
+      <a href="<%=request.getContextPath()%>/sanBong/danhSachSanCoSan">
+        <i class="fas fa-list"></i> Danh sách sân
+      </a>
+
       <%
         nguoiDung thongTinNguoiDung = (nguoiDung) session.getAttribute("nguoiDung");
         if (thongTinNguoiDung != null) {
       %>
-      <a href="<%=request.getContextPath()%>/datSan/lichDatCaNhan" class="hover:text-yellow-400">Danh sách sân đã đặt</a>
-
+      <a href="<%=request.getContextPath()%>/datSan/lichDatCaNhan">
+        <i class="fas fa-calendar-check"></i> Lịch đặt sân
+      </a>
       <%
         }
       %>
-      <a href="<%=request.getContextPath()%>/trangChu" class="hover:text-yellow-400">Giới thiệu</a>
-      <a href="<%=request.getContextPath()%>/trangChu" class="hover:text-yellow-400">Chính sách</a>
-      <a href="<%=request.getContextPath()%>/trangChu" class="hover:text-yellow-400">Dành cho chủ sân</a>
-      <a href="<%=request.getContextPath()%>/trangChu" class="hover:text-yellow-400">Liên hệ</a>
-    </nav>
-    <div class="flex items-center space-x-4">
-      <%
 
+      <a href="<%=request.getContextPath()%>/trangChu">
+        <i class="fas fa-info-circle"></i> Giới thiệu
+      </a>
+      <a href="<%=request.getContextPath()%>/trangChu">
+        <i class="fas fa-phone"></i> Liên hệ
+      </a>
+    </nav>
+
+    <div class="modern-nav">
+      <%
         if (thongTinNguoiDung == null) {
       %>
-      <a href="<%=request.getContextPath()%>/nguoiDung/dangKy" class="hover:text-yellow-400 hidden md:block">Đăng ký</a>
-      <a href="<%=request.getContextPath()%>/nguoiDung/dangNhap" class="hover:text-yellow-400 hidden md:block">Đăng nhập</a>
+      <a href="<%=request.getContextPath()%>/nguoiDung/dangKy" class="btn-modern btn-outline">
+        <i class="fas fa-user-plus"></i> Đăng ký
+      </a>
+      <a href="<%=request.getContextPath()%>/nguoiDung/dangNhap" class="btn-modern btn-secondary">
+        <i class="fas fa-sign-in-alt"></i> Đăng nhập
+      </a>
       <%
       } else {
       %>
-<%--      <a href="<%=request.getContextPath()%>nguoiDung/thongTinCaNhan" class="hover:text-yellow-400 hidden md:flex items-center space-x-2">--%>
-<%--        <i class="fas fa-user-circle text-lg"></i>--%>
-<%--        <span><%= thongTinNguoiDung.getTen() %></span>--%>
-<%--      </a>--%>
-<%--        <a href="<%=request.getContextPath()%>/nguoiDung/dangXuat" class="hover:text-yellow-400 hidden md:block">Đăng xuất</a>--%>
-      <div class="relative group hidden md:block">
-        <!-- Trigger -->
-        <div class="flex items-center space-x-2 cursor-pointer hover:text-yellow-400">
-          <i class="fas fa-user-circle text-lg"></i>
+      <div class="modern-dropdown">
+        <div style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem 1rem; border-radius: var(--border-radius); transition: var(--transition);">
+          <i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>
           <span><%= thongTinNguoiDung.getTen() %></span>
+          <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i>
         </div>
 
-        <!-- Dropdown -->
-        <div class="absolute right-0 top-full w-48 bg-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition duration-200 z-50">
-          <a href="<%= request.getContextPath() %>/nguoiDung/thongTinCaNhan"
-             class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Thông tin cá nhân</a>
-          <a href="<%= request.getContextPath() %>/nguoiDung/dangXuat"
-             class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Đăng xuất</a>
+        <div class="dropdown-content">
+          <a href="<%= request.getContextPath() %>/nguoiDung/thongTinCaNhan">
+            <i class="fas fa-user"></i> Thông tin cá nhân
+          </a>
+          <a href="<%= request.getContextPath() %>/nguoiDung/dangXuat">
+            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+          </a>
         </div>
       </div>
-
-
-
       <%
         }
       %>
-      <a href="#" class="bg-yellow-400 text-blue-900 px-4 py-2 rounded font-bold hover:bg-yellow-300 transition">Đặt Lịch Ngay</a>
+
+      <a href="#" class="btn-modern btn-secondary">
+        <i class="fas fa-calendar-plus"></i> Đặt Lịch Ngay
+      </a>
     </div>
   </div>
 </header>
-
 </body>
 </html>

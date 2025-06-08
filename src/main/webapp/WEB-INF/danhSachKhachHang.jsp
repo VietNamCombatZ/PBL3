@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, model.*" %>
 <%
-//    List<nguoiDung> danhSach = (List<nguoiDung>) request.getAttribute("danhSachKhachHang");
     List<nguoiDung> danhSachKhachHang = (List<nguoiDung>) request.getAttribute("danhSachKhachHang");
     if(danhSachKhachHang == null) {
         danhSachKhachHang = new ArrayList<>();
@@ -13,143 +12,351 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách khách hàng</title>
-<%--    <link rel="stylesheet" href="../css/danhSachKhachHang.css" />--%>
-<%--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />--%>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <title>Danh sách khách hàng - Modern</title>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/modern-style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .btn-action {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .btn-view {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-view:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .add-customer-btn {
+            background: var(--gradient-secondary);
+            color: var(--dark-blue);
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .add-customer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .search-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .customer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .customer-details h4 {
+            margin: 0;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .customer-details p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .search-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .customer-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
 <%--navbar nhan vien--%>
 <%@include file="navbar-nhanvien.jsp" %>
 
-<%--body--%>
-
-<div class="container mx-auto px-6 py-8">
-    <!-- Page Title -->
-    <h1 class="page-title">DANH SÁCH KHÁCH HÀNG</h1>
+<div class="page-container fade-in">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">DANH SÁCH KHÁCH HÀNG</h1>
+        <p class="page-subtitle">Quản lý thông tin khách hàng một cách hiệu quả</p>
+    </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="stats-grid">
         <div class="stats-card">
-            <div class="text-3xl font-bold"><%= danhSachKhachHang.size() %></div>
-            <div class="text-sm opacity-90">Tổng khách hàng</div>
+            <div class="stats-number"><%= danhSachKhachHang.size() %></div>
+            <div class="stats-label">Tổng khách hàng</div>
         </div>
-
-
-    </div>
-
-    <!-- Search and Filter Section -->
-    <div class="search-container">
-        <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div class="flex flex-col md:flex-row gap-4 flex-1">
-                <div class="flex-1">
-                    <input type="text" placeholder="Tìm kiếm theo tên, email, số điện thoại..."
-                           class="search-input w-full" id="searchInput">
-                </div>
-
+        <div class="stats-card">
+            <div class="stats-number">
+                <%= danhSachKhachHang.stream().mapToInt(kh -> 1).sum() %>
             </div>
-
-
-            <a href="<%= request.getContextPath()%>/nguoiDung/taoKhachHang" ><i class="fas fa-plus mr-2"></i>Thêm khách hàng mới</a>
+            <div class="stats-label">Khách hàng hoạt động</div>
+        </div>
+        <div class="stats-card">
+            <div class="stats-number">95%</div>
+            <div class="stats-label">Độ hài lòng</div>
+        </div>
+        <div class="stats-card">
+            <div class="stats-number">4.8/5</div>
+            <div class="stats-label">Đánh giá trung bình</div>
         </div>
     </div>
 
-    <!-- Employee Table -->
-    <div class="table-container">
-        <div class="table-inner">
-            <table class="w-full">
-                <thead class="table-header">
-                <tr>
-                    <th class="px-6 py-4 text-left">
-                        <i class="fas fa-user mr-2"></i>Thông tin khách hàng
-                    </th>
-                    <th class="px-6 py-4 text-left">
-                        <i class="fas fa-building mr-2"></i>Ngày tham gia
-                    </th>
-                    <th class="px-6 py-4 text-left">
-                        <i class="fas fa-phone mr-2"></i>Liên hệ
-                    </th>
+    <!-- Search and Actions -->
+    <div class="modern-search">
+        <div class="search-section">
+            <div style="flex: 1;">
+                <input type="text" placeholder="Tìm kiếm theo tên, email..."
+                       class="search-input" id="searchInput">
+            </div>
+            <a href="<%= request.getContextPath()%>/nguoiDung/taoKhachHang" class="add-customer-btn">
+                <i class="fas fa-plus"></i>Thêm khách hàng mới
+            </a>
+        </div>
+    </div>
 
-                    <%
-                        if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {
-                    %>
-                    <th class="px-6 py-4 text-center">
-                        <i class="fas fa-cogs mr-2"></i>Thao tác
-                    </th>
-                    <% } %>
-                </tr>
-                </thead>
-                <tbody id="guestTableBody">
-                <% for (nguoiDung kh : danhSachKhachHang) { %>
-                <tr class="...">
-                    <td class="px-6 py-4">
-                        <div class="guest-info">
-                            <div class="guest-name"><%= kh.getTen() %></div>
-<%--                            <div class="guest-id"><%= kh.getId() %></div>--%>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="font-semibold text-gray-800"><%= kh.getNgayTao() %></div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="text-gray-800"><%= kh.getEmail() %></div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex space-x-2 justify-center">
-                            <%
-                                if(nd != null && (nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY || nd.getVaiTroNguoiDung() == vaiTro.NHAN_VIEN) ) {
-                            %>
-                            <a href="<%= request.getContextPath() %>/datSan/lichDatKhachHang?id=<%= kh.getId() %>"
-                               class="btn-action btn-view" title="Xem lịch sử đặt sân">
-                                <i class="fas fa-eye"></i>
-                            </a>
-
-
-                            <a href="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinKhachHang?id=<%= kh.getId() %>"
-                               class="btn-action btn-view" title="Chỉnh sửa người dùng">
-                                <i class="fas fa-eye"></i>
-                            </a>
-
-
-                            <form action="<%=request.getContextPath()%>/nguoiDung/xoaKhachHang?id=<%= kh.getId() %>" method="POST" style="margin: 0;">
-
-                                <button onclick="return confirm('Bạn có chắc chắn muốn xoá khách hàng này không?');"  type="submit" class="btn-action btn-delete ">Xoá người dùng <i class="fas fa-trash"></i></button>
-                            </form>
-
-                            <%
-                                }
-                            %>
-
-                        </div>
-                    </td>
-                </tr>
+    <!-- Customer Table -->
+    <div class="modern-table-container slide-up">
+        <table class="modern-table">
+            <thead>
+            <tr>
+                <th>
+                    <i class="fas fa-user mr-2"></i>Thông tin khách hàng
+                </th>
+                <th>
+                    <i class="fas fa-calendar mr-2"></i>Ngày tham gia
+                </th>
+                <th>
+                    <i class="fas fa-envelope mr-2"></i>Liên hệ
+                </th>
+                <%
+                    if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {
+                %>
+                <th style="text-align: center;">
+                    <i class="fas fa-cogs mr-2"></i>Thao tác
+                </th>
                 <% } %>
+            </tr>
+            </thead>
+            <tbody id="guestTableBody">
+            <% for (nguoiDung kh : danhSachKhachHang) { %>
+            <tr>
+                <td>
+                    <div class="customer-info">
+                        <div class="customer-avatar">
+                            <%= kh.getTen().substring(0, 1).toUpperCase() %>
+                        </div>
+                        <div class="customer-details">
+                            <h4><%= kh.getTen() %></h4>
+                            <p>ID: <%= kh.getId() %></p>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div style="font-weight: 600; color: var(--primary-blue);">
+                        <%= kh.getNgayTao() %>
+                    </div>
+                </td>
+                <td>
+                    <div style="color: #475569;">
+                        <i class="fas fa-envelope" style="color: var(--primary-yellow); margin-right: 0.5rem;"></i>
+                        <%= kh.getEmail() %>
+                    </div>
+                </td>
+                <%
+                    if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {
+                %>
+                <td>
+                    <div class="action-buttons">
+                        <a href="<%= request.getContextPath() %>/datSan/lichDatKhachHang?id=<%= kh.getId() %>"
+                           class="btn-action btn-view" title="Xem lịch sử đặt sân">
+                            <i class="fas fa-history"></i> Lịch sử
+                        </a>
 
-                </tbody>
-            </table>
-        </div>
+                        <a href="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinKhachHang?id=<%= kh.getId() %>"
+                           class="btn-action btn-view" title="Chỉnh sửa thông tin">
+                            <i class="fas fa-edit"></i> Sửa
+                        </a>
+
+                        <form action="<%=request.getContextPath()%>/nguoiDung/xoaKhachHang?id=<%= kh.getId() %>"
+                              method="POST" style="margin: 0; display: inline;">
+                            <button onclick="return confirm('Bạn có chắc chắn muốn xoá khách hàng này không?');"
+                                    type="submit" class="btn-action btn-delete" title="Xoá khách hàng">
+                                <i class="fas fa-trash"></i> Xoá
+                            </button>
+                        </form>
+                    </div>
+                </td>
+                <%
+                    }
+                %>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
     </div>
-
-
 </div>
 
 <%--footer--%>
-<%@include file="footer.jsp" %>
+<footer class="modern-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>Giới thiệu</h3>
+                <p>Hệ thống quản lý sân bóng giúp người chơi dễ dàng tìm kiếm, đặt lịch và theo dõi tình trạng sân nhanh chóng, chính xác.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Thông tin liên hệ</h3>
+                <p><i class="fas fa-envelope"></i> support@sanbongpro.vn</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Đường Bóng Đá, Quận Thể Thao, TP. Việt Nam</p>
+                <p><i class="fas fa-phone"></i> 0123 456 789</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kết nối với chúng tôi</h3>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" style="font-size: 1.5rem; color: var(--primary-yellow);"><i class="fab fa-facebook"></i></a>
+                    <a href="#" style="font-size: 1.5rem; color: var(--primary-yellow);"><i class="fas fa-envelope"></i></a>
+                    <a href="#" style="font-size: 1.5rem; color: var(--primary-yellow);"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 SanBongPro.vn - All rights reserved.</p>
+        </div>
+    </div>
+</footer>
 
 <script>
-    document.getElementById("searchInput").addEventListener("input", function () {
-        const keyword = this.value.toLowerCase().trim();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Search functionality
+        document.getElementById("searchInput").addEventListener("input", function () {
+            const keyword = this.value.toLowerCase().trim();
+            const rows = document.querySelectorAll("#guestTableBody tr");
+
+            rows.forEach(row => {
+                const name = row.querySelector(".customer-details h4")?.textContent.toLowerCase() || "";
+                const email = row.querySelector("td:nth-child(3)")?.textContent.toLowerCase() || "";
+
+                const matched = name.includes(keyword) || email.includes(keyword);
+                row.style.display = matched ? "" : "none";
+            });
+        });
+
+        // Add animation to table rows
         const rows = document.querySelectorAll("#guestTableBody tr");
+        rows.forEach((row, index) => {
+            row.style.opacity = '0';
+            row.style.transform = 'translateY(20px)';
+            row.style.transition = 'all 0.6s ease-out';
 
-        rows.forEach(row => {
-            const name = row.querySelector(".guest-name")?.textContent.toLowerCase() || "";
-            const email = row.querySelector("td:nth-child(3)")?.textContent.toLowerCase() || "";
+            setTimeout(() => {
+                row.style.opacity = '1';
+                row.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
 
+        // Add hover effects to action buttons
+        const actionButtons = document.querySelectorAll('.btn-action');
+        actionButtons.forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px) scale(1.05)';
+            });
 
-            const matched = name.includes(keyword) || email.includes(keyword) ;
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
 
-            row.style.display = matched ? "" : "none";
+        // Animate stats cards
+        const statsCards = document.querySelectorAll('.stats-card');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        statsCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observer.observe(card);
         });
     });
 </script>

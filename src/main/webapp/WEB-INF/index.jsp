@@ -5,144 +5,368 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đặt Sân Bóng Đá</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../css/index.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <title>Đặt Sân Bóng Đá - Modern</title>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/modern-style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        html {
-            scroll-behavior: smooth;
+        .hero-section {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.9) 0%, rgba(59, 130, 246, 0.8) 100%),
+            url('https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .search-form {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+            max-width: 900px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: var(--transition);
+            border-top: 4px solid var(--primary-yellow);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-yellow);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .stats-section {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stats-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .testimonial-section {
+            padding: 4rem 2rem;
+            background: #f8fafc;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--primary-yellow);
+            position: absolute;
+            top: -1rem;
+            left: 1rem;
+            font-family: serif;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body>
 <%
     nguoiDung nd = (nguoiDung) session.getAttribute("nguoiDung");
     vaiTro vaiTroNguoiDung = (nd != null) ? nd.getVaiTroNguoiDung() : null;
-
 %>
 
 <!-- Navbar -->
 <%
     if(vaiTroNguoiDung == vaiTro.NHAN_VIEN || vaiTroNguoiDung == vaiTro.QUAN_LY) {
-
 %>
 <%@include file="navbar-nhanvien.jsp" %>
-
 <%
-    } else {
+} else {
 %>
 <%@include file="navbar.jsp" %>
 <%
     }
 %>
-<!-- Banner -->
-<section id="home"  class="relative bg-cover bg-center h-[500px]" style="background-image: url('https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&w=1600&q=80');">
-    <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center px-4">
-        <h1 class="text-white text-4xl md:text-5xl font-bold mb-4">HỆ THỐNG HỖ TRỢ TÌM KIẾM SÂN BÓNG NHANH</h1>
-        <p class="text-gray-200 mb-6 max-w-xl">Dữ liệu được cập nhật thường xuyên giúp bạn tìm sân nhanh và chính xác hơn.</p>
 
-        <!-- Form tìm kiếm -->
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl p-4 grid grid-cols-1 md:grid-cols-4 gap-4">
-            <select class="border border-gray-300 rounded px-3 py-2 text-sm">
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content fade-in">
+        <h1 class="hero-title">HỆ THỐNG HỖ TRỢ TÌM KIẾM SÂN BÓNG NHANH</h1>
+        <p class="hero-subtitle">Dữ liệu được cập nhật thường xuyên giúp bạn tìm sân nhanh và chính xác hơn.</p>
+
+        <!-- Search Form -->
+        <div class="search-form slide-up">
+            <select class="modern-form-control">
                 <option>Loại sân</option>
                 <option>5 người</option>
                 <option>7 người</option>
                 <option>11 người</option>
             </select>
-            <input type="text" placeholder="Nhập tên sân hoặc địa chỉ..." class="border border-gray-300 rounded px-3 py-2 text-sm col-span-2" />
-            <button class="bg-yellow-400 text-blue-900 font-bold px-4 py-2 rounded hover:bg-yellow-500 transition"><i class="fas fa-search mr-2"></i>Tìm kiếm</button>
+            <input type="text" placeholder="Nhập tên sân hoặc địa chỉ..." class="modern-form-control" />
+            <button class="btn-modern btn-secondary">
+                <i class="fas fa-search"></i> Tìm kiếm
+            </button>
         </div>
     </div>
 </section>
 
-<!-- Giới thiệu chức năng -->
-<section class="py-16 bg-white text-center">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">Chức năng nổi bật</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto px-6">
-        <div>
-            <i class="fas fa-search-location text-4xl text-yellow-500 mb-4"></i>
-            <h3 class="text-xl font-semibold">Tìm kiếm sân bóng</h3>
-            <p class="text-gray-600 mt-2">Tra cứu nhanh chóng các sân bóng theo khu vực, loại sân và thời gian trống.</p>
+<!-- Features Section -->
+<section style="background: white;">
+    <div style="text-align: center; padding: 4rem 2rem 2rem;">
+        <h2 style="font-size: 2.5rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 1rem;">
+            Chức năng nổi bật
+        </h2>
+        <p style="color: #64748b; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+            Khám phá những tính năng tuyệt vời giúp bạn đặt sân dễ dàng và tiện lợi
+        </p>
+    </div>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <i class="fas fa-search-location feature-icon"></i>
+            <h3 class="feature-title">Tìm kiếm sân bóng</h3>
+            <p class="feature-description">Tra cứu nhanh chóng các sân bóng theo khu vực, loại sân và thời gian trống.</p>
         </div>
-        <div>
-            <i class="fas fa-calendar-check text-4xl text-yellow-500 mb-4"></i>
-            <h3 class="text-xl font-semibold">Đặt lịch online</h3>
-            <p class="text-gray-600 mt-2">Lên lịch thi đấu dễ dàng và đặt sân chỉ với vài cú click.</p>
+        <div class="feature-card">
+            <i class="fas fa-calendar-check feature-icon"></i>
+            <h3 class="feature-title">Đặt lịch online</h3>
+            <p class="feature-description">Lên lịch thi đấu dễ dàng và đặt sân chỉ với vài cú click.</p>
         </div>
     </div>
 </section>
 
-<!-- Đặc điểm nổi bật -->
-<section class="bg-yellow-100 py-16 text-center">
-    <h2 class="text-3xl font-bold text-gray-800 mb-8">Tại sao chọn chúng tôi?</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
-        <div>
-            <i class="fas fa-futbol text-4xl text-green-600 mb-4"></i>
-            <h3 class="text-xl font-semibold">20+ sân bóng hiện đại</h3>
-            <p class="text-gray-700">Hệ thống liên kết với nhiều sân chất lượng cao, mặt cỏ nhân tạo chuẩn thi đấu.</p>
-        </div>
-        <div>
-            <i class="fas fa-users text-4xl text-blue-600 mb-4"></i>
-            <h3 class="text-xl font-semibold">Hơn 10.000 lượt đặt sân</h3>
-            <p class="text-gray-700">Được tin tưởng và sử dụng bởi đông đảo cộng đồng thể thao.</p>
-        </div>
-        <div>
-            <i class="fas fa-clock text-4xl text-purple-600 mb-4"></i>
-            <h3 class="text-xl font-semibold">Sẵn sàng 24/7</h3>
-            <p class="text-gray-700">Bạn có thể đặt sân bất kỳ lúc nào, kể cả buổi tối hoặc cuối tuần.</p>
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="stats-container">
+        <h2 class="stats-title">Tại sao chọn chúng tôi?</h2>
+        <div class="stats-grid">
+            <div class="stats-card" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <i class="fas fa-futbol" style="font-size: 3rem; color: var(--primary-yellow); margin-bottom: 1rem;"></i>
+                <div class="stats-number" style="color: white;">20+</div>
+                <div class="stats-label" style="color: rgba(255, 255, 255, 0.8);">Sân bóng hiện đại</div>
+                <p style="color: rgba(255, 255, 255, 0.7); margin-top: 1rem; font-size: 0.9rem;">
+                    Hệ thống liên kết với nhiều sân chất lượng cao, mặt cỏ nhân tạo chuẩn thi đấu.
+                </p>
+            </div>
+            <div class="stats-card" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <i class="fas fa-users" style="font-size: 3rem; color: var(--primary-yellow); margin-bottom: 1rem;"></i>
+                <div class="stats-number" style="color: white;">10.000+</div>
+                <div class="stats-label" style="color: rgba(255, 255, 255, 0.8);">Lượt đặt sân</div>
+                <p style="color: rgba(255, 255, 255, 0.7); margin-top: 1rem; font-size: 0.9rem;">
+                    Được tin tưởng và sử dụng bởi đông đảo cộng đồng thể thao.
+                </p>
+            </div>
+            <div class="stats-card" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <i class="fas fa-clock" style="font-size: 3rem; color: var(--primary-yellow); margin-bottom: 1rem;"></i>
+                <div class="stats-number" style="color: white;">24/7</div>
+                <div class="stats-label" style="color: rgba(255, 255, 255, 0.8);">Sẵn sàng phục vụ</div>
+                <p style="color: rgba(255, 255, 255, 0.7); margin-top: 1rem; font-size: 0.9rem;">
+                    Bạn có thể đặt sân bất kỳ lúc nào, kể cả buổi tối hoặc cuối tuần.
+                </p>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Đánh giá khách hàng -->
-<section class="py-16 bg-white text-center">
-    <h2 class="text-3xl font-bold text-gray-800 mb-8">Khách hàng nói gì?</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
-        <div class="bg-gray-100 p-6 rounded shadow">
-            <p class="italic">"Giao diện dễ dùng, đặt sân cực nhanh và tiện lợi!"</p>
-            <p class="mt-4 font-semibold text-gray-700">– Huyền Trang, Hà Nội</p>
+<!-- Testimonials Section -->
+<section class="testimonial-section">
+    <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2.5rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 1rem;">
+            Khách hàng nói gì?
+        </h2>
+        <p style="color: #64748b; font-size: 1.1rem;">
+            Những phản hồi tích cực từ cộng đồng người chơi bóng đá
+        </p>
+    </div>
+
+    <div class="testimonial-grid">
+        <div class="testimonial-card">
+            <p class="testimonial-text">"Giao diện dễ dùng, đặt sân cực nhanh và tiện lợi!"</p>
+            <p class="testimonial-author">– Huyền Trang, Hà Nội</p>
         </div>
-        <div class="bg-gray-100 p-6 rounded shadow">
-            <p class="italic">"Không còn phải gọi điện từng sân để hỏi lịch nữa. Tuyệt vời!"</p>
-            <p class="mt-4 font-semibold text-gray-700">– Minh Đức, Đà Nẵng</p>
+        <div class="testimonial-card">
+            <p class="testimonial-text">"Không còn phải gọi điện từng sân để hỏi lịch nữa. Tuyệt vời!"</p>
+            <p class="testimonial-author">– Minh Đức, Đà Nẵng</p>
         </div>
-        <div class="bg-gray-100 p-6 rounded shadow">
-            <p class="italic">"Sân được review rõ ràng, đặt sân xong nhận xác nhận liền tay."</p>
-            <p class="mt-4 font-semibold text-gray-700">– Phương Anh, TP.HCM</p>
+        <div class="testimonial-card">
+            <p class="testimonial-text">"Sân được review rõ ràng, đặt sân xong nhận xác nhận liền tay."</p>
+            <p class="testimonial-author">– Phương Anh, TP.HCM</p>
         </div>
     </div>
 </section>
 
 <!-- Footer -->
+<footer class="modern-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>Giới thiệu</h3>
+                <p>Hệ thống quản lý sân bóng giúp người chơi dễ dàng tìm kiếm, đặt lịch và theo dõi tình trạng sân nhanh chóng, chính xác.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Thông tin liên hệ</h3>
+                <p><i class="fas fa-envelope"></i> support@sanbongpro.vn</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Đường Bóng Đá, Quận Thể Thao, TP. Việt Nam</p>
+                <p><i class="fas fa-phone"></i> 0123 456 789</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kết nối với chúng tôi</h3>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" style="font-size: 1.5rem; color: var(--primary-yellow);"><i class="fab fa-facebook"></i></a>
+                    <a href="#" style="font-size: 1.5rem; color: var(--primary-yellow);"><i class="fas fa-envelope"></i></a>
+                    <a href="#" style="font-size: 1.5rem; color: var(--primary-yellow);"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 SanBongPro.vn - All rights reserved.</p>
+        </div>
+    </div>
+</footer>
 
-<%@include file="footer.jsp" %>
-<%--<footer class="bg-gray-800 text-white py-10 mt-10">--%>
-<%--    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6">--%>
-<%--        <!-- Giới thiệu -->--%>
-<%--        <div>--%>
-<%--            <h3 class="text-lg font-semibold mb-3">Giới thiệu</h3>--%>
-<%--            <p class="text-gray-300">Hệ thống quản lý sân bóng giúp người chơi dễ dàng tìm kiếm, đặt lịch và theo dõi tình trạng sân nhanh chóng, chính xác.</p>--%>
-<%--        </div>--%>
-<%--        <!-- Thông tin liên hệ -->--%>
-<%--        <div>--%>
-<%--            <h3 class="text-lg font-semibold mb-3">Thông tin</h3>--%>
-<%--            <p class="text-gray-300"><i class="fas fa-envelope mr-2"></i>support@sanbongpro.vn</p>--%>
-<%--            <p class="text-gray-300"><i class="fas fa-map-marker-alt mr-2"></i>123 Đường Bóng Đá, Quận Thể Thao, TP. Việt Nam</p>--%>
-<%--            <p class="text-gray-300"><i class="fas fa-phone mr-2"></i>0123 456 789</p>--%>
-<%--        </div>--%>
-<%--        <!-- Mạng xã hội -->--%>
-<%--        <div>--%>
-<%--            <h3 class="text-lg font-semibold mb-3">Kết nối với chúng tôi</h3>--%>
-<%--            <div class="flex space-x-4 mt-2">--%>
-<%--                <a href="#" class="text-white text-2xl hover:text-blue-400"><i class="fab fa-facebook"></i></a>--%>
-<%--                <a href="#" class="text-white text-2xl hover:text-red-500"><i class="fas fa-envelope"></i></a>--%>
-<%--                <a href="#" class="text-white text-2xl hover:text-pink-500"><i class="fab fa-tiktok"></i></a>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <p class="text-center text-gray-400 mt-8 text-sm">© 2025 SanBongPro.vn - All rights reserved.</p>--%>
-<%--</footer>--%>
+<script>
+    // Add smooth scrolling and animations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections
+        document.querySelectorAll('.feature-card, .stats-card, .testimonial-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    });
+</script>
 
 </body>
 </html>

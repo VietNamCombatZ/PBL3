@@ -1,22 +1,19 @@
-<%@ page import="model.sanBong"  import="java.util.*"%><%--
-  Created by IntelliJ IDEA.
-  User: huynguyenduc
-  Date: 8/5/25
-  Time: 14:23
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="model.sanBong"  import="java.util.*"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Đặt Sân</title>
+  <title>Đặt Sân - Nhân Viên</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/modern-style.css" />
 </head>
-<body class="bg-gray-100">
+<body class="modern-bg">
+
 <%
   String selectedTime = (String) request.getAttribute("selectedTime");
   String selectedTimeEnd = (String) request.getAttribute("selectedTimeEnd");
@@ -25,312 +22,339 @@
   String selectedEndHour="";
   if (selectedTime != null && selectedTime.contains(" ")) {
     selectedDate = selectedTime.split(" ")[0];
-    selectedHour = selectedTime.split(" ")[1].substring(0, 5); // ví dụ "06:00"
+    selectedHour = selectedTime.split(" ")[1].substring(0, 5);
   }
   if (selectedTimeEnd != null && selectedTimeEnd.contains(" ")) {
-    selectedEndHour = selectedTimeEnd.split(" ")[1].substring(0, 5); // ví dụ "17:00"
+    selectedEndHour = selectedTimeEnd.split(" ")[1].substring(0, 5);
   }
 %>
-<%--navbar--%>
+
 <%@include file="navbar-nhanvien.jsp" %>
-<%--body--%>
 
-<div class="max-w-4xl mx-auto bg-white shadow-md p-6 rounded-lg">
-  <h2 class="text-2xl font-bold mb-4">Đặt Sân</h2>
-
-  <!-- Chọn ngày -->
-  <div class="mb-4">
-    <label class="block text-gray-700">Chọn ngày:</label>
-    <input type="text" id="datepicker" class="w-full px-3 py-2 border rounded" />
+<div class="container mx-auto px-4 py-8">
+  <!-- Header Section -->
+  <div class="text-center mb-8">
+    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mb-4">
+      <i class="fas fa-calendar-plus text-white text-2xl"></i>
+    </div>
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">Đặt sân cho khách hàng</h1>
+    <p class="text-gray-600">Tìm kiếm và đặt sân bóng có sẵn theo thời gian</p>
   </div>
 
-  <!-- Chọn giờ -->
-  <div class="mb-4">
-    <label class="block text-gray-700">Chọn giờ:</label>
-    <select id="select-hour-start" class="w-full px-3 py-2 border rounded">
-      <!-- Các giờ sẽ được load sau khi chọn ngày -->
+  <!-- Search Form -->
+  <div class="modern-card mb-8">
+    <h2 class="text-xl font-semibold text-gray-800 mb-6">
+      <i class="fas fa-search mr-2"></i>Tìm kiếm sân có sẵn
+    </h2>
 
-    </select>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Chọn ngày -->
+      <div class="form-group">
+        <label class="form-label">
+          <i class="fas fa-calendar mr-2"></i>Chọn ngày
+        </label>
+        <input type="text" id="datepicker" class="form-input" placeholder="Chọn ngày đặt sân" />
+      </div>
+
+      <!-- Chọn giờ bắt đầu -->
+      <div class="form-group">
+        <label class="form-label">
+          <i class="fas fa-clock mr-2"></i>Giờ bắt đầu
+        </label>
+        <select id="select-hour-start" class="form-input">
+          <option value="">Chọn giờ bắt đầu</option>
+        </select>
+      </div>
+
+      <!-- Chọn giờ kết thúc -->
+      <div class="form-group">
+        <label class="form-label">
+          <i class="fas fa-clock mr-2"></i>Giờ kết thúc
+        </label>
+        <select id="selected-hour-end" class="form-input">
+          <option value="">Chọn giờ kết thúc</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Search Button -->
+    <div class="mt-6">
+      <form id="booking-form" action="<%= request.getContextPath() %>/sanBong/danhSachSanCoSanNhanVien" method="POST">
+        <input type="hidden" name="timestamp" id="hidden-timestamp">
+        <input type="hidden" name="timestampEnd" id="hidden-timestamp-end">
+        <button id="search-button" type="button" class="btn-primary w-full md:w-auto">
+          <i class="fas fa-search mr-2"></i>
+          Tìm kiếm sân có sẵn
+        </button>
+      </form>
+    </div>
   </div>
 
-  <!-- Chọn giờ kết thúc -->
-  <div class="mb-4">
-    <label class="block text-gray-700">Chọn giờ kết thúc:</label>
-    <select id="selected-hour-end" class="w-full px-3 py-2 border rounded">
-      <!-- Các giờ kết thúc sẽ được cập nhật theo giờ bắt đầu -->
-    </select>
-  </div>
+  <!-- Available Fields -->
+  <div class="modern-card">
+    <h2 class="text-xl font-semibold text-gray-800 mb-6">
+      <i class="fas fa-futbol mr-2"></i>Danh sách sân có sẵn
+    </h2>
 
-
-  <!-- Nút Tìm kiếm -->
-  <div class="mb-4">
-
-    <form id="booking-form" action="<%= request.getContextPath() %>/sanBong/danhSachSanCoSanNhanVien" method="POST">
-      <input type="hidden" name="timestamp" id="hidden-timestamp">
-      <input type="hidden" name="timestampEnd" id="hidden-timestamp-end">
-      <button id="search-button" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-        Tìm kiếm
-      </button>
-    </form>
-  </div>
-
-
-  <!-- Hiển thị danh sách sân chưa được đặt -->
-  <div class="mb-4">
-    <h3 class="text-lg font-semibold">Danh sách sân có sẵn:</h3>
-    <ul id="available-fields" class="list-none p-0">
-      <!-- Các sân sẽ được hiển thị ở đây sau khi chọn ngày và giờ -->
+    <%
+      List<sanBong> availableFields = (List<sanBong>) request.getAttribute("availableFields");
+      if (availableFields != null) {
+        if (availableFields.isEmpty()) {
+    %>
+    <div class="text-center py-12">
+      <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-calendar-times text-gray-400 text-3xl"></i>
+      </div>
+      <h3 class="text-lg font-medium text-gray-800 mb-2">Không có sân nào khả dụng</h3>
+      <p class="text-gray-600">Không có sân nào có sẵn trong khoảng thời gian này. Vui lòng chọn thời gian khác.</p>
+    </div>
+    <%
+    } else {
+    %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <%
-        List<sanBong> availableFields = (List<sanBong>) request.getAttribute("availableFields");
-        if (availableFields != null) {
-          if (availableFields.isEmpty()) {
-      %>
-      <li>Không có sân nào khả dụng trong khoảng thời gian này.</li>
-      <%
-      } else {
         for (sanBong sb : availableFields) {
-      %>
-      <li class="border p-2 mb-2 flex justify-between items-center">
-        <span><%= sb.getTenSan() %></span>
-        <span class="text-gray-600">Kiểu sân: <%= sb.getKieuSan().name().replace("_", " ") %> </span>
-        <form action="<%=request.getContextPath()%>/datSan/taoLichDatNhanVien" method="POST" style="margin: 0;">
-          <input type="hidden" name="idSanBong" value="<%= sb.getId() %>">
-          <input type="hidden" name="timestamp" class="hidden-timestamp-datSan" >
-          <input type="hidden" name="timestampEnd" class="hidden-timestamp-ketThuc">
-          <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Đặt sân</button>
-        </form>
-      </li>
-      <%
-            }
+          String fieldTypeIcon = "";
+          String fieldTypeColor = "";
+          if (sb.getKieuSan().name().equals("SAN_5")) {
+            fieldTypeIcon = "fas fa-users";
+            fieldTypeColor = "text-blue-600";
+          } else {
+            fieldTypeIcon = "fas fa-user-friends";
+            fieldTypeColor = "text-purple-600";
           }
+      %>
+      <div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <i class="fas fa-futbol text-green-600 text-xl"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-800"><%= sb.getTenSan() %></h3>
+              <div class="flex items-center space-x-1 text-sm text-gray-600">
+                <i class="<%= fieldTypeIcon %> <%= fieldTypeColor %>"></i>
+                <span><%= sb.getKieuSan().name().replace("_", " ") %></span>
+              </div>
+            </div>
+          </div>
+          <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            <i class="fas fa-check-circle mr-1"></i>
+            Có sẵn
+          </span>
+        </div>
+
+        <div class="border-t border-gray-200 pt-4">
+          <form action="<%=request.getContextPath()%>/datSan/taoLichDatNhanVien" method="POST">
+            <input type="hidden" name="idSanBong" value="<%= sb.getId() %>">
+            <input type="hidden" name="timestamp" class="hidden-timestamp-datSan" >
+            <input type="hidden" name="timestampEnd" class="hidden-timestamp-ketThuc">
+            <button type="submit" class="btn-primary w-full">
+              <i class="fas fa-calendar-plus mr-2"></i>
+              Đặt sân này
+            </button>
+          </form>
+        </div>
+      </div>
+      <%
         }
       %>
-    </ul>
+    </div>
+    <%
+      }
+    } else {
+    %>
+    <div class="text-center py-12">
+      <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-search text-gray-400 text-3xl"></i>
+      </div>
+      <h3 class="text-lg font-medium text-gray-800 mb-2">Tìm kiếm sân bóng</h3>
+      <p class="text-gray-600">Vui lòng chọn ngày và giờ để tìm kiếm sân có sẵn</p>
+    </div>
+    <%
+      }
+    %>
   </div>
 </div>
 
-<%--footer--%>
 <%@include file="footer.jsp" %>
 
-
 <script>
+  $(document).ready(function() {
+    // Available hours
+    const availableStartHour = [6, 7, 8, 9, 15, 16, 17, 18, 19, 20];
+    const availableEndHour = [7, 8, 9, 10, 16, 17, 18, 19, 20, 21];
 
-
-  $('#search-button').click(function() {
-    // Lấy giá trị ngày đã chọn
-
-    let endHour = $('#selected-hour-end').val();
-    if (!endHour) {
-      alert("Vui lòng chọn giờ kết thúc hợp lệ.");
-      return;
-    }
-
-
-
-    // Gán giá trị timestamp vào input ẩn trong form
-    //2 trường trong nút tìm kiếm
-    $('#hidden-timestamp').val(getTimeStamp());
-    $('#hidden-timestamp-end').val(getEndTimeStamp());
-
-    //các trường của mỗi sân
-    $('.hidden-timestamp-datSan').val(getTimeStamp());
-    $('.hidden-timestamp-ketThuc').val(getEndTimeStamp());
-
-    // Gửi form
-    event.preventDefault();
-    $('#booking-form').submit();
-  });
-
-  $(document).on('submit', 'form[action="<%=request.getContextPath()%>/datSan/taoLichDatNhanVien"]', function (e) {
-    const timestampStart = getTimeStamp();
-    if (!timestampStart) {
-      e.preventDefault();
-      return;
-    }
-    $(this).find('.hidden-timestamp-datSan').val(timestampStart);
-
-    const timestampEnd = getEndTimeStamp();
-    if (!timestampEnd) {
-      e.preventDefault();
-      return;
-    }
-    $(this).find('.hidden-timestamp-ketThuc').val(timestampEnd);
-  });
-  // Các khung giờ có sẵn cho phép đặt
-  const availableStartHour = [6, 7, 8, 9, 15, 16, 17, 18, 19, 20];
-  const availableEndHour = [7, 8, 9, 10, 16, 17, 18, 19, 20, 21];
-
-  function getTimeStamp(){
-    let selectedDate = $('#datepicker').val();
-    let selectedHour = $('#select-hour-start').val();
-
-    if (!selectedDate || !selectedHour) {
-      alert("Vui lòng chọn ngày và giờ.");
-      return;
-    }
-
-    // Tạo timestamp đầy đủ theo định dạng "YYYY-MM-DD HH:MM:00"
-    const fullTimestamp = `${selectedDate} ${selectedHour}:00:00`;
-    return fullTimestamp;
-
-  }
-  //
-
-  function getEndTimeStamp() {
-    let selectedDate = $('#datepicker').val();
-    let endHour = $('#selected-hour-end').val();
-    if (!selectedDate || !endHour) {
-      alert("Vui lòng chọn ngày và giờ kết thúc.");
-      return null;
-    }
-    return `${selectedDate} ${endHour}:00:00`;
-  }
-
-  // Kiểm tra ngày và lấy các giờ hợp lệ
-  function getValidStartHour(currentHour, selectedDate) {
-    const today = new Date();
-    const targetDate = new Date(selectedDate);
-
-    // Nếu ngày chọn là ngày hôm nay, chỉ cho phép chọn các khung giờ sau giờ hiện tại
-    if (targetDate.toDateString() === today.toDateString()) {
-      return availableStartHour.filter(hour => hour > currentHour);
-    }
-
-    // Nếu là ngày trong tương lai, cho phép chọn tất cả các khung giờ
-    return availableStartHour;
-  }
-
-  function getValidEndHour(currentHour, selectedDate) {
-    const today = new Date();
-    const targetDate = new Date(selectedDate);
-
-    // Nếu ngày chọn là ngày hôm nay, chỉ cho phép chọn các khung giờ sau giờ hiện tại
-    if (targetDate.toDateString() === today.toDateString()) {
-      return availableEndHour.filter(hour => hour > currentHour);
-    }
-
-    // Nếu là ngày trong tương lai, cho phép chọn tất cả các khung giờ
-    return availableEndHour;
-  }
-
-  // Khởi tạo Flatpickr cho input chọn ngày
-  flatpickr("#datepicker", {
-    dateFormat: "Y-m-d", // Định dạng ngày là YYYY-MM-DD
-    minDate: "today", // Chỉ cho phép chọn ngày hôm nay hoặc tương lai
-    onChange: function(selectedDates, dateStr, instance) {
-      // Khi người dùng chọn ngày, gọi hàm để tải các giờ có sẵn
-      loadAvailableHours(dateStr);
-    }
-  });
-
-  // Hàm tải các giờ có sẵn
-  function loadAvailableHours(date, selectedHour = null) {
-    const currentDate = new Date();
-    const currentHour = currentDate.getHours();
-
-    const validHours = getValidStartHour(currentHour, date);
-    let hoursDropdown = $('#select-hour-start');
-    hoursDropdown.empty();
-
-    validHours.forEach(hour => {
-      const isSelected = selectedHour && hour == parseInt(selectedHour.split(":")[0]);
-      hoursDropdown.append(`<option value="${hour}" ${isSelected ? "selected" : ""}>${hour}:00</option>`);
+    // Initialize Flatpickr
+    flatpickr("#datepicker", {
+      dateFormat: "Y-m-d",
+      minDate: "today",
+      onChange: function(selectedDates, dateStr, instance) {
+        loadAvailableHours(dateStr);
+      }
     });
 
-    // Gọi cập nhật giờ kết thúc sau khi chọn giờ bắt đầu
-    setTimeout(() => updateEndHours(), 0);
-  }
+    // Load available hours based on selected date
+    function loadAvailableHours(date, selectedHour = null) {
+      const currentDate = new Date();
+      const currentHour = currentDate.getHours();
+      const validHours = getValidStartHour(currentHour, date);
 
+      let hoursDropdown = $('#select-hour-start');
+      hoursDropdown.empty();
+      hoursDropdown.append('<option value="">Chọn giờ bắt đầu</option>');
 
+      validHours.forEach(hour => {
+        const isSelected = selectedHour && hour == parseInt(selectedHour.split(":")[0]);
+        hoursDropdown.append(`<option value="${hour}" ${isSelected ? "selected" : ""}>${hour}:00</option>`);
+      });
 
-  $(document).ready(function () {
+      setTimeout(() => updateEndHours(), 0);
+    }
+
+    // Get valid start hours
+    function getValidStartHour(currentHour, selectedDate) {
+      const today = new Date();
+      const targetDate = new Date(selectedDate);
+
+      if (targetDate.toDateString() === today.toDateString()) {
+        return availableStartHour.filter(hour => hour > currentHour);
+      }
+      return availableStartHour;
+    }
+
+    // Get valid end hours
+    function getValidEndHour(currentHour, selectedDate) {
+      const today = new Date();
+      const targetDate = new Date(selectedDate);
+
+      if (targetDate.toDateString() === today.toDateString()) {
+        return availableEndHour.filter(hour => hour > currentHour);
+      }
+      return availableEndHour;
+    }
+
+    // Update end hours when start hour changes
+    $('#select-hour-start').on('change', function() {
+      updateEndHours();
+    });
+
+    function updateEndHours() {
+      const startHour = parseInt($('#select-hour-start').val());
+      const selectedDate = $('#datepicker').val();
+      const validHours = getValidEndHour(new Date().getHours(), selectedDate);
+
+      let endDropdown = $('#selected-hour-end');
+      endDropdown.empty();
+      endDropdown.append('<option value="">Chọn giờ kết thúc</option>');
+
+      validHours.forEach(hour => {
+        if (hour > startHour) {
+          endDropdown.append(`<option value="${hour}">${hour}:00</option>`);
+        }
+      });
+
+      if (endDropdown.children().length === 1) {
+        endDropdown.append('<option disabled>Không có giờ kết thúc hợp lệ</option>');
+      }
+    }
+
+    // Get timestamp functions
+    function getTimeStamp() {
+      let selectedDate = $('#datepicker').val();
+      let selectedHour = $('#select-hour-start').val();
+
+      if (!selectedDate || !selectedHour) {
+        return null;
+      }
+      return `${selectedDate} ${selectedHour}:00:00`;
+    }
+
+    function getEndTimeStamp() {
+      let selectedDate = $('#datepicker').val();
+      let endHour = $('#selected-hour-end').val();
+
+      if (!selectedDate || !endHour) {
+        return null;
+      }
+      return `${selectedDate} ${endHour}:00:00`;
+    }
+
+    // Search button click handler
+    $('#search-button').click(function() {
+      const startTime = getTimeStamp();
+      const endTime = getEndTimeStamp();
+
+      if (!startTime || !endTime) {
+        // Show error notification
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i>Vui lòng chọn đầy đủ ngày và giờ';
+        document.body.appendChild(errorDiv);
+
+        setTimeout(() => {
+          errorDiv.remove();
+        }, 3000);
+        return;
+      }
+
+      // Show loading state
+      const originalText = this.innerHTML;
+      this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang tìm kiếm...';
+      this.disabled = true;
+
+      // Set hidden values and submit
+      $('#hidden-timestamp').val(startTime);
+      $('#hidden-timestamp-end').val(endTime);
+      $('.hidden-timestamp-datSan').val(startTime);
+      $('.hidden-timestamp-ketThuc').val(endTime);
+
+      $('#booking-form').submit();
+    });
+
+    // Handle booking form submissions
+    $(document).on('submit', 'form[action="<%=request.getContextPath()%>/datSan/taoLichDatNhanVien"]', function(e) {
+      const timestampStart = getTimeStamp();
+      const timestampEnd = getEndTimeStamp();
+
+      if (!timestampStart || !timestampEnd) {
+        e.preventDefault();
+        return;
+      }
+
+      $(this).find('.hidden-timestamp-datSan').val(timestampStart);
+      $(this).find('.hidden-timestamp-ketThuc').val(timestampEnd);
+
+      // Show loading state
+      const submitBtn = $(this).find('button[type="submit"]');
+      const originalText = submitBtn.html();
+      submitBtn.html('<i class="fas fa-spinner fa-spin mr-2"></i>Đang đặt...');
+      submitBtn.prop('disabled', true);
+    });
+
+    // Load initial values if available
     const selectedDate = '<%= selectedDate %>';
     const selectedHour = '<%= selectedHour %>';
     const selectedEndHour = '<%= selectedEndHour %>';
 
-
     if (selectedDate) {
-      $('#datepicker').val(selectedDate); // Gán lại ngày đã chọn
+      $('#datepicker').val(selectedDate);
       loadAvailableHours(selectedDate, selectedHour);
-      // Gọi lại load giờ
 
-      // Đợi dropdown load xong rồi mới chọn giờ
       setTimeout(() => {
-        $('#select-hour-start').val(parseInt(selectedHour.split(":")[0]));
-      }, 100); // delay 100ms là đủ để dropdown load
-    }
-
-    if (selectedEndHour) {
-      setTimeout(() => {
-        $('#selected-hour-end').val(parseInt(selectedEndHour.split(":")[0]));
-      }, 200);
-    }
-  });
-
-
-  //     load giờ đã chọn sau khi reload
-  window.addEventListener('DOMContentLoaded', () => {
-    const selectedTime = '<%= selectedTime != null ? selectedTime : "" %>';
-    if (selectedTime) {
-      // Parse từ dạng: "2025-05-23 06:00:00.0"
-      const parts = selectedTime.split(" ");
-      if (parts.length >= 2) {
-        const dateStr = parts[0]; // "2025-05-23"
-        const timeStr = parts[1].substring(0, 5); // "06:00"
-
-        // Gán lại ngày
-        const datepicker = document.getElementById("datepicker");
-        if (datepicker) {
-          datepicker.value = dateStr;
-
-          // Gọi lại sự kiện change nếu bạn có logic load giờ khi đổi ngày
-          datepicker.dispatchEvent(new Event("change"));
+        if (selectedHour) {
+          $('#select-hour-start').val(parseInt(selectedHour.split(":")[0]));
+          updateEndHours();
         }
-
-        // Gán lại giờ
-        const selectHourStart = document.getElementById("select-hour-start");
-        if (selectHourStart) {
-          for (let i = 0; i < selectHourStart.options.length; i++) {
-            if (selectHourStart.options[i].value === timeStr) {
-              selectHourStart.options[i].selected = true;
-              break;
-            }
-          }
+        if (selectedEndHour) {
+          setTimeout(() => {
+            $('#selected-hour-end').val(parseInt(selectedEndHour.split(":")[0]));
+          }, 100);
         }
-
-        // Cập nhật giờ kết thúc
-        updateEndHours();
-      }
+      }, 100);
     }
   });
-
-  // Cập nhật dropdown giờ kết thúc khi chọn giờ bắt đầu
-  $('#select-hour-start').on('change', function () {
-    updateEndHours();
-  });
-
-  function updateEndHours() {
-    const startHour = parseInt($('#select-hour-start').val());
-    const selectedDate = $('#datepicker').val();
-    const validHours = getValidEndHour(new Date().getHours(), selectedDate);
-
-    let endDropdown = $('#selected-hour-end');
-    endDropdown.empty();
-
-    // Chỉ thêm các giờ > giờ bắt đầu
-    validHours.forEach(hour => {
-      if (hour > startHour) {
-        endDropdown.append(`<option value="${hour}">${hour}:00</option>`);
-      }
-    });
-
-    if (endDropdown.children().length === 0) {
-      endDropdown.append('<option disabled selected>Không có giờ kết thúc hợp lệ</option>');
-    }
-  }
-
 </script>
+
 </body>
 </html>
-
-
