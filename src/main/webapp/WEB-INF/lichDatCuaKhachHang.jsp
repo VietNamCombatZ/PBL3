@@ -173,7 +173,7 @@
                                 <input type="hidden" name="idDatSan" value="<%= ds.getId() %>" />
                                 <button type="submit" class="btn-action btn-view w-full">
                                     <i class="fas fa-star mr-1"></i>
-                                    Xem đánh giá
+                                    Xem đánh giá <%= ds.getId() %>
                                 </button>
                             </form>
                             <% } %>
@@ -219,23 +219,23 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Add loading states to action buttons
-        const actionButtons = document.querySelectorAll('.btn-action');
-
-        actionButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                if (this.type === 'submit') {
-                    const originalText = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Đang xử lý...';
-                    this.disabled = true;
-
-                    // Re-enable after 3 seconds (in case of error)
-                    setTimeout(() => {
-                        this.innerHTML = originalText;
-                        this.disabled = false;
-                    }, 3000);
-                }
-            });
-        });
+        // const actionButtons = document.querySelectorAll('.btn-action');
+        //
+        // actionButtons.forEach(button => {
+        //     button.addEventListener('click', function() {
+        //         if (this.type === 'submit') {
+        //             const originalText = this.innerHTML;
+        //             this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Đang xử lý...';
+        //             this.disabled = true;
+        //
+        //             // Re-enable after 3 seconds (in case of error)
+        //             setTimeout(() => {
+        //                 this.innerHTML = originalText;
+        //                 this.disabled = false;
+        //             }, 3000);
+        //         }
+        //     });
+        // });
 
         // Add hover effects to table rows
         const tableRows = document.querySelectorAll('tbody tr');

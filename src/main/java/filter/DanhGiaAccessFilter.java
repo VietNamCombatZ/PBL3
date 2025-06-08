@@ -9,7 +9,7 @@ import model.nguoiDung;
 
 import java.io.IOException;
 
-@WebFilter("/danhGia/*")
+//@WebFilter("/danhGia/*")
 public class DanhGiaAccessFilter implements Filter
  {
 
