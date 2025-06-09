@@ -43,9 +43,18 @@
                 <input type="text" placeholder="Tìm kiếm theo tên, email, số điện thoại..."
                        class="search-input" id="searchInput">
             </div>
+
+            <%
+                if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY) {
+            %>
+
             <a href="<%= request.getContextPath()%>/nguoiDung/taoNhanVien" class="btn-modern btn-secondary">
                 <i class="fas fa-plus"></i>Thêm nhân viên mới
             </a>
+
+            <%
+                }
+            %>
         </div>
     </div>
 
