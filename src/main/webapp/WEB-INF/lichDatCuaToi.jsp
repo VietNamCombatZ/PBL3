@@ -143,6 +143,59 @@
             box-shadow: var(--shadow-md);
         }
 
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .filter-group label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            background: white;
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .sort-header {
+            cursor: pointer;
+            user-select: none;
+            transition: var(--transition);
+        }
+
+        .sort-header:hover {
+            color: var(--primary-yellow);
+        }
+
+        .sort-icon {
+            margin-left: 0.25rem;
+            transition: transform 0.2s ease;
+        }
+
+        .sort-active {
+            color: var(--primary-yellow);
+        }
+
         @media (max-width: 768px) {
             .booking-container {
                 padding: 0 1rem;
@@ -160,6 +213,11 @@
             .modern-table td {
                 padding: 0.75rem 0.5rem;
             }
+
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
         }
     </style>
 </head>
@@ -167,13 +225,14 @@
 
 <%@include file="navbar.jsp" %>
 
-<div class="booking-container fade-in">
-    <!-- Page Header -->
-    <div class="page-header">
+<div class="page-header">
+    <div class="container">
         <h1 class="page-title">LỊCH ĐẶT SÂN CỦA TÔI</h1>
         <p class="page-subtitle">Quản lý và theo dõi các lịch đặt sân của bạn</p>
     </div>
+</div>
 
+<div class="booking-container fade-in">
     <%
         if (lichDat == null || lichDat.isEmpty()) {
     %>
@@ -197,19 +256,94 @@
     </div>
     <% } %>
 
+    <!-- Filter and Sort Controls -->
+    <div class="modern-search slide-up">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+            <h2 style="font-size: 1.25rem; font-weight: 600; color: var(--primary-blue);">
+                <i class="fas fa-list" style="margin-right: 0.5rem;"></i>
+                Danh sách lịch đặt (<span id="totalBookings"><%= lichDat.size() %></span>)
+            </h2>
+
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label>Trạng thái</label>
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="CHO_THANH_TOAN">Chờ thanh toán</option>
+                        <option value="DA_THANH_TOAN">Đã thanh toán</option>
+                        <option value="DA_HUY">Đã hủy</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Loại sân</label>
+                    <select id="fieldTypeFilter" class="filter-select">
+                        <option value="">Tất cả loại sân</option>
+                        <option value="SAN_5">Sân 5</option>
+                        <option value="SAN_7">Sân 7</option>
+                    </select>
+                </div>
+
+                <div class="modern-dropdown">
+                    <button class="btn-modern btn-outline" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
+                        <i class="fas fa-sort" style="margin-right: 0.5rem;"></i>Sắp xếp
+                    </button>
+                    <div class="dropdown-content" style="min-width: 220px;">
+                        <div style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.1); font-weight: 600; color: var(--primary-blue);">
+                            <i class="fas fa-filter" style="margin-right: 0.5rem;"></i>Sắp xếp theo
+                        </div>
+                        <a href="#" class="sort-option" data-sort="time" data-order="desc">
+                            <i class="fas fa-clock" style="margin-right: 0.5rem;"></i>Thời gian (Mới nhất)
+                        </a>
+                        <a href="#" class="sort-option" data-sort="time" data-order="asc">
+                            <i class="fas fa-clock" style="margin-right: 0.5rem;"></i>Thời gian (Cũ nhất)
+                        </a>
+                        <a href="#" class="sort-option" data-sort="field" data-order="asc">
+                            <i class="fas fa-sort-alpha-down" style="margin-right: 0.5rem;"></i>Tên sân (A-Z)
+                        </a>
+                        <a href="#" class="sort-option" data-sort="field" data-order="desc">
+                            <i class="fas fa-sort-alpha-up" style="margin-right: 0.5rem;"></i>Tên sân (Z-A)
+                        </a>
+                        <a href="#" class="sort-option" data-sort="amount" data-order="desc">
+                            <i class="fas fa-sort-amount-down" style="margin-right: 0.5rem;"></i>Số tiền (Cao - Thấp)
+                        </a>
+                        <a href="#" class="sort-option" data-sort="amount" data-order="asc">
+                            <i class="fas fa-sort-amount-up" style="margin-right: 0.5rem;"></i>Số tiền (Thấp - Cao)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modern-table-container slide-up">
         <table class="modern-table">
             <thead>
             <tr>
-                <th><i class="fas fa-futbol"></i> Tên sân</th>
-                <th><i class="fas fa-clock"></i> Giờ bắt đầu</th>
-                <th><i class="fas fa-clock"></i> Giờ kết thúc</th>
-                <th><i class="fas fa-money-bill"></i> Số tiền</th>
-                <th><i class="fas fa-info-circle"></i> Trạng thái</th>
-                <th><i class="fas fa-cogs"></i> Thao tác</th>
+                <th class="sort-header" data-sort="field">
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-futbol" style="margin-right: 0.5rem;"></i>Tên sân
+                        <span class="sort-icon"><i class="fas fa-sort"></i></span>
+                    </div>
+                </th>
+                <th class="sort-header" data-sort="time">
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-clock" style="margin-right: 0.5rem;"></i>Giờ bắt đầu
+                        <span class="sort-icon"><i class="fas fa-sort"></i></span>
+                    </div>
+                </th>
+                <th><i class="fas fa-clock" style="margin-right: 0.5rem;"></i>Giờ kết thúc</th>
+                <th class="sort-header" data-sort="amount">
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-money-bill" style="margin-right: 0.5rem;"></i>Số tiền
+                        <span class="sort-icon"><i class="fas fa-sort"></i></span>
+                    </div>
+                </th>
+                <th><i class="fas fa-info-circle" style="margin-right: 0.5rem;"></i>Trạng thái</th>
+                <th><i class="fas fa-cogs" style="margin-right: 0.5rem;"></i>Thao tác</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="bookingTableBody">
             <%
                 Date now = new Date();
                 for (datSan ds : lichDat) {
@@ -241,19 +375,26 @@
                             break;
                     }
             %>
-            <tr>
+            <tr data-field-name="<%= sb.getTenSan() %>"
+                data-field-type="<%= sb.getKieuSan() %>"
+                data-status="<%= ds.getTrangThai() %>"
+                data-start-time="<%= gioBatDau.getTime() %>"
+                data-amount="<%= ds.getSoTien() %>">
                 <td>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white;">
                             <i class="fas fa-futbol"></i>
                         </div>
-                        <strong><%= sb.getTenSan() %></strong>
+                        <div>
+                            <strong><%= sb.getTenSan() %></strong>
+                            <div style="font-size: 0.875rem; color: #64748b;"><%= sb.getKieuSan().name().replace("_", " ") %></div>
+                        </div>
                     </div>
                 </td>
                 <td><%= sdf.format(gioBatDau) %></td>
                 <td><%= sdf.format(gioKetThuc) %></td>
                 <td>
-                    <strong style="color: var(--primary-blue);"><%= ds.getSoTien() %> VNĐ</strong>
+                    <strong style="color: var(--primary-blue);"><%= String.format("%,d", ds.getSoTien()) %> VNĐ</strong>
                 </td>
                 <td>
                     <span class="status-badge <%= statusClass %>">
@@ -305,17 +446,19 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Filter Status Indicator -->
+    <div id="filterStatus" class="modern-alert alert-info" style="display: none; margin-top: 1rem;">
+        <i class="fas fa-filter" style="margin-right: 0.5rem;"></i>
+        <span id="filterStatusText">Đang hiển thị tất cả lịch đặt</span>
+    </div>
     <%
         }
     %>
 </div>
 
-
 <!-- Footer -->
 <%@include file="footer.jsp" %>
-
-
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -343,6 +486,187 @@
                 this.style.transform = 'translateY(0) scale(1)';
             });
         });
+
+        // Filtering functionality
+        const statusFilter = document.getElementById('statusFilter');
+        const fieldTypeFilter = document.getElementById('fieldTypeFilter');
+        const totalBookingsSpan = document.getElementById('totalBookings');
+        const filterStatus = document.getElementById('filterStatus');
+        const filterStatusText = document.getElementById('filterStatusText');
+
+        function applyFilters() {
+            const statusValue = statusFilter.value;
+            const fieldTypeValue = fieldTypeFilter.value;
+            const rows = document.querySelectorAll('#bookingTableBody tr');
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const rowStatus = row.getAttribute('data-status');
+                const rowFieldType = row.getAttribute('data-field-type');
+
+                const statusMatch = !statusValue || rowStatus === statusValue;
+                const fieldTypeMatch = !fieldTypeValue || rowFieldType === fieldTypeValue;
+
+                if (statusMatch && fieldTypeMatch) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            totalBookingsSpan.textContent = visibleCount;
+            updateFilterStatus(statusValue, fieldTypeValue, visibleCount);
+        }
+
+        function updateFilterStatus(status, fieldType, count) {
+            let statusText = `Đang hiển thị ${count} lịch đặt`;
+
+            if (status || fieldType) {
+                statusText += ' (Đã lọc: ';
+                const filters = [];
+                if (status) filters.push(`Trạng thái: ${status.replace('_', ' ')}`);
+                if (fieldType) filters.push(`Loại sân: ${fieldType.replace('_', ' ')}`);
+                statusText += filters.join(', ') + ')';
+            }
+
+            filterStatusText.textContent = statusText;
+
+            // Show status with animation
+            filterStatus.style.display = 'flex';
+            filterStatus.style.opacity = '0';
+            filterStatus.style.transform = 'translateY(-10px)';
+
+            setTimeout(() => {
+                filterStatus.style.transition = 'all 0.3s ease';
+                filterStatus.style.opacity = '1';
+                filterStatus.style.transform = 'translateY(0)';
+
+                // Hide after 3 seconds if no filters applied
+                if (!status && !fieldType) {
+                    setTimeout(() => {
+                        filterStatus.style.opacity = '0';
+                        filterStatus.style.transform = 'translateY(-10px)';
+                        setTimeout(() => {
+                            filterStatus.style.display = 'none';
+                        }, 300);
+                    }, 3000);
+                }
+            }, 50);
+        }
+
+        statusFilter.addEventListener('change', applyFilters);
+        fieldTypeFilter.addEventListener('change', applyFilters);
+
+        // Sorting functionality
+        let currentSort = {
+            column: null,
+            order: null
+        };
+
+        // Sort options from dropdown
+        const sortOptions = document.querySelectorAll('.sort-option');
+        sortOptions.forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                const sortBy = this.getAttribute('data-sort');
+                const sortOrder = this.getAttribute('data-order');
+
+                sortTable(sortBy, sortOrder);
+
+                // Update active sort in dropdown
+                sortOptions.forEach(opt => opt.classList.remove('sort-active'));
+                this.classList.add('sort-active');
+            });
+        });
+
+        // Sort headers
+        const sortHeaders = document.querySelectorAll('.sort-header');
+        sortHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const sortBy = this.getAttribute('data-sort');
+                let sortOrder = 'asc';
+
+                // Toggle sort order if clicking the same column
+                if (currentSort.column === sortBy) {
+                    sortOrder = currentSort.order === 'asc' ? 'desc' : 'asc';
+                }
+
+                sortTable(sortBy, sortOrder);
+
+                // Update sort icons
+                sortHeaders.forEach(h => {
+                    const icon = h.querySelector('.sort-icon');
+                    if (h === this) {
+                        icon.innerHTML = sortOrder === 'asc'
+                            ? '<i class="fas fa-sort-up sort-active"></i>'
+                            : '<i class="fas fa-sort-down sort-active"></i>';
+                    } else {
+                        icon.innerHTML = '<i class="fas fa-sort"></i>';
+                    }
+                });
+            });
+        });
+
+        function sortTable(sortBy, sortOrder) {
+            const tbody = document.getElementById('bookingTableBody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            // Store current sort state
+            currentSort.column = sortBy;
+            currentSort.order = sortOrder;
+
+            // Sort the rows
+            rows.sort((a, b) => {
+                let valueA, valueB;
+
+                switch(sortBy) {
+                    case 'field':
+                        valueA = a.getAttribute('data-field-name').toLowerCase();
+                        valueB = b.getAttribute('data-field-name').toLowerCase();
+                        break;
+                    case 'time':
+                        valueA = parseInt(a.getAttribute('data-start-time'));
+                        valueB = parseInt(b.getAttribute('data-start-time'));
+                        break;
+                    case 'amount':
+                        valueA = parseInt(a.getAttribute('data-amount'));
+                        valueB = parseInt(b.getAttribute('data-amount'));
+                        break;
+                    default:
+                        return 0;
+                }
+
+                // Compare values
+                if (typeof valueA === 'string') {
+                    return sortOrder === 'asc'
+                        ? valueA.localeCompare(valueB)
+                        : valueB.localeCompare(valueA);
+                } else {
+                    return sortOrder === 'asc'
+                        ? valueA - valueB
+                        : valueB - valueA;
+                }
+            });
+
+            // Reorder the DOM
+            rows.forEach(row => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(10px)';
+                tbody.appendChild(row);
+            });
+
+            // Animate rows back in
+            setTimeout(() => {
+                rows.forEach((row, index) => {
+                    setTimeout(() => {
+                        row.style.transition = 'all 0.3s ease';
+                        row.style.opacity = '1';
+                        row.style.transform = 'translateY(0)';
+                    }, index * 50);
+                });
+            }, 50);
+        }
     });
 </script>
 </body>
