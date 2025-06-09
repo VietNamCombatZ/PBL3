@@ -72,7 +72,7 @@ public class SanBongDAO {
 //            String sql ="select * from sanBong where id not in (select idSanBong from datSan where (gioBatDau <= ? and ? <= gioKetThuc)or(gioBatDau <= ? and ? <= gioKetThuc)) and trangThai != 'BAO_TRI' ";
             String sql = "SELECT * FROM sanBong WHERE id NOT IN (" +
                     "SELECT idSanBong FROM datSan " +
-                    "WHERE gioKetThuc > ? AND gioBatDau < ?" +
+                    "WHERE gioKetThuc > ? AND gioBatDau < ? and trangThai != 'DA_HUY'" +
                     ") AND trangThai != 'BAO_TRI'";
 
 

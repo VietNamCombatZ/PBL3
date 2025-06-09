@@ -193,7 +193,7 @@
 <%@ include file="navbar.jsp" %>
 
 <div class="review-container fade-in">
-  <a href="<%= request.getContextPath() %>/nguoiDung/lichDatCuaToi" class="back-link">
+  <a href="<%= request.getContextPath() %>/datSan/lịchDatCuaToi" class="back-link">
     <i class="fas fa-arrow-left"></i>
     Quay lại lịch đặt sân
   </a>

@@ -376,6 +376,23 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy lịch đặt của bạn.");
                         return;
                     }
+                    System.out.println("Thông tin lịch đặt cũ: " + dsCu);
+                    System.out.println("idDatSan" + dsCu.getId());
+
+                    // Kiểm tra xem có lịch đặt nào khác (không phải của chính lịch hiện tại) trùng thời gian
+                    List<datSan> dsTrungLich = DatSanDAO.timLichDatTrungThoiGian(idSanBong, timestampStart, timestampEnd, idDatSan);
+                    if (!dsTrungLich.isEmpty()) {
+                        req.setAttribute("lichDat", dsCu);
+
+                        List<sanBong> sanBongCungKieu = SanBongDAO.timDanhSachSanTheoKieuSan(sb.getKieuSan());
+                        req.setAttribute("sanBong", sb);
+                        req.setAttribute("sanBongCungKieu", sanBongCungKieu);
+                        req.setAttribute("error", "Sân đã có người đặt trong khoảng thời gian này.");
+                        System.out.println("Sân đã có người đặt trong khoảng thời gian này.");
+//                        req.getRequestDispatcher("/WEB-INF/chinhSuaLichDat.jsp").forward(req, resp);
+                        render(req, resp, "chinhSuaLichDatCuaToi");
+                        return;
+                    }
 
 //                    dsCu.setIdSanBong(idSanBong);
 //                    dsCu.setSoTien(soTien);
@@ -384,6 +401,7 @@ private void taoLichDat(HttpServletRequest req, HttpServletResponse resp) throws
 //                    dsCu.setNgayCapNhat(new Timestamp(System.currentTimeMillis()));
 
                     // Cập nhật thông tin đặt sân
+                    System.out.println("bắt đầu gán thông tin cập nhật");
                     Map<String, Object> thongTinCapNhat = new HashMap<>();
                     thongTinCapNhat.put("idSanBong", idSanBong);
                     thongTinCapNhat.put("gioBatDau", timestampStart);

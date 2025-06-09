@@ -75,7 +75,7 @@
         }
       %>
 
-      <a href="#" class="btn-modern btn-secondary">
+      <a href="<%=request.getContextPath()%>/sanBong/danhSachSanCoSan" class="btn-modern btn-secondary">
         <i class="fas fa-calendar-plus"></i> Đặt Lịch Ngay
       </a>
     </div>

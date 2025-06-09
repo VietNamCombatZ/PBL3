@@ -130,12 +130,12 @@
 
     <p class="access-denied-message">
       Xin lỗi, bạn không có quyền truy cập vào trang này.
-      Trang này chỉ dành cho nhân viên và quản lý của hệ thống.
+
     </p>
 
     <div class="access-denied-details">
       <i class="fas fa-exclamation-triangle"></i>
-      Chỉ nhân viên hoặc quản lý mới được phép truy cập vào khu vực này.
+
     </div>
 
     <a href="<%=request.getContextPath()%>/trangChu" class="home-btn">

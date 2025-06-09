@@ -23,12 +23,25 @@
   </div>
 </div>
 
+<%--&lt;%&ndash; Hiển thị thông báo lỗi nếu có &ndash;%&gt;--%>
+<%--<% String error = (String) request.getAttribute("error");--%>
+<%--  if(error == null){--%>
+<%--    error = (String) session.getAttribute("error");--%>
+<%--  }%>--%>
+<%--<% if (error != null) {--%>
+<%--  session.removeAttribute("error"); // Xóa sau khi hiển thị--%>
+<%--%>--%>
+<%--<div class="error-message">--%>
+<%--  <i class="fas fa-exclamation-triangle"></i> <%= error %>--%>
+<%--</div>--%>
+<%--<% } %>--%>
+
 <div class="container" style="max-width: 800px; margin: 0 auto; padding: 0 2rem;">
   <%
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
     datSan ds = (datSan) request.getAttribute("lichDat");
     if (ds == null) {
-      response.sendRedirect(request.getContextPath() + "/nguoiDung/lichDatCuaToi");
+      response.sendRedirect(request.getContextPath() + "/datSan/tatCaLichDat");
       return;
     }
     String gioBatDau = sdf.format(ds.getGioBatDau());
@@ -49,6 +62,19 @@
     <div class="modern-card-header">
       <h2 class="modern-card-title">Thông tin đặt sân</h2>
     </div>
+
+    <%-- Hiển thị thông báo lỗi nếu có --%>
+    <% String error = (String) request.getAttribute("error");
+      if(error == null){
+        error = (String) session.getAttribute("error");
+      }%>
+    <% if (error != null) {
+      session.removeAttribute("error"); // Xóa sau khi hiển thị
+    %>
+    <div class="error-message">
+      <i class="fas fa-exclamation-triangle"></i> <%= error %>
+    </div>
+    <% } %>
 
     <!-- Chọn ngày -->
     <div class="modern-form-group">
@@ -76,8 +102,10 @@
           List<sanBong> sanBongCungKieu = (List<sanBong>) request.getAttribute("sanBongCungKieu");
           if (sanBongCungKieu != null) {
             for (sanBong sb : sanBongCungKieu) {
+              boolean isSelected = Objects.equals(sb.getId(), ds.getIdSanBong());
         %>
-        <option value="<%= sb.getId() %>"><%= sb.getTenSan() %></option>
+<%--        <option value="<%= sb.getId() %>"><%= sb.getTenSan() %></option>--%>
+        <option value="<%= sb.getId() %>" <%= isSelected ? "selected" : "" %>><%= sb.getTenSan() %></option>
         <%
             }
           }

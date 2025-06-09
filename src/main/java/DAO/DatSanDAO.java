@@ -160,6 +160,39 @@ public class DatSanDAO {
         }
     }
 
+    public static List<datSan> timLichDatTrungThoiGian(String idSanBong, Timestamp start, Timestamp end, String idDatSanHienTai) {
+        List<datSan> ketQua = new ArrayList<>();
+        try (Connection conn = ketnoiCSDL.getConnection()) {
+            String sql = "SELECT * FROM datSan WHERE idSanBong = ? AND id <> ? " +
+                    "AND ((gioBatDau < ? AND gioKetThuc > ?) " + // chồng 1 phần
+                    "OR (gioBatDau >= ? AND gioBatDau < ?))";    // nằm trong khoảng
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, idSanBong);
+            ps.setString(2, idDatSanHienTai);
+            ps.setTimestamp(3, end);
+            ps.setTimestamp(4, start);
+            ps.setTimestamp(5, start);
+            ps.setTimestamp(6, end);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                datSan ds = new datSan();
+                // set các trường cần thiết từ rs vào ds
+                ds.setId(rs.getString("id"));
+                ds.setIdKhachHang(rs.getString("idKhachHang"));
+                ds.setIdSanBong(rs.getString("idSanBong"));
+                ds.setSoTien(rs.getInt("soTien"));
+                ds.setTrangThai(trangThaiDatSan.valueOf(rs.getString("trangThai")));
+                ds.setGioBatDau(new java.sql.Date(rs.getTimestamp("gioBatDau").getTime()));
+                ds.setGioKetThuc(new java.sql.Date(rs.getTimestamp("gioKetThuc").getTime()));
+                ketQua.add(ds);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
+
     public static datSan capNhatThongTinDatSan(String id, Map<String, Object> thongTinCapNhat){
         if (thongTinCapNhat == null || thongTinCapNhat.isEmpty()) return null;
 

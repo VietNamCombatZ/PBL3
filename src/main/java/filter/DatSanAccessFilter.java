@@ -23,7 +23,8 @@ public class DatSanAccessFilter implements Filter {
         String path = req.getPathInfo();
 
         if (vaiTro == null) {
-            resp.sendRedirect(req.getContextPath() + "/accessFilter/accessDenied");
+            session.setAttribute("error", "Bạn cần đăng nhập để thực hiện chức năng này.");
+            resp.sendRedirect(req.getContextPath() + "/nguoiDung/dangNhap");
             return;
         }
 

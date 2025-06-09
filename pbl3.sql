@@ -52,7 +52,7 @@ CREATE TABLE datSan (
    idSanBong CHAR(36),
    soTien int,
     
-    trangThai ENUM('CHO_THANH_TOAN', 'DA_THANH_TOAN','TDA_HUY') NOT NULL,  
+    trangThai ENUM('CHO_THANH_TOAN', 'DA_THANH_TOAN','DA_HUY') NOT NULL,  
     gioBatDau datetime,
    gioKetThuc datetime,
     ngayTao timestamp,
