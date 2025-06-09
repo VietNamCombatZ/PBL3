@@ -162,7 +162,7 @@
           <i class="fas fa-save mr-2"></i>
           Lưu thay đổi
         </button>
-        <a href="<%= request.getContextPath() %>/sanBong/danhSachSan"
+        <a href="<%= request.getContextPath() %>/sanBong/xemTinhTrangSan"
            class="btn-secondary flex-1 text-center">
           <i class="fas fa-arrow-left mr-2"></i>
           Quay lại danh sách
