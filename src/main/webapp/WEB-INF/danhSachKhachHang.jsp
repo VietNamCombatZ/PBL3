@@ -217,7 +217,7 @@
                         </div>
                         <div class="customer-details">
                             <h4><%= kh.getTen() %></h4>
-                            <p>ID: <%= kh.getId() %></p>
+<%--                            <p>ID: <%= kh.getId() %></p>--%>
                         </div>
                     </div>
                 </td>

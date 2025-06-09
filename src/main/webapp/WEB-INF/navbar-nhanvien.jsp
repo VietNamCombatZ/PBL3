@@ -89,6 +89,10 @@
         </div>
       </div>
 
+      <a href="<%= request.getContextPath() %>/datSan/tatCaLichDat">
+        <i class="fas fa-users"></i> Danh sách lịch đặt
+      </a>
+
       <a href="<%= request.getContextPath() %>/nguoiDung/DanhsachKhachHang">
         <i class="fas fa-users"></i> Danh sách khách hàng
       </a>
@@ -97,20 +101,20 @@
         <i class="fas fa-user-tie"></i> Danh sách nhân viên
       </a>
 
-      <div class="nav-dropdown">
-        <a href="#" style="display: flex; align-items: center; gap: 0.5rem;">
-          <i class="fas fa-star"></i> Xem đánh giá
-          <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i>
-        </a>
-        <div class="nav-dropdown-content">
-          <a href="<%= request.getContextPath() %>/danhGia/khachHang">
-            <i class="fas fa-user-check"></i> Đánh giá của khách hàng
-          </a>
-          <a href="<%= request.getContextPath() %>/danhGia/san">
-            <i class="fas fa-futbol"></i> Đánh giá của từng sân
-          </a>
-        </div>
-      </div>
+<%--      <div class="nav-dropdown">--%>
+<%--        <a href="#" style="display: flex; align-items: center; gap: 0.5rem;">--%>
+<%--          <i class="fas fa-star"></i> Xem đánh giá--%>
+<%--          <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i>--%>
+<%--        </a>--%>
+<%--        <div class="nav-dropdown-content">--%>
+<%--          <a href="<%= request.getContextPath() %>/danhGia/khachHang">--%>
+<%--            <i class="fas fa-user-check"></i> Đánh giá của khách hàng--%>
+<%--          </a>--%>
+<%--          <a href="<%= request.getContextPath() %>/danhGia/san">--%>
+<%--            <i class="fas fa-futbol"></i> Đánh giá của từng sân--%>
+<%--          </a>--%>
+<%--        </div>--%>
+<%--      </div>--%>
 
       <a href="<%= request.getContextPath() %>/doanhThu">
         <i class="fas fa-chart-line"></i> Xem doanh thu

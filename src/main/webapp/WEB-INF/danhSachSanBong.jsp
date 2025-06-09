@@ -210,13 +210,13 @@
                         <div class="flex items-center justify-center space-x-2">
                             <a href="<%= request.getContextPath() %>/sanBong/chinhSuaThongTinSan?id=<%= san.getId() %>"
                                class="btn-action btn-edit" title="Chỉnh sửa">
-                                <i class="fas fa-edit"></i>
+                                <i class="fas fa-edit"></i> Sửa
                             </a>
                             <form action="<%= request.getContextPath() %>/sanBong/xoaSanBong" method="POST" style="display:inline;">
                                 <input type="hidden" name="idSanBong" value="<%= san.getId() %>">
                                 <button type="submit" class="btn-action btn-delete" title="Xóa"
                                         onclick="return confirm('Bạn có chắc chắn muốn xoá sân bóng này không?');">
-                                    <i class="fas fa-trash"></i>
+                                    <i class="fas fa-trash"></i> Xoá
                                 </button>
                             </form>
                         </div>
