@@ -195,13 +195,15 @@
     </div>
 
     <%-- Hiển thị thông báo lỗi nếu có --%>
-    <% String thongBao = (String) request.getAttribute("thongBao");
-      if(thongBao == null){
-        thongBao = (String) session.getAttribute("thongBao");
+    <% String error = (String) request.getAttribute("error");
+      if(error == null){
+        error = (String) session.getAttribute("error");
       }%>
-    <% if (thongBao != null) { %>
-    <div class="error-message">
-      <i class="fas fa-exclamation-triangle"></i> <%= thongBao %>
+    <% if (error != null) {
+      session.removeAttribute("error"); // Xóa sau khi hiển thị
+    %>
+    <div class="error-message" style="color: red;">
+      <i class="fas fa-exclamation-triangle"></i> <%= error %>
     </div>
     <% } %>
 
