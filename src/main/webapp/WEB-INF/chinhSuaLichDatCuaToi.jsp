@@ -133,40 +133,225 @@
 <%--footer--%>
 <%@include file="footer.jsp" %>
 
+
+<%--&lt;%&ndash;v1&ndash;%&gt;--%>
+<%--<script>--%>
+<%--  const availableStartHour = [6, 7, 8, 9, 15, 16, 17, 18, 19, 20];--%>
+<%--  const availableEndHour =[7,8,9,10,16,17,18,19,20,21]--%>
+<%--  $('#idSanBongSelect').on('change', function () {--%>
+<%--    const selectedId = $(this).val();--%>
+<%--    $('#hidden-idSanBong').val(selectedId);--%>
+<%--  });--%>
+
+
+
+<%--  //v1--%>
+<%--  function loadStartHours(dateStr) {--%>
+<%--    const today = new Date();--%>
+<%--    const selectedDate = new Date(dateStr);--%>
+<%--    let nowHour = today.getHours();--%>
+
+<%--    $('#start-hour').empty();--%>
+<%--    availableStartHour.forEach(hour => {--%>
+<%--      if (selectedDate.toDateString() !== today.toDateString() || hour > nowHour) {--%>
+<%--        $('#start-hour').append(`<option value="${hour}:00">${hour}:00</option>`);--%>
+<%--      }--%>
+<%--    });--%>
+<%--    $('#start-hour').trigger('change'); // Load giờ kết thúc tương ứng--%>
+<%--  }--%>
+
+<%--  function loadEndHours(start) {--%>
+<%--    const startHour = parseInt(start.split(":")[0]);--%>
+<%--    $('#end-hour').empty();--%>
+<%--    availableEndHour.forEach(hour => {--%>
+<%--      if(startHour <= 9){ //nếu giờ bắt đầu là buổi sáng, chỉ cho chọn giờ kết thúc là buổi sáng--%>
+<%--      if (hour > startHour && hour <= 10) {--%>
+<%--        $('#end-hour').append(`<option value="${hour}:00">${hour}:00</option>`);--%>
+<%--      }}--%>
+<%--      else--%>
+<%--        if (hour > startHour && hour <= 21) { //nếu giờ bắt đầu là buổi chiều, chỉ cho chọn giờ kết thúc là buổi chiều--%>
+<%--            $('#end-hour').append(`<option value="${hour}:00">${hour}:00</option>`);--%>
+<%--        }--%>
+<%--    });--%>
+<%--  }--%>
+
+
+
+<%--  &lt;%&ndash;//v2&ndash;%&gt;--%>
+<%--  &lt;%&ndash;$(document).ready(function () {&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  const initialDate = "<%= ngay %>";&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  const initialStart = "<%= gioBD %>";&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  const initialEnd = "<%= gioKT %>";&ndash;%&gt;--%>
+<%--  --%>
+<%--  &lt;%&ndash;  $('#datepicker').val(initialDate);&ndash;%&gt;--%>
+<%--  --%>
+<%--  &lt;%&ndash;  // Gọi loadStartHours với cả giá trị mặc định giờ bắt đầu và kết thúc&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  loadStartHours(initialDate, initialStart, initialEnd);&ndash;%&gt;--%>
+<%--  &lt;%&ndash;});&ndash;%&gt;--%>
+<%--  &lt;%&ndash;function loadStartHours(dateStr, selectedStart = null, selectedEnd = null) {&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  const today = new Date();&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  const selectedDate = new Date(dateStr);&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  const nowHour = today.getHours();&ndash;%&gt;--%>
+<%--  --%>
+<%--  &lt;%&ndash;  const $startHour = $('#start-hour');&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  $startHour.empty();&ndash;%&gt;--%>
+<%--  --%>
+<%--  &lt;%&ndash;  // Gán danh sách giờ bắt đầu&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  availableStartHour.forEach(hour => {&ndash;%&gt;--%>
+<%--  &lt;%&ndash;    if (selectedDate.toDateString() !== today.toDateString() || hour > nowHour) {&ndash;%&gt;--%>
+<%--  &lt;%&ndash;      const value = `${hour}:00`;&ndash;%&gt;--%>
+<%--  &lt;%&ndash;      $startHour.append(`<option value="${value}" ${selectedStart == value ? "selected" : ""}>${value}</option>`);&ndash;%&gt;--%>
+<%--  &lt;%&ndash;    }&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  });&ndash;%&gt;--%>
+<%--  --%>
+<%--  &lt;%&ndash;  // Nếu có giờ bắt đầu mặc định, thì gán giờ kết thúc tương ứng&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  const currentStart = selectedStart || $startHour.val();&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  if (currentStart) {&ndash;%&gt;--%>
+<%--  &lt;%&ndash;    loadEndHours(currentStart, selectedEnd);&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  }&ndash;%&gt;--%>
+<%--  &lt;%&ndash;}&ndash;%&gt;--%>
+<%--  --%>
+<%--  --%>
+<%--  &lt;%&ndash;function loadEndHours(start, selectedEnd = null) {&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  const startHour = parseInt(start.split(":")[0]);&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  const $endHour = $('#end-hour');&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  $endHour.empty();&ndash;%&gt;--%>
+<%--  --%>
+<%--  &lt;%&ndash;  availableEndHour.forEach(hour => {&ndash;%&gt;--%>
+<%--  &lt;%&ndash;    const value = `${hour}:00`;&ndash;%&gt;--%>
+<%--  &lt;%&ndash;    const validMorning = startHour <= 9 && hour > startHour && hour <= 10;&ndash;%&gt;--%>
+<%--  &lt;%&ndash;    const validAfternoon = startHour > 9 && hour > startHour && hour <= 21;&ndash;%&gt;--%>
+<%--  --%>
+<%--  &lt;%&ndash;    if (validMorning || validAfternoon) {&ndash;%&gt;--%>
+<%--  &lt;%&ndash;      $endHour.append(`<option value="${value}" ${selectedEnd == value ? "selected" : ""}>${value}</option>`);&ndash;%&gt;--%>
+<%--  &lt;%&ndash;    }&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  });&ndash;%&gt;--%>
+<%--  &lt;%&ndash;}&ndash;%&gt;--%>
+<%--  --%>
+<%--  &lt;%&ndash;$('#datepicker').on('change', function () {&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  const dateStr = $(this).val();&ndash;%&gt;--%>
+<%--  &lt;%&ndash;  loadStartHours(dateStr); // Không cần truyền giờ mặc định&ndash;%&gt;--%>
+<%--  &lt;%&ndash;});&ndash;%&gt;--%>
+<%--  --%>
+<%--  &lt;%&ndash;//end of v2&ndash;%&gt;--%>
+
+
+
+
+
+
+<%--  function prepareSubmit() {--%>
+<%--    const date = $('#datepicker').val();--%>
+<%--    const start = $('#start-hour').val();--%>
+<%--    const end = $('#end-hour').val();--%>
+<%--    const sanBongId = $('#idSanBongSelect').val();--%>
+
+<%--    if (!date || !start || !end || !sanBongId) {--%>
+<%--      alert("Vui lòng chọn đầy đủ ngày, giờ bắt đầu và giờ kết thúc.");--%>
+<%--      return false;--%>
+<%--    }--%>
+
+<%--    $('#hidden-timestamp-start').val(`${date} ${start}:00`);--%>
+<%--    $('#hidden-timestamp-end').val(`${date} ${end}:00`);--%>
+<%--    $('#hidden-idSanBong').val(sanBongId);--%>
+<%--    return true;--%>
+<%--  }--%>
+
+<%--  // Khởi tạo ngày--%>
+<%--  flatpickr("#datepicker", {--%>
+<%--    dateFormat: "Y-m-d",--%>
+<%--    minDate: "today",--%>
+<%--    onChange: function(selectedDates, dateStr) {--%>
+<%--      loadStartHours(dateStr);--%>
+<%--    }--%>
+<%--  });--%>
+
+
+
+
+<%--  //v1--%>
+<%--  // Khi chọn giờ bắt đầu, cập nhật giờ kết thúc tương ứng--%>
+<%--  $('#start-hour').on('change', function () {--%>
+<%--    const selectedStart = $(this).val();--%>
+<%--    if (selectedStart) {--%>
+<%--      loadEndHours(selectedStart);--%>
+<%--    }--%>
+<%--  });--%>
+
+
+<%--  // //v2--%>
+<%--  // $('#start-hour').on('change', function () {--%>
+<%--  //   const start = $(this).val();--%>
+<%--  //   if (start) {--%>
+<%--  //     loadEndHours(start);--%>
+<%--  //   }--%>
+<%--  // });--%>
+<%--  //--%>
+<%--  // //end of v2--%>
+
+<%--  const initialDate = "<%= ngay %>";--%>
+<%--  const initialStart = "<%= gioBD %>";--%>
+<%--  const initialEnd = "<%= gioKT %>";--%>
+
+<%--  $('#datepicker').val(initialDate);--%>
+<%--  loadStartHours(initialDate);--%>
+
+<%--  setTimeout(() => {--%>
+<%--    $('#start-hour').val(initialStart).trigger('change');--%>
+<%--    setTimeout(() => {--%>
+<%--      $('#end-hour').val(initialEnd);--%>
+<%--    }, 100);--%>
+<%--  }, 100);--%>
+<%--</script>--%>
+
+
+<%--v2--%>
 <script>
   const availableStartHour = [6, 7, 8, 9, 15, 16, 17, 18, 19, 20];
-  const availableEndHour =[7,8,9,10,16,17,18,19,20,21]
-  $('#idSanBongSelect').on('change', function () {
-    const selectedId = $(this).val();
-    $('#hidden-idSanBong').val(selectedId);
-  });
+  const availableEndHour = [7, 8, 9, 10, 16, 17, 18, 19, 20, 21];
 
-  function loadStartHours(dateStr) {
+  function loadStartHours(dateStr, selectedStart = null, selectedEnd = null) {
     const today = new Date();
     const selectedDate = new Date(dateStr);
-    let nowHour = today.getHours();
+    const nowHour = today.getHours();
 
-    $('#start-hour').empty();
+    const $startHour = $('#start-hour');
+    $startHour.empty();
+
+    console.log("Selected Date: " + selectedDate.toDateString());
+    console.log("giờ bắt đầu: " + selectedStart);
+    console.log("giờ kết thúc: " + selectedEnd);
+
     availableStartHour.forEach(hour => {
       if (selectedDate.toDateString() !== today.toDateString() || hour > nowHour) {
-        $('#start-hour').append(`<option value="${hour}:00">${hour}:00</option>`);
+        <%--const value = `${hour}:00`;--%>
+        const value = `${hour.toString().padStart(2, '0')}:00`;
+
+        console.log("Adding start hour: " + value +" isMatch: " + (selectedStart === value));
+
+        $startHour.append(`<option value="${value}" ${selectedStart == value ? "selected" : ""}>${value}</option>`);
       }
     });
-    $('#start-hour').trigger('change'); // Load giờ kết thúc tương ứng
+
+    const currentStart = selectedStart || $startHour.val();
+    if (currentStart) {
+      loadEndHours(currentStart, selectedEnd);
+    }
   }
 
-  function loadEndHours(start) {
+  function loadEndHours(start, selectedEnd = null) {
     const startHour = parseInt(start.split(":")[0]);
-    $('#end-hour').empty();
+    const $endHour = $('#end-hour');
+    $endHour.empty();
+
     availableEndHour.forEach(hour => {
-      if(startHour <= 9){ //nếu giờ bắt đầu là buổi sáng, chỉ cho chọn giờ kết thúc là buổi sáng
-      if (hour > startHour && hour <= 10) {
-        $('#end-hour').append(`<option value="${hour}:00">${hour}:00</option>`);
-      }}
-      else
-        if (hour > startHour && hour <= 21) { //nếu giờ bắt đầu là buổi chiều, chỉ cho chọn giờ kết thúc là buổi chiều
-            $('#end-hour').append(`<option value="${hour}:00">${hour}:00</option>`);
-        }
+      const value = `${hour}:00`;
+      const validMorning = startHour <= 9 && hour > startHour && hour <= 10;
+      const validAfternoon = startHour > 9 && hour > startHour && hour <= 21;
+
+      if (validMorning || validAfternoon) {
+        $endHour.append(`<option value="${value}" ${selectedEnd == value ? "selected" : ""}>${value}</option>`);
+      }
     });
   }
 
@@ -187,37 +372,44 @@
     return true;
   }
 
-  // Khởi tạo ngày
-  flatpickr("#datepicker", {
-    dateFormat: "Y-m-d",
-    minDate: "today",
-    onChange: function(selectedDates, dateStr) {
-      loadStartHours(dateStr);
-    }
+  $(document).ready(function () {
+    const initialDate = "<%= ngay %>";
+    const initialStart = "<%= gioBD %>";
+    const initialEnd = "<%= gioKT %>";
+
+    console.log("Initial Date: " + initialDate);
+    console.log("Initial Start: " + initialStart);
+    console.log("Initial End: " + initialEnd);
+
+
+    $('#datepicker').val(initialDate);
+    loadStartHours(initialDate, initialStart, initialEnd);
+
+    $('#start-hour').on('change', function () {
+      const start = $(this).val();
+      if (start) loadEndHours(start);
+    });
+
+    $('#datepicker').on('change', function () {
+      const dateStr = $(this).val();
+      loadStartHours(dateStr); // Không truyền giờ mặc định
+    });
+
+    $('#idSanBongSelect').on('change', function () {
+      const selectedId = $(this).val();
+      $('#hidden-idSanBong').val(selectedId);
+    });
+
+    flatpickr("#datepicker", {
+      dateFormat: "Y-m-d",
+      minDate: "today",
+      onChange: function (selectedDates, dateStr) {
+        loadStartHours(dateStr);
+      }
+    });
   });
-
-  // Khi chọn giờ bắt đầu, cập nhật giờ kết thúc tương ứng
-  $('#start-hour').on('change', function () {
-    const selectedStart = $(this).val();
-    if (selectedStart) {
-      loadEndHours(selectedStart);
-    }
-  });
-
-  const initialDate = "<%= ngay %>";
-  const initialStart = "<%= gioBD %>";
-  const initialEnd = "<%= gioKT %>";
-
-  $('#datepicker').val(initialDate);
-  loadStartHours(initialDate);
-
-  setTimeout(() => {
-    $('#start-hour').val(initialStart).trigger('change');
-    setTimeout(() => {
-      $('#end-hour').val(initialEnd);
-    }, 100);
-  }, 100);
 </script>
+
 
 </body>
 </html>
