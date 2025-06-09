@@ -198,13 +198,13 @@
                 <th>
                     <i class="fas fa-envelope mr-2"></i>Liên hệ
                 </th>
-                <%
-                    if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {
-                %>
+<%--                <%--%>
+<%--                    if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {--%>
+<%--                %>--%>
                 <th style="text-align: center;">
                     <i class="fas fa-cogs mr-2"></i>Thao tác
                 </th>
-                <% } %>
+<%--                <% } %>--%>
             </tr>
             </thead>
             <tbody id="guestTableBody">
@@ -232,14 +232,14 @@
                         <%= kh.getEmail() %>
                     </div>
                 </td>
-                <%
-                    if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {
-                %>
+<%--                <%--%>
+<%--                    if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {--%>
+<%--                %>--%>
                 <td>
                     <div class="action-buttons">
                         <a href="<%= request.getContextPath() %>/datSan/lichDatKhachHang?id=<%= kh.getId() %>"
                            class="btn-action btn-view" title="Xem lịch sử đặt sân">
-                            <i class="fas fa-history"></i> Lịch sử
+                            <i class="fas fa-history"></i> Lịch sử đặt sân
                         </a>
 
                         <a href="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinKhachHang?id=<%= kh.getId() %>"
@@ -256,9 +256,9 @@
                         </form>
                     </div>
                 </td>
-                <%
-                    }
-                %>
+<%--                <%--%>
+<%--                    }--%>
+<%--                %>--%>
             </tr>
             <% } %>
             </tbody>
