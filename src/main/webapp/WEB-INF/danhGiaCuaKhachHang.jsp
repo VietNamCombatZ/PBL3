@@ -87,6 +87,7 @@
             <div class="modern-form input" style="background: #f8fafc; border: 2px solid #e2e8f0;">
                 <i class="fas fa-clock" style="margin-right: 0.5rem; color: var(--primary-blue);"></i>
                 <%= danhGiaKhachHang.getNgayTao() %>
+<%--                <%= ds.getNgayTao() %>--%>
             </div>
         </div>
     </div>

@@ -94,17 +94,17 @@
       </div>
     </div>
 
-    <div class="stats-card">
-      <div class="flex items-center justify-between">
-        <div>
-          <div class="text-lg font-bold text-purple-600"><%= String.format("%,d", totalRevenue) %></div>
-          <div class="text-sm text-gray-600">Tổng doanh thu (VNĐ)</div>
-        </div>
-        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-          <i class="fas fa-money-bill text-purple-600 text-xl"></i>
-        </div>
-      </div>
-    </div>
+<%--    <div class="stats-card">--%>
+<%--      <div class="flex items-center justify-between">--%>
+<%--        <div>--%>
+<%--          <div class="text-lg font-bold text-purple-600"><%= String.format("%,d", totalRevenue) %></div>--%>
+<%--          <div class="text-sm text-gray-600">Tổng doanh thu (VNĐ)</div>--%>
+<%--        </div>--%>
+<%--        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">--%>
+<%--          <i class="fas fa-money-bill text-purple-600 text-xl"></i>--%>
+<%--        </div>--%>
+<%--      </div>--%>
+<%--    </div>--%>
   </div>
 
   <!-- Bookings Table -->
@@ -290,21 +290,21 @@
     // Add loading states to action buttons
     const actionButtons = document.querySelectorAll('.btn-action');
 
-    actionButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        if (this.type === 'submit') {
-          const originalText = this.innerHTML;
-          this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Đang xử lý...';
-          this.disabled = true;
-
-          // Re-enable after 3 seconds (in case of error)
-          setTimeout(() => {
-            this.innerHTML = originalText;
-            this.disabled = false;
-          }, 3000);
-        }
-      });
-    });
+    // actionButtons.forEach(button => {
+    //   button.addEventListener('click', function() {
+    //     if (this.type === 'submit') {
+    //       const originalText = this.innerHTML;
+    //       this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Đang xử lý...';
+    //       this.disabled = true;
+    //
+    //       // Re-enable after 3 seconds (in case of error)
+    //       setTimeout(() => {
+    //         this.innerHTML = originalText;
+    //         this.disabled = false;
+    //       }, 3000);
+    //     }
+    //   });
+    // });
 
     // Add hover effects to table rows
     const tableRows = document.querySelectorAll('tbody tr');

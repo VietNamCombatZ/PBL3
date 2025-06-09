@@ -47,6 +47,8 @@ public class DanhGiaDAO {
                 dg.setIdSanBong(rs.getString("idSanBong"));
                 dg.setNoiDung(rs.getString("noiDung"));
                 dg.setMucDiem(mucDiem.valueOf(rs.getString("mucDiem")));
+                dg.setNgayTao(rs.getTimestamp("ngayTao"));
+                dg.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
                 return dg;
             }
         } catch (SQLException e) {
@@ -72,6 +74,8 @@ public class DanhGiaDAO {
                 dg.setIdSanBong(rs.getString("idSanBong"));
                 dg.setNoiDung(rs.getString("noiDung"));
                 dg.setMucDiem(mucDiem.valueOf(rs.getString("mucDiem")));
+                dg.setNgayTao(rs.getTimestamp("ngayTao"));
+                dg.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
                 dsDanhGia.add(dg);
             }
             return dsDanhGia;
@@ -97,6 +101,8 @@ public class DanhGiaDAO {
                 dg.setIdDatSan(rs.getString("idDatSan"));
                 dg.setNoiDung(rs.getString("noiDung"));
                 dg.setMucDiem(mucDiem.valueOf(rs.getString("mucDiem")));
+                dg.setNgayTao(rs.getTimestamp("ngayTao"));
+                dg.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
                 dsDanhGia.add(dg);
             }
             return dsDanhGia;
@@ -121,6 +127,8 @@ public class DanhGiaDAO {
                 dg.setIdSanBong(rs.getString("idSanBong"));
                 dg.setNoiDung(rs.getString("noiDung"));
                 dg.setMucDiem(mucDiem.valueOf(rs.getString("mucDiem")));
+                dg.setNgayTao(rs.getTimestamp("ngayTao"));
+                dg.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
                 dsDanhGia.add(dg);
             }
             return dsDanhGia;
@@ -144,6 +152,8 @@ public class DanhGiaDAO {
                 dg.setIdSanBong(rs.getString("idSanBong"));
                 dg.setNoiDung(rs.getString("noiDung"));
                 dg.setMucDiem(mucDiem.valueOf(rs.getString("mucDiem")));
+                dg.setNgayTao(rs.getTimestamp("ngayTao"));
+                dg.setNgayCapNhat(rs.getTimestamp("ngayCapNhat"));
                 return dg;
             }
 
