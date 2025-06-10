@@ -70,7 +70,7 @@
             <label class="modern-form label">Mức đánh giá:</label>
             <div class="modern-form input" style="background: var(--light-yellow); border: 2px solid var(--primary-yellow); font-weight: 600;">
                 <i class="fas fa-star" style="margin-right: 0.5rem; color: var(--secondary-yellow);"></i>
-                <%= danhGiaKhachHang.getMucDiem().name().replace("_", " ") %>
+                <%= danhGiaKhachHang.getMucDiem().toVietnamese() %>
             </div>
         </div>
 

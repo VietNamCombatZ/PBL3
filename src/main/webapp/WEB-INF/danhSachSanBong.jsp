@@ -144,10 +144,16 @@
                     </a>
                 </div>
             </div>
+            <%
+                nguoiDung nd = (nguoiDung) session.getAttribute("nguoiDung");
+                if (nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY) {
+            %>
+
 
             <a href="<%= request.getContextPath() %>/sanBong/taoSanBong" class="btn-modern btn-secondary">
                 <i class="fas fa-plus"></i>Thêm sân bóng
             </a>
+            <%}%>
         </div>
     </div>
 
@@ -163,7 +169,7 @@
             <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--primary-blue); margin-bottom: 0.5rem;">Chưa có sân bóng nào</h3>
             <p style="color: #64748b; margin-bottom: 1rem;">Hãy thêm sân bóng đầu tiên để bắt đầu</p>
             <%
-                nguoiDung nd = (nguoiDung) session.getAttribute("nguoiDung");
+
                 if (nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY) {
             %>
             <a href="<%= request.getContextPath() %>/sanBong/taoSanBong" class="btn-modern btn-primary">
@@ -199,7 +205,7 @@
                     </div>
                 </th>
                 <%
-                    nguoiDung nd = (nguoiDung) session.getAttribute("nguoiDung");
+
                     if (nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY) {
                 %>
                 <th style="text-align: center;">
@@ -215,21 +221,27 @@
                     String statusIcon = "";
                     String typeIcon = "";
                     String typeColor = "";
+                    String statusText = "";
+                    String typeText = "";
 
                     if (san.getTrangThai() == trangThaiSan.HOAT_DONG) {
                         statusClass = "alert-success";
                         statusIcon = "fas fa-check-circle";
+                        statusText = "HOẠT ĐỘNG";
                     } else {
                         statusClass = "alert-warning";
                         statusIcon = "fas fa-tools";
+                        statusText = "BẢO TRÌ";
                     }
 
                     if (san.getKieuSan() == loaiSan.SAN_5) {
                         typeIcon = "fas fa-users";
                         typeColor = "color: var(--primary-blue);";
+                        typeText = "SÂN 5";
                     } else {
                         typeIcon = "fas fa-user-friends";
                         typeColor = "color: var(--secondary-yellow);";
+                        typeText = "SÂN 7";
                     }
             %>
             <tr data-name="<%= san.getTenSan() %>"
@@ -249,21 +261,19 @@
                 <td>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <i class="<%= typeIcon %>" style="<%= typeColor %>"></i>
-                        <span style="font-weight: 500; color: #374151;"><%= san.getKieuSan().name().replace("_", " ") %></span>
+                        <span style="font-weight: 500; color: #374151;"><%= typeText %></span>
                     </div>
                 </td>
                 <td>
                     <div class="modern-alert <%= statusClass %>" style="display: inline-flex; align-items: center; padding: 0.5rem 0.75rem; margin: 0; font-size: 0.875rem;">
                         <i class="<%= statusIcon %>" style="margin-right: 0.25rem;"></i>
-                        <%= san.getTrangThai() %>
+                        <%= statusText %>
                     </div>
                 </td>
 
                 <%
-
                     if (nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY) {
                 %>
-
                 <td>
                     <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                         <a href="<%= request.getContextPath() %>/sanBong/chinhSuaThongTinSan?id=<%= san.getId() %>"

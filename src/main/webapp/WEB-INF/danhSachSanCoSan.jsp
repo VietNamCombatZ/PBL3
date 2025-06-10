@@ -317,7 +317,7 @@
                     </div>
                     <div class="field-details">
                         <h4><%= sb.getTenSan() %></h4>
-                        <p><i class="fas fa-users"></i> Kiểu sân: <%= sb.getKieuSan().name().replace("_", " ") %></p>
+                        <p><i class="fas fa-users"></i> Kiểu sân: <%= sb.getKieuSan().toVietnamese() %></p>
                     </div>
                 </div>
                 <form action="<%=request.getContextPath()%>/datSan/taoLichDat" method="POST" style="margin: 0;">

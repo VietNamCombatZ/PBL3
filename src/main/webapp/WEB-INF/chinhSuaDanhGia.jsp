@@ -151,7 +151,7 @@
 <%@ include file="navbar.jsp" %>
 
 <div class="edit-review-container fade-in">
-  <a href="<%= request.getContextPath() %>/nguoiDung/lichDatCuaToi" class="back-link">
+  <a href="<%= request.getContextPath() %>/datSan/lichDatCaNhan" class="back-link">
     <i class="fas fa-arrow-left"></i>
     Quay lại lịch đặt sân
   </a>
@@ -185,7 +185,7 @@
               for (mucDiem md : mucDiem.values()) {
                 String selected = (danhGiaHienTai.getMucDiem().equals(md)) ? "selected" : "";
             %>
-            <option value="<%= md.name() %>" <%= selected %>><%= md.name().replace("_", " ") %></option>
+            <option value="<%= md.toVietnamese() %>" <%= selected %>><%= md.toVietnamese() %></option>
             <%
               }
             %>

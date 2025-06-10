@@ -33,6 +33,18 @@
       <artifactId>gson</artifactId>
       <version>2.10.1</version> <!-- hoặc version mới nhất -->
     </dependency>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>RELEASE</version>
+          <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter</artifactId>
+          <version>RELEASE</version>
+          <scope>compile</scope>
+      </dependency>
   </dependencies>
   <repositories>
     <repository>

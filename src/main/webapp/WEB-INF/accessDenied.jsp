@@ -143,7 +143,7 @@
       Quay về trang chủ
     </a>
 
-    <a href="mailto:support@sanbongpro.vn" class="support-link">
+    <a href="<%=request.getContextPath()%>/trangChu" class="support-link">
       <i class="fas fa-envelope"></i>
       Liên hệ hỗ trợ nếu bạn cho rằng đây là lỗi
     </a>

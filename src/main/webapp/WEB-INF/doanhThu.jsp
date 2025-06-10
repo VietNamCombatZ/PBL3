@@ -498,7 +498,7 @@
   const chartGioTheoNgay = new Chart(document.getElementById('chartGioTheoNgay'), {
     type: 'bar',
     data: {
-      labels: [<% for (String key : soLuongSanTheoGioTheoNgay.keySet()) { %>"<%= key %>h",<% } %>],
+      labels: [<% for (String key : soLuongSanTheoGioTheoNgay.keySet()) { %>"<%= key %>",<% } %>],
       datasets: [{
         label: 'Số lượt đặt',
         data: [<% for (String key : soLuongSanTheoGioTheoNgay.keySet()) { %><%= soLuongSanTheoGioTheoNgay.get(key) %>,<% } %>],
@@ -604,7 +604,7 @@
   const chartGioTheoTuan = new Chart(document.getElementById('chartGioTheoTuan'), {
     type: 'bar',
     data: {
-      labels: [<% for (String key : soLuongSanTheoGioTheoTuan.keySet()) { %>"<%= key %>h",<% } %>],
+      labels: [<% for (String key : soLuongSanTheoGioTheoTuan.keySet()) { %>"<%= key %>",<% } %>],
       datasets: [{
         label: 'Số lượt đặt',
         data: [<% for (String key : soLuongSanTheoGioTheoTuan.keySet()) { %><%= soLuongSanTheoGioTheoTuan.get(key) %>,<% } %>],
@@ -704,7 +704,7 @@
   const chartGioTheoThang = new Chart(document.getElementById('chartGioTheoThang'), {
     type: 'bar',
     data: {
-      labels: [<% for (String key : soLuongSanTheoGioTheoThang.keySet()) { %>"<%= key %>h",<% } %>],
+      labels: [<% for (String key : soLuongSanTheoGioTheoThang.keySet()) { %>"<%= key %>",<% } %>],
       datasets: [{
         label: 'Số lượt đặt',
         data: [<% for (String key : soLuongSanTheoGioTheoThang.keySet()) { %><%= soLuongSanTheoGioTheoThang.get(key) %>,<% } %>],
@@ -767,7 +767,7 @@
   const chartGio = new Chart(document.getElementById('chartGio'), {
     type: 'bar',
     data: {
-      labels: [<% for (String key : soLuongSanTheoGio.keySet()) { %>"<%= key %>h",<% } %>],
+      labels: [<% for (String key : soLuongSanTheoGio.keySet()) { %>"<%= key %>",<% } %>],
       datasets: [{
         label: 'Số lượt đặt',
         data: [<% for (String key : soLuongSanTheoGio.keySet()) { %><%= soLuongSanTheoGio.get(key) %>,<% } %>],

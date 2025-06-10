@@ -134,7 +134,7 @@
               <h3 class="font-semibold text-gray-800"><%= sb.getTenSan() %></h3>
               <div class="flex items-center space-x-1 text-sm text-gray-600">
                 <i class="<%= fieldTypeIcon %> <%= fieldTypeColor %>"></i>
-                <span><%= sb.getKieuSan().name().replace("_", " ") %></span>
+                <span><%= sb.getKieuSan().toVietnamese() %></span>
               </div>
             </div>
           </div>

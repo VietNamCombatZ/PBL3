@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, model.*" %>
+<%@ page import="static model.vaiTro.QUAN_LY" %>
+<%@ page import="static model.vaiTro.NHAN_VIEN" %>
+<%@ page import="static model.vaiTro.*" %>
 <%
     List<nguoiDung> danhSachNhanVien = (List<nguoiDung>) request.getAttribute("danhSachNhanVien");
     if(danhSachNhanVien == null) {
@@ -7,6 +10,8 @@
     }
     nguoiDung nd = (nguoiDung) session.getAttribute("nguoiDung");
     String vaiTroNguoiDung = nd.getVaiTroNguoiDung().toString();
+
+
 %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -17,6 +22,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 </head>
 <body>
+
+
 <%--navbar nhan vien--%>
 <%@include file="navbar-nhanvien.jsp" %>
 
@@ -45,7 +52,7 @@
             </div>
 
             <%
-                if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY) {
+                if(nd != null && nd.getVaiTroNguoiDung() == QUAN_LY) {
             %>
 
             <a href="<%= request.getContextPath()%>/nguoiDung/taoNhanVien" class="btn-modern btn-secondary">
@@ -73,7 +80,7 @@
                     <i class="fas fa-phone" style="margin-right: 0.5rem;"></i>Liên hệ
                 </th>
                 <%
-                    if(nd != null && nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) {
+                    if(nd != null && nd.getVaiTroNguoiDung() == QUAN_LY ) {
                 %>
                 <th style="text-align: center;">
                     <i class="fas fa-cogs" style="margin-right: 0.5rem;"></i>Thao tác
@@ -90,7 +97,7 @@
                     </div>
                 </td>
                 <td>
-                    <div style="font-weight: 600; color: #374151;"><%= nv.getVaiTroNguoiDung() %></div>
+                    <div style="font-weight: 600; color: #374151;"><%= nv.getVaiTroNguoiDung().toVietnamese() %></div>
                 </td>
                 <td>
                     <div style="color: #374151;"><%= nv.getEmail() %></div>
@@ -98,7 +105,7 @@
                 <td>
                     <div style="display: flex; gap: 0.5rem; justify-content: center;">
                         <%
-                            if(nd != null && (nd.getVaiTroNguoiDung() == vaiTro.QUAN_LY ) ) {
+                            if(nd != null && (nd.getVaiTroNguoiDung() == QUAN_LY ) ) {
                         %>
                         <a href="<%= request.getContextPath() %>/nguoiDung/chinhSuaThongTinNhanVien?id=<%= nv.getId() %>"
                            class="btn-modern btn-outline" style="padding: 0.5rem 1rem; font-size: 0.8rem;" title="Chỉnh sửa người dùng">
@@ -129,6 +136,10 @@
 <%@include file="footer.jsp" %>
 
 <script>
+
+
+
+
     document.getElementById("searchInput").addEventListener("input", function () {
         const keyword = this.value.toLowerCase().trim();
         const rows = document.querySelectorAll("#employeeTableBody tr");

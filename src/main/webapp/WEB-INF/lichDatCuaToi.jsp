@@ -387,7 +387,7 @@
                         </div>
                         <div>
                             <strong><%= sb.getTenSan() %></strong>
-                            <div style="font-size: 0.875rem; color: #64748b;"><%= sb.getKieuSan().name().replace("_", " ") %></div>
+                            <div style="font-size: 0.875rem; color: #64748b;"><%= sb.getKieuSan().toVietnamese() %></div>
                         </div>
                     </div>
                 </td>
@@ -398,7 +398,7 @@
                 </td>
                 <td>
                     <span class="status-badge <%= statusClass %>">
-                        <%= ds.getTrangThai().toString() %>
+                        <%= ds.getTrangThai().toVietnamese() %>
                     </span>
                 </td>
                 <td>

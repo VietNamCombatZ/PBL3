@@ -74,17 +74,17 @@ public class DoanhThuController extends BaseController {
         System.out.println("DoanhThuController: doPost - tuThang: " + tuThang + ", denThang: " + denThang);
 
         // Lọc doanh thu theo điều kiện được chọn
-        Map<String, Integer> doanhThuNgay = null;
-        Map<String, Integer> doanhThuNgayTheoLoaiSan = null;
-        Map<String, Integer> soLuongSanTheoGioTheoNgay = null;
+        Map<String, Integer> doanhThuNgay = new LinkedHashMap<String, Integer>();
+        Map<String, Integer> doanhThuNgayTheoLoaiSan = new LinkedHashMap<String, Integer>();
+        Map<String, Integer> soLuongSanTheoGioTheoNgay = new LinkedHashMap<String, Integer>();
 
-        Map<String, Integer> doanhThuTuan = null;
-        Map<String, Integer> doanhThuTuanTheoLoaiSan = null;
-        Map<String, Integer> soLuongSanTheoGioTheoTuan = null;
+        Map<String, Integer> doanhThuTuan = new LinkedHashMap<String, Integer>();
+        Map<String, Integer> doanhThuTuanTheoLoaiSan = new LinkedHashMap<String, Integer>();
+        Map<String, Integer> soLuongSanTheoGioTheoTuan = new LinkedHashMap<String, Integer>();
 
-        Map<String, Integer> doanhThuThang = null;
-        Map<String, Integer> doanhThuThangTheoLoaiSan = null;
-        Map<String, Integer> soLuongSanTheoGioTheoThang = null;
+        Map<String, Integer> doanhThuThang = new LinkedHashMap<String, Integer>();
+        Map<String, Integer> doanhThuThangTheoLoaiSan = new LinkedHashMap<String, Integer>();
+        Map<String, Integer> soLuongSanTheoGioTheoThang = new LinkedHashMap<String, Integer>();
 
         if (tuNgay != null && denNgay != null && !tuNgay.isEmpty() && !denNgay.isEmpty()) {
             doanhThuNgay = DoanhThuDAO.getDoanhThuTheoNgay(tuNgay, denNgay);

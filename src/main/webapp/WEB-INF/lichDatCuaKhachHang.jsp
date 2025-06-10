@@ -292,7 +292,7 @@
                         </div>
                         <div>
                             <div style="font-weight: 600; color: var(--primary-blue);"><%= sb.getTenSan() %></div>
-                            <div style="font-size: 0.875rem; color: #64748b;"><%= sb.getKieuSan().name().replace("_", " ") %></div>
+                            <div style="font-size: 0.875rem; color: #64748b;"><%= sb.getKieuSan().toVietnamese() %></div>
                         </div>
                     </div>
                 </td>
@@ -316,7 +316,7 @@
                 <td>
                     <div class="modern-alert <%= statusClass %>" style="display: inline-flex; align-items: center; padding: 0.5rem 0.75rem; margin: 0; font-size: 0.875rem;">
                         <i class="<%= statusIcon %>" style="margin-right: 0.25rem;"></i>
-                        <%= ds.getTrangThai().toString() %>
+                        <%= ds.getTrangThai().toVietnamese() %>
                     </div>
                 </td>
                 <td>
